@@ -1,0 +1,76 @@
+{% extends 'searchlayout.html' %}
+{% import 'macros.html' as query %}
+
+{% block resultbody %}
+    <div class="center-block" style="width: 80%;">
+        <h2>Pista Son</h2>
+        <hr>
+        <div>
+            <h4>Título</h4>
+            <h3 class="indented">
+                {{ pista.nom_tit }}
+                {% if pista.nom_alt is not none %}
+                        {{ pista.nom_alt }}
+                {% endif %}
+            </h3>
+        </div>
+         <br>
+        <div>
+        {% if pista.serie_id is not none %}
+            <h4>Serie</h4>
+            <h3 class="indented">
+                <a href="/serie/{{ pista.serie_id }}/">{{ pista.nom_serie }}</a>
+            </h3>
+            <br>
+        {% endif %}
+        </div>
+        <div>
+            <h4>Origen</h4>
+            {% if pista.fecha_grab is not none %}
+                <h3 class="indented">
+                    {{ pista.fecha_grab }}
+                </h3>
+            {% endif %}
+            {% if pista.lugar_id is not none %}
+                <h3 class="indented">
+                    {% if pista.ciudad != "Desconocida" %}
+                        {{ pista.ciudad }},
+                    {% endif %}
+                    {% if pista.nom_subdivision != "Desconocida" %}
+                        {{ pista.nom_subdivision }},
+                    {% endif %}
+                    {{ pista.pais }}
+                </h3>
+                <br>
+            {% endif %}
+            {% if pista.medio is not none %}
+                <h3 class="indented"> {{ pista.medio }}</h3>
+                <br>
+            {% endif %}
+        </div>
+        <div>
+        {% if pista.coment_pista_son is not none %}
+            <h4>Sobre el Pista</h4>
+            <h3 class="indented"> {{ pista.coment_pista_son }}</h3>
+            <br>
+        {% endif %}
+        </div>
+        <hr>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    {% if insts is not none and insts.rowcount > 0 %}
+                        {% for inst in insts %}
+                            <h3><a href="/autor/{{ inst.artista_id }}">{{ query.nom(inst) }} - {{ inst.nom_inst }}</a></h3>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    {% for arch in archs %}
+                        <h3>{{ arch.codec }}</h3>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

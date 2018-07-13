@@ -1,0 +1,52 @@
+{% extends 'searchlayout.html' %}
+{% from 'macros.html' import composicion, lugar, nom, render_none %}
+
+{% block resultbody %}
+    <div class="center-block skinny">
+        <h2>Autor</h2>
+        <hr>
+        <div>
+            <h4>Nom</h4>
+            <h3 class="indented">{{ nom(autor) }}</h3>
+        </div>
+        <br>
+        <div>
+            <h4>Nac</h4>
+            <h3 class="indented">
+                {{ render_none(autor.fecha_comienzo) }}
+            </h3>
+            <h3 class="indented">
+                {{ lugar(autor) }}
+            </h3>
+            <br>
+        </div>
+        <div>
+        {% if autor.fecha_finale is not none %}
+            <h4>Muer</h4>
+            <h3 class="indented">
+               {{ autor.fecha_finale }}
+            </h3>
+            <h3 class="indented">
+                {{ lugar(autor, muer=True) }}
+            </h3>
+            <br>
+        {% endif %}
+        </div>
+        <div>
+            {% if autor.coment_part is not none and au %}
+                <h4>Sobre el Autor</h4>
+                <h3 class="indented">{{ autor.coment_part }}</h3>
+                <br>
+            {% endif %}
+        </div>
+        <hr>
+        {{ composicion(result) }}
+        {% if 'comps' in result_interp and result_interp.comps|length > 0 %}
+            <hr>
+            <div>
+                <h4>Realizado</h4>
+                {{ composicion(result_interp) }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

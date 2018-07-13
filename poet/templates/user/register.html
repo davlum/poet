@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>Registro</h1>
+    <br>
+    <br>
+  {% from "includes/_formhelpers.html" import render_field %}
+      <form method='POST' action={{ url_for('user.register') }}>
+        {{ form.csrf_token }}
+        <div class="center-block skinny">
+            <h3>Indique si es...</h3>
+            <div class="form-group" id="user-type">
+                {% for opt in form.user_type %}
+                    <div style="display: inline-block;">{{ opt }} &nbsp;</div>
+                    <div style="display: inline-block;">{{ opt.label }} &nbsp;</div>
+                {% endfor %}
+                {% if form.user_type.errors %}
+                    <ul class="errors">
+                    {% for error in form.user_type.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div class="form-group">
+              {{render_field(form.email, class ="form-control")}}
+            </div>
+            <div class="form-group">
+              {{render_field(form.nom_usuario, class ="form-control")}}
+            </div>
+            <div class="form-group">
+              {{render_field(form.contrasena, class ="form-control")}}
+            </div>
+            <div class="form-group">
+              {{render_field(form.confirm, class ="form-control")}}
+            </div>
+         {# <br>
+        {{ form.recaptcha }}
+            <br> #}
+            <p>
+            <input type="submit" class="btn btn-primary" value="Enviar"></p>
+            <hr>
+        </div>
+      </form>
+  </div>
+    <br>
+    <br>
+    <br>
+    {% include 'includes/_footer.html' %}
+{% endblock %}

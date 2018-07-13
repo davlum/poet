@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+{% from "includes/_formhelpers.html" import render_field, origen, nom_pers, fecha, dyn_grupo %}
+{% from "macros.html" import render_profile %}
+
+<div>
+    <br>
+    <h2>Añadir una persona u organización</h2>
+    <br>
+    <p>Por favor, rellene el siguiente formulario.</p>
+    <form id="add-entity-form" method='POST' action="">
+        {{ form.csrf_token }}
+        <br>
+        <div class="center-block skinny">
+            {{ nom_pers(form) }}
+            <div class="form-group">
+              {{render_field(form.sitio_web, class ="form-control"
+                                         , placeholder="https://www.example.com")}}
+            </div>
+            <div class="form-group">
+              {{render_field(form.email, class ="form-control")}}
+            </div>
+            <div class="form-group">
+                {{render_field(form.genero, class ="form-control")}}
+            </div>
+            {{ fecha(form) }}
+            {{ origen(form, 'Origen') }}
+            <div class="row">
+                <h3>Muer</h3>
+                <div class="form-group col-md-4">
+                  {{render_field(form.ciudad_muer, class ="form-control")}}
+                </div>
+                <div class="form-group col-md-4">
+                  {{render_field(form.subdivision_muer, class ="form-control")}}
+                </div>
+                <div class="form-group col-md-4">
+                  {{render_field(form.pais_muer, class ="form-control")}}
+                </div>
+            </div>
+            {{ dyn_grupo(form) }}
+            <div class="form-group">
+              {{render_field(form.coment_part, class ="form-control")}}
+            </div>
+             <div>
+                <input data-inline="true" type="submit" class="btn btn-primary" value="Enviar">
+                 <a data-inline="true" role="button" class="btn btn-info" href="{{ url_for('user.perfil', _anchor='tab_part') }}">Omitir</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+    {% include 'includes/_footer.html' %}
+{% endblock %}

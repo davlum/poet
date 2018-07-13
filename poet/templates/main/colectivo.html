@@ -1,0 +1,33 @@
+{% extends 'searchlayout.html' %}
+{% from 'macros.html' import lugar, persona, composicion, render_none %}
+
+{% block resultbody %}
+    <div class="center-block" style="width: 80%;">
+        <h2>Colectivo</h2>
+        <hr>
+        <div>
+            <h4>Nom</h4>
+            <h3 class="indented">
+                {{ autor.nom_part }}
+            </h3>
+        </div>
+         <br>
+        <div>
+        <h4>Origin</h4>
+            <h3 class="indented">{{ render_none(autor.fecha_comienzo) }}</h3>
+            <h3 class="indented">{{ lugar(autor) }}</h3>
+        </div>
+        <br>
+        <div>
+            {% if autor.coment_part is not none %}
+                <h4>Sobre el Autor</h4>
+                <h3 class="indented"> {{ autor.coment_part }}</h3>
+                <br>
+            {% endif %}
+        </div>
+        <br>
+        {{ persona(result) }}
+        <hr>
+        {{ composicion(result) }}
+    </div>
+{% endblock %}
