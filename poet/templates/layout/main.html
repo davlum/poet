@@ -103,7 +103,7 @@
             <div class="col-md-12" id="flash-message-div"></div>
             </div>
             {% for message in get_messages(request) %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             {% endfor %}
 
             <!-- child template -->

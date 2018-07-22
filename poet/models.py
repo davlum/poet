@@ -20,6 +20,17 @@ RELEASE_STATES_CHOICES = (
     (REJECTED, _('Rejected')),
 )
 
+DIGITAL = 'Digital'
+CD = 'CD'
+TAPE = 'Cinta'
+VINYL = 'Vinilo'
+MEDIA_CHOICES = (
+    (DIGITAL, _('Digital')),
+    (CD, _('CD')),
+    (TAPE, _('Tape')),
+    (VINYL, _('Vinyl')),
+)
+
 
 class Album(models.Model):
     album_id = models.AutoField(primary_key=True)
@@ -350,7 +361,7 @@ class PistaSon(models.Model):
     pista_son_id = models.AutoField(primary_key=True)
     numero_de_pista = models.IntegerField(blank=True, null=True)
     composicion = models.ForeignKey(Composicion, models.DO_NOTHING, blank=True, null=True)
-    medio = models.ForeignKey(Medio, models.DO_NOTHING, db_column='medio', blank=True, null=True)
+    medio = models.CharField(max_length=32, choices=MEDIA_CHOICES, default=DIGITAL)
     lugar = models.ForeignKey(Lugar, models.DO_NOTHING, blank=True, null=True)
     serie = models.ForeignKey('Serie', models.DO_NOTHING, blank=True, null=True)
     coment_pista_son = models.TextField(blank=True, null=True)
@@ -361,13 +372,9 @@ class PistaSon(models.Model):
     mod = models.ForeignKey('Usuario', models.DO_NOTHING, blank=True, null=True)
     generos = models.ManyToManyField(GeneroMusical, through=GeneroPista)
     participantes = models.ManyToManyField(Participante, through=ParticipantePistaSon,
-                                           through_fields=('pista_son','part'))
+                                           through_fields=('pista_son', 'part'))
 
-    estado = models.CharField(
-        max_length=25,
-        choices=RELEASE_STATES_CHOICES,
-        default=PENDING,
-    )
+    estado = models.CharField(max_length=25, choices=RELEASE_STATES_CHOICES, default=PENDING)
 
     class Meta:
         managed = True
@@ -391,19 +398,14 @@ class RolPistaSon(models.Model):
 
 
 class Serie(models.Model):
-    serie_id = models.AutoField(primary_key=True)
-    nom_serie = models.TextField()
+    id = models.AutoField(primary_key=True, db_column='id')
+    nom = models.TextField(db_column='nom')
     giro = models.TextField(blank=True, null=True)
     ruta_foto = models.TextField(blank=True, null=True)
-    coment_serie = models.TextField(blank=True, null=True)
+    coment = models.TextField(blank=True, null=True, db_column='coment')
     cargador = models.ForeignKey(Participante, models.DO_NOTHING)
     mod = models.ForeignKey('Usuario', models.DO_NOTHING, blank=True, null=True)
-
-    estado = models.CharField(
-        max_length=25,
-        choices=RELEASE_STATES_CHOICES,
-        default=PENDING,
-    )
+    estado = models.CharField(max_length=25, choices=RELEASE_STATES_CHOICES, default=PENDING)
 
     class Meta:
         managed = True

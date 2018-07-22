@@ -1,5 +1,6 @@
-{% extends 'searchlayout.html' %}
-{% from 'macros.html' import compo_serie, album %}
+{% extends 'layout/search.html' %}
+{% from 'macros/util.html' import render_table %}
+{% from 'macros/composition.html' import render_compositions %}
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">
@@ -11,40 +12,38 @@
                     <div>
                         <h4>Título</h4>
                         <h3 class="indented">
-                            {{ serie.nom_serie }}
+                            {{ series.nom }}
                         </h3>
                     </div>
                     <br>
                     <br>
                     <div>
-                        {% if serie.giro is not none %}
+                        {% if series.giro is not none %}
                             <h4>Giro</h4>
-                            <h3 class="indented"> {{ serie.giro }}</h3>
+                            <h3 class="indented"> {{ series.giro }}</h3>
                             <br>
                         {% endif %}
                     </div>
                     <div>
-                        {% if serie.coment_serie is not none and serie.coment_serie|trim != "" %}
+                        {% if series.coment is not none and series.coment|trim != "" %}
                             <h4>Comentario</h4>
-                            <p class="skinny text-center center-block"> {{ serie.coment_serie }}</p>
+                            <p class="skinny text-center center-block"> {{ series.coment }}</p>
                             <br>
                         {% endif %}
                     </div>
                 </div>
                 <div class="col-md-6">
-                    {% if serie.ruta_foto is not none %}
+                    {% if series.ruta_foto is not none %}
                     <div class="text-center fade-in">
-                            <img src="{{ url_for('static',
-                                filename='images/albums/'+serie.serie_id|string+'/'
-                                                     +serie.ruta_foto|string) }}"
+                            <img src="{{ static('images/albums/'+series.id|string+'/'+series.ruta_foto|string) }}"
                             height="98%" width="98%">
                     </div>
                     {% endif %}
                 </div>
             </div>
         </div>
-        {{ album(result) }}
+        {{ render_table(albums, 'album') }}
         <hr>
-        {{ compo_serie(result) }}
+        {{ render_compositions(compositions) }}
     </div>
 {% endblock %}

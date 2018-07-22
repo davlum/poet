@@ -9,6 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('poet', '0000_refactor_db')
     ]
 
     operations = [

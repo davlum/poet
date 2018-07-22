@@ -1,0 +1,110 @@
+{% macro render_name(result) -%}
+    {% set name %}
+            {% if result.nom_part_ag is defined and result.nom_part_ag is not none %}
+                {{ result.nom_part_ag }}
+            {% else %}
+                  {{ render_none(result.nom_part) }} {{ render_none(result.nom_paterno) }} {{ render_none(result.nom_materno) }}
+                {% if result.seudonimo is not none %}
+                    '{{ result.seudonimo }}'
+                {% endif %}
+            {% endif %}
+    {% endset %}
+    {% if name|trim == "" %}
+        <div style="display: inline;">Desconocido</div>
+    {% else %}
+        <div style="display: inline;">{{ name|safe|trim }}</div>
+    {% endif %}
+{% endmacro %}
+
+{%  macro render_name_links(result) -%}
+    {% if result.pers_id is not none %}
+        <a href="{{ url("artist", artist_id=result.pers_id) }}">{{ render_name(result) }}</a>
+    {% else %}
+        <a href="{{ url("collective", artist_id=result.gr_id) }}">{{ render_name(result) }}</a>
+    {% endif %}
+{% endmacro %}
+
+
+{% macro render_profile(label, result) -%}
+    {% if result is not none and result is defined %}
+        <tr><th scope="row">{{ label|safe }} </th><td>{{ result|safe }}</td></tr>
+    {% endif %}
+{% endmacro %}
+
+
+{% macro render_place(result, muer=False) -%}
+    {% set lugar %}
+        {% if muer %}
+            {% if result.ciudad is not none and result.ciudad is defined %}
+                {{ result.ciudad }},
+            {% endif %}
+            {% if result.subdivision is not none and result.subdivision is defined %}
+               {{ result.subdivision }},
+            {% endif %}
+            {% if result.pais is not none %}
+               {{ result.pais }}
+            {% endif %}
+        {% else %}
+            {% if result.ciudad is not none and result.ciudad is defined %}
+                {{ result.ciudad }},
+            {% endif %}
+            {% if result.subdivision is not none and result.subdivision is defined %}
+               {{ result.subdivision }},
+            {% endif %}
+            {% if result.pais is not none %}
+               {{ result.pais }}
+            {% endif %}
+        {% endif %}
+    {% endset %}
+    {% if lugar|trim == "" %}
+        <div style="display: inline;">Desconocido</div>
+    {% else %}
+        <div style="display: inline;">{{ lugar|safe }}</div>
+    {% endif %}
+{% endmacro %}
+
+
+{% macro render_select(value, default) -%}
+    {% if value|lower == default|lower %}
+    <option value="{{ value|lower|safe }}" selected>{{ value|safe }}</option>
+    {% else %}
+    <option value="{{ value|lower|safe }}">{{ value|safe }}</option>
+    {% endif %}
+{% endmacro %}
+
+
+{% macro render_none(value, output=none) -%}
+    {% if value is not none %}
+        {{ value|safe }}
+     {% elif output is not none %}
+       {{ output|safe }}
+    {% endif %}
+{% endmacro %}
+
+{% macro render_table(list, name) -%}
+    {% if list|length > 0 %}
+        <hr>
+        <div class="card">
+            <div class="card-header" role="tab" id="{{ name|safe }}-heading">
+                <h3 class="mb-0">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#{{ name|safe }}-collapse" aria-expanded="true" aria-controls="{{ name|safe }}-collapse">
+                        {{ name|safe|title }}
+                    </a>
+                </h3>
+            </div>
+            <div id="{{ name|safe }}-collapse" class="collapse in">
+                <div class="card-block">
+                    <table class="table table-striped">
+                    <tbody>
+                    {% for entry in list %}
+                        <tr>
+                            <td>{{ entry.nom }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+   {% endif %}
+{% endmacro %}
