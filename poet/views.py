@@ -24,7 +24,8 @@ def series(request, series_id):
 
 
 def search(request, entity_name=Entities.ALL.value):
-    return render(request, 'poet/search.html', get_search_context(entity_name))
+    search_term = request.GET.get('term', '')
+    return render(request, 'poet/search.html', get_search_context(entity_name, search_term))
 
 
 def index(request):

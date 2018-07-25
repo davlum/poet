@@ -1,16 +1,20 @@
 from poet.entities.util import query, get_or_404
 from poet.entities.performance import get_performance_context
-from poet.models import Idioma
+from poet.models import Idioma, Tema, PistaSon
 
 
 def get_composition_context(comp_id):
     composition = get_composition(comp_id)
     # Make sure the composition exists
     get_or_404(composition)
+
+    themes = Tema.objects.filter(temacomposicion__composicion_id=comp_id)
+    languages = Idioma.objects.filter(idiomacomposicion__composicion_id=comp_id)
+
     return {
         'composition': composition,
-        'languages': get_compositions_languages(comp_id),
-        'themes': get_compositions_themes(comp_id),
+        'languages': languages,
+        'themes': themes,
         'performances': get_compositions_performances(comp_id)
     }
 
@@ -62,37 +66,6 @@ AND c.estado = 'PUBLICADO'
     return query(query_string, [comp_id])
 
 
-def get_compositions_languages(comp_id):
-    query_string = """
-SELECT 
-  i.nom
-, i.id   
-FROM idioma_composicion ic 
-JOIN idioma i 
-  ON ic.idioma_id = i.id
-WHERE ic.composicion_id = %s
-"""
-    return query(query_string, [comp_id])
-
-
-def get_compositions_themes(comp_id):
-    query_string = """
-SELECT
-  t.nom
-, t.id   
-FROM tema_composicion tc 
-JOIN tema t 
-  ON t.id = tc.tema_id
-WHERE tc.composicion_id = %s
-"""
-    return query(query_string, [comp_id])
-
-
 def get_compositions_performances(comp_id):
-    query_string = """
-SELECT p.pista_son_id id
-FROM pista_son p
-WHERE p.composicion_id = %s
-    """
-    performances = query(query_string, [comp_id])
-    return [get_performance_context(perf['id']) for perf in performances]
+    return [get_performance_context(perf.pista_son_id) for perf in PistaSon.objects.filter(composicion_id=comp_id)]
+

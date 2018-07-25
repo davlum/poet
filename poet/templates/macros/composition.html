@@ -5,7 +5,7 @@
             <td><a class="no-underline" href="{{ url("composition", composition_id=composition.0.comp_id) }}">
                 {{ composition.0.nom_tit }}
                     {% if composition.0.nom_alt is not none and composition.0.nom_alt != "" %}
-                        | {{ composition.0.nom_alt }}
+                        ({{ composition.0.nom_alt }})
                     {% endif %}
                 </a>
             </td>

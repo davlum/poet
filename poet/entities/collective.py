@@ -1,12 +1,13 @@
-from poet.entities.util import query_one, query
+from poet.entities.util import query
 from poet.entities.composition import get_composition
+from poet.models import Grupo
 
 
 def get_collective_context(part_id):
     return {
         'performances': get_collectives_performances(part_id),
         'compositions': get_collectives_compositions(part_id),
-        'collective': get_collective(part_id),
+        'collective': Grupo.objects.filter(part_id=part_id).filter(estado='PUBLICADO')[0],
         'artists': get_collectives_artists(part_id)
     }
 
@@ -26,56 +27,26 @@ AND c.estado = 'PUBLICADO'
     return [get_composition(comp['id']) for comp in compositions]
 
 
-def get_collective(part_id):
-    query_string = """
-SELECT 
-  ag.part_id
-, ag.tipo_grupo
--- Common attrs
-, ag.nom_part
-, ag.fecha_comienzo
-, ag.fecha_finale
-, ag.sitio_web
-, ag.direccion
-, ag.telefono
-, ag.email
-, ag.coment_part
--- Join with lugar
-, ag.lugar_id
-, l1.ciudad
-, l1.subdivision
-, l1.pais
--- Audit attrs
-, ag.cargador_id
-, ag.mod_id
-, ag.estado
-FROM public.grupo ag
-LEFT JOIN public.lugar l1
-  ON l1.id = ag.lugar_id
-WHERE ag.part_id = %s
-  AND estado = 'PUBLICADO';
-    """
-    return query_one(query_string, [part_id])
-
-
 def get_collectives_artists(part_id):
     query_string = """
 SELECT
   p.part_id
 , p.nom_part
 , p.nom_paterno
+, p.nom_materno
+, p.fecha_comienzo
+, p.fecha_finale
 , p.seudonimo
-, l.pais 
+, a.country_of_origin
 FROM grupo a
 JOIN persona_grupo pa
   ON a.part_id = pa.grupo_id
 JOIN persona p
   ON p.part_id = pa.persona_id
-LEFT JOIN lugar l
-  ON l.id = p.lugar_id    
 WHERE a.part_id = %s
 AND p.estado = 'PUBLICADO'
     """
+
     return query(query_string, [part_id])
 
 

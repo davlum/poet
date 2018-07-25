@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres'
 ]
 
 MIDDLEWARE = [
@@ -162,3 +163,5 @@ EMAIL_PORT = 587
 
 # Should be comented out for production
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+WATSON_POSTGRES_SEARCH_CONFIG = "pg_catalog.spanish"

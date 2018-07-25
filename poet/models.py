@@ -20,22 +20,11 @@ RELEASE_STATES_CHOICES = (
     (REJECTED, _('Rejected')),
 )
 
-DIGITAL = 'Digital'
-CD = 'CD'
-TAPE = 'Cinta'
-VINYL = 'Vinilo'
-MEDIA_CHOICES = (
-    (DIGITAL, _('Digital')),
-    (CD, _('CD')),
-    (TAPE, _('Tape')),
-    (VINYL, _('Vinyl')),
-)
-
 
 class Album(models.Model):
-    album_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     serie = models.ForeignKey('Serie', models.DO_NOTHING, blank=True, null=True)
-    nom_album = models.TextField(blank=True, null=True)
+    nom = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -43,9 +32,9 @@ class Album(models.Model):
 
 
 class Archivo(models.Model):
-    archivo_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     etiqueta = models.TextField(blank=True, null=True)
-    nom_archivo = models.TextField()
+    nom = models.TextField()
     pista_son_id = models.IntegerField()
     duracion = models.IntegerField()
     abr = models.IntegerField()
@@ -59,7 +48,7 @@ class Archivo(models.Model):
 
 
 class Cobertura(models.Model):
-    cobertura_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     cobertura_lic = models.ForeignKey('CoberturaLicencia', models.DO_NOTHING)
     pista_son = models.ForeignKey('PistaSon', models.DO_NOTHING, blank=True, null=True)
     composicion = models.ForeignKey('Composicion', models.DO_NOTHING, blank=True, null=True)
@@ -73,7 +62,7 @@ class Cobertura(models.Model):
 
 
 class CoberturaLicencia(models.Model):
-    cobertura_lic_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     tipo_cob = models.ForeignKey('CoberturaTipo', models.DO_NOTHING, db_column='tipo_cob', blank=True, null=True)
     licencia_cobertura = models.TextField(blank=True, null=True)
 
@@ -92,8 +81,8 @@ class CoberturaTipo(models.Model):
 
 
 class Composicion(models.Model):
-    composicion_id = models.AutoField(primary_key=True)
-    nom_tit = models.TextField()
+    id = models.AutoField(primary_key=True)
+    nom = models.TextField()
     nom_alt = models.TextField(blank=True, null=True)
     fecha_pub = models.CharField(max_length=10, blank=True, null=True)
     composicion_orig = models.ForeignKey('self', models.DO_NOTHING, db_column='composicion_orig', blank=True, null=True)
@@ -116,8 +105,8 @@ class Composicion(models.Model):
 
 
 class FamiliaInstrumento(models.Model):
-    familia_instr_id = models.AutoField(primary_key=True)
-    nom_familia_instr = models.TextField(unique=True)
+    id = models.AutoField(primary_key=True)
+    nom = models.TextField(unique=True)
 
     class Meta:
         managed = True
@@ -125,9 +114,9 @@ class FamiliaInstrumento(models.Model):
 
 
 class GeneroMusical(models.Model):
-    gen_mus_id = models.AutoField(primary_key=True)
-    nom_gen_mus = models.TextField(unique=True)
-    coment_gen_mus = models.TextField(blank=True, null=True)
+    id = models.AutoField(primary_key=True)
+    nom = models.TextField(unique=True)
+    coment = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -157,10 +146,14 @@ class Grupo(models.Model):
     tipo_grupo = models.ForeignKey('TipoGrupo', models.DO_NOTHING, db_column='tipo_grupo', blank=True, null=True)
     email = models.EmailField(unique=True, blank=True, null=True)
     nom_part = models.TextField(blank=True, null=True)
+
+    city_of_origin = models.TextField(blank=True, null=True)
+    subdivision_of_origin = models.TextField(blank=True, null=True)
+    country_of_origin = models.TextField(blank=True, null=True)
+
     sitio_web = models.URLField(blank=True, null=True)
     direccion = models.TextField(blank=True, null=True)
     telefono = models.TextField(blank=True, null=True)
-    lugar = models.ForeignKey('Lugar', models.DO_NOTHING, blank=True, null=True)
     fecha_comienzo = models.CharField(max_length=10, blank=True, null=True)
     fecha_finale = models.CharField(max_length=10, blank=True, null=True)
     coment_part = models.TextField(blank=True, null=True)
@@ -179,8 +172,8 @@ class Grupo(models.Model):
 
 
 class Idioma(models.Model):
-    idioma_id = models.AutoField(primary_key=True)
-    nom_idioma = models.TextField(unique=True)
+    id = models.AutoField(primary_key=True)
+    nom = models.TextField(unique=True)
 
     class Meta:
         managed = True
@@ -198,8 +191,8 @@ class IdiomaComposicion(models.Model):
 
 
 class Instrumento(models.Model):
-    instrumento_id = models.AutoField(primary_key=True)
-    nom_inst = models.TextField()
+    id = models.AutoField(primary_key=True)
+    nom = models.TextField()
     familia_instr = models.ForeignKey(FamiliaInstrumento, models.DO_NOTHING, blank=True, null=True)
     electronico = models.NullBooleanField()
     instrumento_comentario = models.TextField(blank=True, null=True)
@@ -207,17 +200,6 @@ class Instrumento(models.Model):
     class Meta:
         managed = True
         db_table = 'instrumento'
-
-
-class Lugar(models.Model):
-    lugar_id = models.AutoField(primary_key=True)
-    ciudad = models.TextField(blank=True, null=True)
-    subdivision = models.TextField(blank=True, null=True)
-    pais = models.ForeignKey('Pais', models.DO_NOTHING, db_column='pais', blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'lugar'
 
 
 class Medio(models.Model):
@@ -310,15 +292,21 @@ class Persona(models.Model):
     nom_materno = models.TextField(blank=True, null=True)
     seudonimo = models.TextField(blank=True, null=True)
     ruta_foto = models.TextField(blank=True, null=True)
-    lugar_muer = models.ForeignKey(Lugar, models.DO_NOTHING, db_column='lugar_muer', blank=True, null=True,
-                                   related_name='place_of_death')
+
+    city_of_origin = models.TextField(blank=True, null=True)
+    subdivision_of_origin = models.TextField(blank=True, null=True)
+    country_of_origin = models.TextField(blank=True, null=True)
+
+    city_of_death = models.TextField(blank=True, null=True)
+    subdivision_of_death = models.TextField(blank=True, null=True)
+    country_of_death = models.TextField(blank=True, null=True)
+
     genero = models.ForeignKey(GeneroPersona, models.DO_NOTHING, db_column='genero', blank=True, null=True)
     email = models.EmailField(unique=True, blank=True, null=True)
     nom_part = models.TextField(blank=True, null=True)
     sitio_web = models.URLField(blank=True, null=True)
     direccion = models.TextField(blank=True, null=True)
     telefono = models.TextField(blank=True, null=True)
-    lugar = models.ForeignKey(Lugar, models.DO_NOTHING, blank=True, null=True)
     fecha_comienzo = models.CharField(max_length=10, blank=True, null=True)
     fecha_finale = models.CharField(max_length=10, blank=True, null=True)
     coment_part = models.TextField(blank=True, null=True)
@@ -358,11 +346,26 @@ class PersonaGrupo(models.Model):
 
 
 class PistaSon(models.Model):
+    DIGITAL = 'Digital'
+    CD = 'CD'
+    TAPE = 'Cinta'
+    VINYL = 'Vinilo'
+    MEDIA_CHOICES = (
+        (DIGITAL, _('Digital')),
+        (CD, _('CD')),
+        (TAPE, _('Tape')),
+        (VINYL, _('Vinyl')),
+    )
+
     pista_son_id = models.AutoField(primary_key=True)
     numero_de_pista = models.IntegerField(blank=True, null=True)
     composicion = models.ForeignKey(Composicion, models.DO_NOTHING, blank=True, null=True)
     medio = models.CharField(max_length=32, choices=MEDIA_CHOICES, default=DIGITAL)
-    lugar = models.ForeignKey(Lugar, models.DO_NOTHING, blank=True, null=True)
+
+    city_of_origin = models.TextField(blank=True, null=True)
+    subdivision_of_origin = models.TextField(blank=True, null=True)
+    country_of_origin = models.TextField(blank=True, null=True)
+
     serie = models.ForeignKey('Serie', models.DO_NOTHING, blank=True, null=True)
     coment_pista_son = models.TextField(blank=True, null=True)
     fecha_grab = models.CharField(max_length=10, blank=True, null=True)
@@ -413,8 +416,8 @@ class Serie(models.Model):
 
 
 class Tema(models.Model):
-    tema_id = models.AutoField(primary_key=True)
-    nom_tema = models.TextField(unique=True)
+    id = models.AutoField(primary_key=True)
+    nom = models.TextField(unique=True)
 
     class Meta:
         managed = True

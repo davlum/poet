@@ -16,8 +16,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Album',
             fields=[
-                ('album_id', models.AutoField(primary_key=True, serialize=False)),
-                ('nom_album', models.TextField(blank=True, null=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('nom', models.TextField(blank=True, null=True)),
             ],
             options={
                 'db_table': 'album',
@@ -27,9 +27,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Archivo',
             fields=[
-                ('archivo_id', models.AutoField(primary_key=True, serialize=False)),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('etiqueta', models.TextField(blank=True, null=True)),
-                ('nom_archivo', models.TextField()),
+                ('nom', models.TextField()),
                 ('pista_son_id', models.IntegerField()),
                 ('duracion', models.IntegerField()),
                 ('abr', models.IntegerField()),
@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Cobertura',
             fields=[
-                ('cobertura_id', models.AutoField(primary_key=True, serialize=False)),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('fecha_comienzo', models.CharField(blank=True, max_length=10, null=True)),
                 ('fecha_finale', models.CharField(blank=True, max_length=10, null=True)),
             ],
@@ -79,8 +79,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Composicion',
             fields=[
-                ('composicion_id', models.AutoField(primary_key=True, serialize=False)),
-                ('nom_tit', models.TextField()),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('nom', models.TextField()),
                 ('nom_alt', models.TextField(blank=True, null=True)),
                 ('fecha_pub', models.CharField(blank=True, max_length=10, null=True)),
                 ('texto', models.TextField(blank=True, null=True)),
@@ -94,8 +94,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FamiliaInstrumento',
             fields=[
-                ('familia_instr_id', models.AutoField(primary_key=True, serialize=False)),
-                ('nom_familia_instr', models.TextField(unique=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('nom', models.TextField(unique=True)),
             ],
             options={
                 'db_table': 'familia_instrumento',
@@ -105,9 +105,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GeneroMusical',
             fields=[
-                ('gen_mus_id', models.AutoField(primary_key=True, serialize=False)),
-                ('nom_gen_mus', models.TextField(unique=True)),
-                ('coment_gen_mus', models.TextField(blank=True, null=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('nom', models.TextField(unique=True)),
+                ('coment', models.TextField(blank=True, null=True)),
             ],
             options={
                 'db_table': 'genero_musical',
@@ -138,8 +138,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Idioma',
             fields=[
-                ('idioma_id', models.AutoField(primary_key=True, serialize=False)),
-                ('nom_idioma', models.TextField(unique=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('nom', models.TextField(unique=True)),
             ],
             options={
                 'db_table': 'idioma',
@@ -161,8 +161,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Instrumento',
             fields=[
-                ('instrumento_id', models.AutoField(primary_key=True, serialize=False)),
-                ('nom_inst', models.TextField()),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('nom', models.TextField()),
                 ('electronico', models.NullBooleanField()),
                 ('instrumento_comentario', models.TextField(blank=True, null=True)),
                 ('familia_instr', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.FamiliaInstrumento')),
@@ -175,7 +175,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Lugar',
             fields=[
-                ('lugar_id', models.AutoField(primary_key=True, serialize=False)),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('ciudad', models.TextField(blank=True, null=True)),
                 ('subdivision', models.TextField(blank=True, null=True)),
             ],
@@ -316,11 +316,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Serie',
             fields=[
-                ('serie_id', models.AutoField(primary_key=True, serialize=False)),
-                ('nom_serie', models.TextField()),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('nom', models.TextField()),
                 ('giro', models.TextField(blank=True, null=True)),
                 ('ruta_foto', models.TextField(blank=True, null=True)),
-                ('coment_serie', models.TextField(blank=True, null=True)),
+                ('coment', models.TextField(blank=True, null=True)),
                 ('estado', models.TextField()),
             ],
             options={
@@ -331,8 +331,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tema',
             fields=[
-                ('tema_id', models.AutoField(primary_key=True, serialize=False)),
-                ('nom_tema', models.TextField(unique=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('nom', models.TextField(unique=True)),
             ],
             options={
                 'db_table': 'tema',

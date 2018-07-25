@@ -1,10 +1,11 @@
 from poet.entities.util import query_one, query
+from poet.models import GeneroMusical
 
 
 def get_performance_context(performance_id):
     return {
         'performance': get_performance(performance_id),
-        'genres': get_genres(performance_id),
+        'genres': GeneroMusical.objects.filter(generopista__pista_son_id=performance_id),
         'instruments': get_instruments(performance_id)
     }
 
@@ -19,9 +20,9 @@ SELECT DISTINCT ON (a.id)
 , ps.pista_son_id
 , ps.coment_pista_son
 , ps.fecha_grab
-, l.ciudad
-, l.subdivision
-, l.pais
+, ps.city_of_origin
+, ps.subdivision_of_origin
+, ps.country_of_origin
 , s.nom
 , s.id serie_id
 FROM pista_son ps
@@ -29,25 +30,10 @@ JOIN archivo a
   ON a.pista_son_id = ps.pista_son_id
 LEFT JOIN serie s
   ON s.id = ps.serie_id
-LEFT JOIN lugar l
-  ON l.id = ps.lugar_id
 WHERE ps.pista_son_id = %s
   AND ps.estado = 'PUBLICADO' 
     """
     return query_one(query_string, [performance_id])
-
-
-def get_genres(performance_id):
-    query_string = """
-SELECT 
-  g.nom
-, g.id 
-FROM genero_musical g
-JOIN genero_pista gp
- ON g.id = gp.gen_mus_id
- WHERE gp.pista_son_id = %s
-    """
-    return query(query_string, [performance_id])
 
 
 def get_instruments(performance_id):

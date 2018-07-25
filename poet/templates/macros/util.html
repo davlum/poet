@@ -35,24 +35,24 @@
 {% macro render_place(result, muer=False) -%}
     {% set lugar %}
         {% if muer %}
-            {% if result.ciudad is not none and result.ciudad is defined %}
-                {{ result.ciudad }},
+            {% if result.city_of_death is not none and result.city_of_death is defined %}
+                {{ result.city_of_death }},
             {% endif %}
-            {% if result.subdivision is not none and result.subdivision is defined %}
-               {{ result.subdivision }},
+            {% if result.subdivision_of_death is not none and result.subdivision_of_death is defined %}
+               {{ result.subdivision_of_death }},
             {% endif %}
-            {% if result.pais is not none %}
-               {{ result.pais }}
+            {% if result.country_of_death is not none %}
+               {{ result.country_of_death }}
             {% endif %}
         {% else %}
-            {% if result.ciudad is not none and result.ciudad is defined %}
-                {{ result.ciudad }},
+            {% if result.city_of_origin is not none and result.city_of_origin is defined %}
+                {{ result.city_of_origin }},
             {% endif %}
-            {% if result.subdivision is not none and result.subdivision is defined %}
-               {{ result.subdivision }},
+            {% if result.subdivision_of_origin is not none and result.subdivision_of_origin is defined %}
+               {{ result.subdivision_of_origin }},
             {% endif %}
-            {% if result.pais is not none %}
-               {{ result.pais }}
+            {% if result.country_of_origin is not none %}
+               {{ result.country_of_origin }}
             {% endif %}
         {% endif %}
     {% endset %}

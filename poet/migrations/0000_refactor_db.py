@@ -34,13 +34,23 @@ $body$
 LANGUAGE plpgsql;
        
        """),
-        # Drop schema audit
-        migrations.RunSQL('DROP SCHEMA IF EXISTS audit CASCADE;'),
 
         # Drop views
         migrations.RunSQL('DROP VIEW gr_view CASCADE;'),
         migrations.RunSQL('DROP VIEW part_view CASCADE;'),
         migrations.RunSQL('DROP VIEW pers_view CASCADE;'),
+
+        # Drop schema audit and associated functions
+        migrations.RunSQL('DROP SCHEMA IF EXISTS audit CASCADE;'),
+        migrations.RunSQL('DROP FUNCTION process_audit CASCADE;'),
+        migrations.RunSQL('DROP FUNCTION audit_populated_table;'),
+        migrations.RunSQL('DROP FUNCTION audit_table;'),
+        migrations.RunSQL('DROP FUNCTION gr_insert CASCADE;'),
+        migrations.RunSQL('DROP FUNCTION pers_insert CASCADE;'),
+        migrations.RunSQL('DROP FUNCTION us_grupo_insert CASCADE;'),
+        migrations.RunSQL('DROP FUNCTION us_pers_insert CASCADE;'),
+        migrations.RunSQL('DROP FUNCTION participante_insert CASCADE'),
+        migrations.RunSQL('DROP FUNCTION set_fecha'),
 
         # Change date type to string
         migrations.RunSQL("SELECT fix_date('cobertura', 'fecha_comienzo');"),
