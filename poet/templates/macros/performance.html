@@ -1,0 +1,65 @@
+{% from 'macros/util.html' import render_none, render_table, render_place, render_name_links %}
+
+
+
+{% macro render_performance(perf) -%}
+    <hr>
+    <div class="render-audiofile container">
+        <div class="row">
+            <div class="col-md-6">
+                <audio controls="controls">
+                    Su navegador no admite reproducción de<code>audio</code>
+                    <source src="{{ static('audio/'+perf.performance.pista_son_id|string+'/'
+                                     +perf.performance.id|string+'/'
+                                     +perf.performance.nom_archivo|string+'/') }}"
+                    type="audio/{{ perf.performance.codec|lower|safe }}">
+                </audio>
+            </div>
+            <div class="col-md-3">
+               Lugar; &nbsp; {{ render_place(perf.performance) }}
+            </div>
+            <div class="col-md-3">
+                {% if perf.performance.fecha_grab is not none %}
+                    {{ perf.performance.fecha_grab }} <br>
+                {% endif %}
+                <a href="{{ url("series", series_id=perf.performance.serie_id) }}">{{ perf.performance.nom }}</a>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Comentario</h3>
+                <p>{{ perf.performance.coment_pista_son }}</p>
+            </div>
+            <div class="col-md-6">{{ render_table(perf.genres, 'géneros') }}</div>
+        </div>
+        <br>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Rol</th>
+                    <th>Instrumento</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for instrument in perf.instruments %}
+            <tr>
+                <td>
+                    {{ render_name_links(instrument) }}
+                </td>
+                <td>
+                    {{ instrument.rol_pista_son }}
+                </td>
+                <td>
+                    {% if instrument.nom_inst != 'Ninguno' %}
+                       {{ instrument.nom_inst }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endmacro %}
