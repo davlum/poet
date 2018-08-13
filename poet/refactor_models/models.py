@@ -6,7 +6,6 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-from simple_history.models import HistoricalRecords
 from django.utils.translation import gettext as _
 
 
@@ -98,7 +97,6 @@ class Composicion(models.Model):
         choices=RELEASE_STATES_CHOICES,
         default=PENDING,
     )
-    history = HistoricalRecords()
     temas = models.ManyToManyField('Tema', through='TemaComposicion')
 
     class Meta:

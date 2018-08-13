@@ -12,43 +12,6 @@ class Migration(migrations.Migration):
 
     operations = [
         UnaccentExtension(),
-        TrigramExtension(),
+        TrigramExtension()
 
-        # migrations.RenameField('Serie', 'serie_id', 'id'),
-        # migrations.RenameField('Serie', 'nom_serie', 'nom'),
-        #
-        # migrations.RenameField('Idioma', 'nom_idioma', 'nom'),
-        # migrations.RenameField('Idioma', 'idioma_id', 'id'),
-        #
-        # migrations.RenameField('GeneroMusical', 'gen_mus_id', 'id'),
-        # migrations.RenameField('GeneroMusical', 'nom_gen_mus', 'nom'),
-        # migrations.RenameField('GeneroMusical', 'coment_gen_mus', 'coment'),
-        #
-        # migrations.RenameField('Tema', 'nom_tema', 'nom'),
-        # migrations.RenameField('Tema', 'tema_id', 'id'),
-        #
-        # migrations.RenameField('Album', 'nom_album', 'nom'),
-        # migrations.RenameField('Album', 'album_id', 'id'),
-        #
-        # migrations.RenameField('Serie', 'serie_id', 'id'),
-        # migrations.RenameField('Serie', 'nom_serie', 'nom'),
-        # migrations.RenameField('Serie', 'coment_serie', 'coment'),
-        #
-        # migrations.RenameField('FamiliaInstrumento', 'familia_instr_id', 'id'),
-        # migrations.RenameField('FamiliaInstrumento', 'nom_familira_instr', 'nom'),
-        #
-        # migrations.RenameField('Instrumento', 'nom_inst', 'nom'),
-        # migrations.RenameField('Instrumento', 'id', 'id'),
-        # migrations.RenameField('Instrumento', 'instrumento_comentario', 'coment'),
-        #
-        # migrations.RenameField('Archivo', 'archivo_id', 'coment'),
-        # migrations.RenameField('Archivo', 'nom_archivo', 'nom'),
-        #
-        # migrations.RenameField('Cobertura', 'cobertura_id', 'id'),
-        # migrations.RenameField('CoberturaLicencia', 'cobertura_lic_id', 'id'),
-        #
-        # migrations.RenameField('Composicion', 'composicion_id', 'id'),
-        # migrations.RenameField('Composicion', 'nom_tit', 'nom'),
-        #
-        # migrations.RenameField('Lugar', 'lugar_id', 'id'),
     ]
