@@ -1,5 +1,5 @@
 
-    {% from 'macros/macros.html' import persona, grupo, pista, composicion, lugar, serie %}
+    {% from 'macros/macros.html.j2' import persona, grupo, pista, composicion, lugar, serie %}
 
     {% if 'mod' in result and result.mod == True %}
         <div id="part" class="tab-pane fade in active">

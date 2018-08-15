@@ -1,7 +1,7 @@
-{% extends 'layout/search.html' %}
-{% from 'macros/composition.html' import render_compositions %}
-{% from 'macros/util.html' import render_name, render_place, render_none %}
-{% from 'macros/artist.html' import render_about %}
+{% extends 'layout/search.html.j2' %}
+{% from 'macros/composition.html.j2' import render_compositions %}
+{% from 'macros/util.html.j2' import render_name, render_place, render_none %}
+{% from 'macros/artist.html.j2' import render_about %}
 
 {% block resultbody %}
     <div class="center-block skinny">

@@ -1,6 +1,6 @@
-{% extends 'layout/search.html' %}
-{% from 'macros/util.html' import render_name_links, render_table %}
-{% from 'macros/performance.html' import render_performance %}
+{% extends 'layout/search.html.j2' %}
+{% from 'macros/util.html.j2' import render_name_links, render_table %}
+{% from 'macros/performance.html.j2' import render_performance %}
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">

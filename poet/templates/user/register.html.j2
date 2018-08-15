@@ -1,10 +1,10 @@
-{% extends '../../layout/main.html' %}
+{% extends '../../layout/main.html.j2' %}
 
 {% block body %}
   <h1>Registro</h1>
     <br>
     <br>
-  {% from "includes/_formhelpers.html" import render_field %}
+  {% from "includes/_formhelpers.html.j2" import render_field %}
       <form method='POST' action={{ url_for('user.register') }}>
         {{ form.csrf_token }}
         <div class="center-block skinny">
@@ -46,5 +46,5 @@
     <br>
     <br>
     <br>
-    {% include 'includes/_footer.html' %}
+    {% include 'includes/_footer.html.j2' %}
 {% endblock %}

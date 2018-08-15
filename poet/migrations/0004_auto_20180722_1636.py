@@ -112,12 +112,6 @@ class Migration(migrations.Migration):
             field=models.TextField(db_column='nom'),
         ),
 
-        migrations.RenameField(
-            model_name='coberturalicencia',
-            old_name='cobertura_lic_id',
-            new_name='id',
-        ),
-
         migrations.RunSQL('ALTER TABLE archivo RENAME COLUMN nom_archivo TO nom;'),
 
         migrations.RunSQL('ALTER TABLE composicion RENAME COLUMN nom_tit TO nom;')

@@ -1,7 +1,7 @@
-{% extends 'layout/search.html' %}
-{% from 'macros/artist.html' import render_artists %}
-{% from 'macros/composition.html' import render_compositions %}
-{% from 'macros/series.html' import render_series %}
+{% extends 'layout/search.html.j2' %}
+{% from 'macros/artist.html.j2' import render_artists %}
+{% from 'macros/composition.html.j2' import render_compositions %}
+{% from 'macros/series.html.j2' import render_series %}
 
 {% block resultbody %}
     <div class="container">
@@ -13,7 +13,7 @@
                {{ render_series(series) }}
            </div>
 
-            {% include 'includes/_sidebar.html' %}
+            {% include 'includes/_sidebar.html.j2' %}
         </div>
     </div>
 

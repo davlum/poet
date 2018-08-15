@@ -1,8 +1,8 @@
-{% extends "../../layout/main.html" %}
+{% extends "../../layout/main.html.j2" %}
 
 {% block body %}
 
-{% from "includes/_formhelpers.html" import render_field, render_delete_field %}
+{% from "includes/_formhelpers.html.j2" import render_field, render_delete_field %}
 
 <div>
     <br>
@@ -42,5 +42,5 @@
     </form>
 </div>
 
-    {% include 'includes/_footer.html' %}
+    {% include 'includes/_footer.html.j2' %}
 {% endblock %}

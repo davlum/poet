@@ -1,7 +1,7 @@
-{% extends 'layout/main.html' %}
+{% extends 'layout/main.html.j2' %}
 {% block body %}
 
-<div id="main-page" class="container" xmlns="http://www.w3.org/1999/html">
+<div id="main-page" class="container" xmlns="http://www.w3.org/1999.html">
     <main class="content_width" data-container="content">
         <div data-container-padding>
             <div class="content_padded">
@@ -38,13 +38,13 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-12">
-                                        {% include 'includes/_searchbar.html' %}
+                                        {% include 'includes/_searchbar.html.j2' %}
                                           </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {% include 'includes/_footer.html' %}
+                            {% include 'includes/_footer.html.j2' %}
                         </div>
                     </div>
                 </div>

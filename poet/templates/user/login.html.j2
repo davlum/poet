@@ -1,4 +1,4 @@
-{% extends "../../layout/main.html" %}
+{% extends "../../layout/main.html.j2" %}
 
 {% block body %}
     <br>
@@ -8,7 +8,7 @@
     <h2>Iniciar sesión </h2>
     <br>
     <br>
-    {% from "includes/_formhelpers.html" import render_field %}
+    {% from "includes/_formhelpers.html.j2" import render_field %}
     <form class="form-login" role="form" method="post" action="">
       {{ form.csrf_token }}
         <div class="row">

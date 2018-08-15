@@ -1,9 +1,9 @@
-{% extends "../../layout/search.html" %}
+{% extends "../../layout/search.html.j2" %}
 
 {% block resultbody %}
 
-{% from "includes/_formhelpers.html" import render_field %}
-{% from 'macros/macros.html' import nom, lugar, render_profile %}
+{% from "includes/_formhelpers.html.j2" import render_field %}
+{% from 'macros/macros.html.j2' import nom, lugar, render_profile %}
 
 <div id="tabs" class="container" style="width: 80%;">
 
@@ -82,7 +82,7 @@ instrumentos, temas, entre otros.</span>
             </div>
         </div>
 
-        {% include 'includes/_profile.html' %}
+        {% include 'includes/_profile.html.j2' %}
 
         <div id="contrasena" class="tab-pane fade">
             <br>

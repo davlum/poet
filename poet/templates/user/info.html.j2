@@ -1,8 +1,8 @@
-{% extends '../../layout/main.html' %}
+{% extends '../../layout/main.html.j2' %}
 
 {% block body %}
 
-    {% from "includes/_formhelpers.html" import render_field, nom_pers, origen, dyn_grupo %}
+    {% from "includes/_formhelpers.html.j2" import render_field, nom_pers, origen, dyn_grupo %}
   <h1>Información opcional</h1>
     <br>
     <br>
@@ -62,5 +62,5 @@ base de datos. <br> Sólo tiene como propósito comunicarnos con usted en caso d
         </div>
       </form>
   </div>
-    {% include 'includes/_footer.html' %}
+    {% include 'includes/_footer.html.j2' %}
 {% endblock %}

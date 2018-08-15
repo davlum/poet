@@ -1,9 +1,9 @@
-{% extends "../../layout/main.html" %}
+{% extends "../../layout/main.html.j2" %}
 
 {% block body %}
 
-{% from "includes/_formhelpers.html" import render_field, origen, nom_pers, fecha, dyn_grupo %}
-{% from "macros/macros.html" import render_profile %}
+{% from "includes/_formhelpers.html.j2" import render_field, origen, nom_pers, fecha, dyn_grupo %}
+{% from "macros/macros.html.j2" import render_profile %}
 
 <div>
     <br>
@@ -51,5 +51,5 @@
     </form>
 </div>
 
-    {% include 'includes/_footer.html' %}
+    {% include 'includes/_footer.html.j2' %}
 {% endblock %}
