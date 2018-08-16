@@ -7,7 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from simple_history.models import HistoricalRecords
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 
 PUBLISHED = 'PUBLICADO'

@@ -1,3 +1,5 @@
+from django.utils.translation import gettext_lazy as _
+
 PUBLISHED = 'PUBLICADO'
 DEPOSITED = 'DEPOSITAR'
 REJECTED = 'REJECTED'
