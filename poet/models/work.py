@@ -1,10 +1,9 @@
 from django.db import models
-from poet.refactor_models.choices import RELEASE_STATES_CHOICES, PENDING
+from poet.models.choices import RELEASE_STATES_CHOICES, PENDING
 from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 from django.contrib.postgres.fields import JSONField
-from poet.refactor_models.entity import Entity
 
 
 class Work(models.Model):
@@ -43,27 +42,26 @@ class Work(models.Model):
 
     name = models.TextField()
     alt_name = models.TextField()
-    comments = models.TextField()
+
     # This should be types of works. Media types are additional data
     type = models.CharField(max_length=32, choices=WORK_TYPE, default=RECORDING)
 
     from_date = models.DateField()
     to_date = models.DateField()
 
-    city_of_origin = models.TextField(blank=True, null=True)
-    subdivision_of_origin = models.TextField(blank=True, null=True)
-    country_of_origin = models.TextField(blank=True, null=True)
+    city = models.TextField(blank=True, null=True)
+    country = models.TextField(blank=True, null=True)
 
-    path_to_file = models.FileField()
+    path_to_file = models.FilePathField()
     file_type = models.CharField(max_length=25, choices=FILE_TYPE, default=PENDING)
 
     tags = ArrayField(models.CharField(max_length=200), blank=True)
+
+    comments = models.TextField()
     data = JSONField()
     history = HistoricalRecords()
 
-    entity_relation = models.ManyToManyField(Entity, symmetrical=False, through='WorkEntity')
-
-    self_relation = models.ManyToManyField('self', blank=True, null=True, symmetrical=False, through='WorkWork')
+    self_relation = models.ManyToManyField('self', blank=True, symmetrical=False, through='WorkToWorkRel')
 
     state = models.CharField(max_length=32, choices=RELEASE_STATES_CHOICES, default=PENDING)
 
@@ -72,28 +70,24 @@ class Work(models.Model):
         db_table = 'poet_work'
 
 
-class WorkWork(models.Model):
+class WorkToWorkRel(models.Model):
     """
 
     Recursive many to many relationship with the Work model.
     """
-    TRANSLATION = 'TRANSLATION'
-    INFLUENCED = 'INFLUENCED'
-    WORK_RELATION_TYPE = (
-        (TRANSLATION, _('Translation')),
-        (INFLUENCED, _('Influenced')),
-    )
 
-    from_model = models.ForeignKey(Work, on_delete=models.CASCADE)
-    to_model = models.ForeignKey(Work, on_delete=models.CASCADE)
+    from_model = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='from_work')
+    to_model = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='to_work')
+    contains = models.BooleanField(_('Is part of'), default=False)
     order = models.IntegerField(blank=True, null=True)
-    type = models.CharField(max_length=32, blank=True, null=True, choices=WORK_RELATION_TYPE, default=INFLUENCED)
+    role = models.TextField(blank=True, null=True)
     # Arbitrary additional information
     comment = models.TextField(blank=True, null=True)
     data = JSONField()
+    history = HistoricalRecords()
 
     class Meta:
         managed = True
-        db_table = 'poet_work_work'
+        db_table = 'poet_work_to_work_rel'
 
 

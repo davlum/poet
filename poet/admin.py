@@ -2,7 +2,7 @@ from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
 # Register your models here.
 
-from .models import PistaSon, Cobertura, Composicion, Persona, Grupo
+from poet.models.models import PistaSon, Cobertura, Composicion, Persona, Grupo
 
 admin.site.register(PistaSon, SimpleHistoryAdmin)
 admin.site.register(Cobertura, SimpleHistoryAdmin)

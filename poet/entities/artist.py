@@ -1,6 +1,6 @@
 from poet.entities.util import query
 from poet.entities.composition import get_composition
-from poet.models import ParticipantePistaSon, Persona
+from poet.models.models import Persona
 
 
 def get_artist_context(part_id):

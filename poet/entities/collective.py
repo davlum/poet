@@ -1,6 +1,6 @@
 from poet.entities.util import query
 from poet.entities.composition import get_composition
-from poet.models import Grupo
+from poet.models.models import Grupo
 
 
 def get_collective_context(part_id):
