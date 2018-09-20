@@ -26,11 +26,13 @@ class Work(models.Model):
     SERIES = 'SERIE'
     COMPOSITION = 'COMPOSICION'
     RECORDING = 'PISTA SON'
+    COPYRIGHT = 'PRIVILEGIO'
     WORK_TYPE = (
         (ALBUM, _('Album')),
         (SERIES, _('Series')),
         (COMPOSITION, _('Composition')),
-        (RECORDING, _('Recording'))
+        (RECORDING, _('Recording')),
+        (COPYRIGHT, _('Copyright')),
     )
 
     IMAGE = 'IMAGE'
@@ -40,30 +42,34 @@ class Work(models.Model):
         (IMAGE, _('Image'))
     )
 
-    name = models.TextField()
-    alt_name = models.TextField()
+    full_name = models.TextField(blank=True, null=True)
+    alt_name = models.TextField(blank=True, null=True)
 
     # This should be types of works. Media types are additional data
-    type = models.CharField(max_length=32, choices=WORK_TYPE, default=RECORDING)
+    work_type = models.CharField(max_length=32, choices=WORK_TYPE, default=COMPOSITION)
 
-    from_date = models.DateField()
-    to_date = models.DateField()
+    from_date = models.DateField(blank=True, null=True)
+    to_date = models.DateField(blank=True, null=True)
 
     city = models.TextField(blank=True, null=True)
     country = models.TextField(blank=True, null=True)
 
-    path_to_file = models.FilePathField()
-    file_type = models.CharField(max_length=25, choices=FILE_TYPE, default=PENDING)
+    path_to_file = models.FilePathField(blank=True, null=True)
+    file_type = models.CharField(max_length=25, choices=FILE_TYPE, null=True)
 
-    tags = ArrayField(models.CharField(max_length=200), blank=True)
+    tags = ArrayField(models.CharField(max_length=200), blank=True, default=list, null=True)
 
-    comments = models.TextField()
-    data = JSONField()
+    comments = models.TextField(blank=True, null=True)
+    additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 
     self_relation = models.ManyToManyField('self', blank=True, symmetrical=False, through='WorkToWorkRel')
 
-    state = models.CharField(max_length=32, choices=RELEASE_STATES_CHOICES, default=PENDING)
+    release_state = models.CharField(max_length=32, choices=RELEASE_STATES_CHOICES, default=PENDING)
+
+    copyright = models.TextField(blank=True, null=True)
+    copyright_country = models.TextField(blank=True, null=True)
+    copyright_date = models.DateField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -82,12 +88,10 @@ class WorkToWorkRel(models.Model):
     order = models.IntegerField(blank=True, null=True)
     role = models.TextField(blank=True, null=True)
     # Arbitrary additional information
-    comment = models.TextField(blank=True, null=True)
-    data = JSONField()
+    comments = models.TextField(blank=True, null=True)
+    additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 
     class Meta:
         managed = True
         db_table = 'poet_work_to_work_rel'
-
-

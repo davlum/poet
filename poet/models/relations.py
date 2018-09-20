@@ -37,8 +37,8 @@ class EntityToWorkRel(models.Model):
 
     role = models.CharField(max_length=128, choices=ENTITY_WORK_ROLE)
     # Arbitrary additional information
-    comment = models.TextField(blank=True, null=True)
-    data = JSONField()
+    comments = models.TextField(blank=True, null=True)
+    additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 
     class Meta:
