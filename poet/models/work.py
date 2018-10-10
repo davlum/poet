@@ -1,9 +1,28 @@
 from django.db import models
-from poet.models.choices import RELEASE_STATES_CHOICES, PENDING
+from poet.models.choices import ReleaseState, PENDING
 from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 from django.contrib.postgres.fields import JSONField
+
+ALBUM = 'ALBUM'
+SERIES = 'SERIE'
+COMPOSITION = 'COMPOSICION'
+RECORDING = 'PISTA SON'
+WORK_TYPE = (
+    (ALBUM, _('Album')),
+    (SERIES, _('Series')),
+    (COMPOSITION, _('Composition')),
+    (RECORDING, _('Recording')),
+)
+
+
+class WorkType(models.Model):
+    work_type = models.CharField(max_length=128, choies=WORK_TYPE, primary_key=True)
+
+    class Meta:
+        managed = True
+        db_table = 'poet_work_type'
 
 
 class Work(models.Model):
@@ -22,18 +41,6 @@ class Work(models.Model):
     Future paths will use;
     /<STATIC_DIR>/<MEDIA_TYPE>/<GENERATED_UUID>_<FILENAME>
     """
-    ALBUM = 'ALBUM'
-    SERIES = 'SERIE'
-    COMPOSITION = 'COMPOSICION'
-    RECORDING = 'PISTA SON'
-    COPYRIGHT = 'PRIVILEGIO'
-    WORK_TYPE = (
-        (ALBUM, _('Album')),
-        (SERIES, _('Series')),
-        (COMPOSITION, _('Composition')),
-        (RECORDING, _('Recording')),
-        (COPYRIGHT, _('Copyright')),
-    )
 
     IMAGE = 'IMAGE'
     AUDIO = 'AUDIO'
@@ -46,7 +53,7 @@ class Work(models.Model):
     alt_name = models.TextField(blank=True, null=True)
 
     # This should be types of works. Media types are additional data
-    work_type = models.CharField(max_length=32, choices=WORK_TYPE, default=COMPOSITION)
+    work_type = models.ForeignKey(WorkType, on_delete=models.PROTECT)
 
     from_date = models.DateField(blank=True, null=True)
     to_date = models.DateField(blank=True, null=True)
@@ -65,7 +72,7 @@ class Work(models.Model):
 
     self_relation = models.ManyToManyField('self', blank=True, symmetrical=False, through='WorkToWorkRel')
 
-    release_state = models.CharField(max_length=32, choices=RELEASE_STATES_CHOICES, default=PENDING)
+    release_state = models.ForeignKey(ReleaseState, on_delete=models.PROTECT, default=PENDING)
 
     copyright = models.TextField(blank=True, null=True)
     copyright_country = models.TextField(blank=True, null=True)
@@ -84,7 +91,7 @@ class WorkToWorkRel(models.Model):
 
     from_model = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='from_work')
     to_model = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='to_work')
-    contains = models.BooleanField(_('Is part of'), default=False)
+    contains = models.BooleanField(_('Consists of'), default=False)
     order = models.IntegerField(blank=True, null=True)
     role = models.TextField(blank=True, null=True)
     # Arbitrary additional information

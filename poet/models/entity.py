@@ -1,5 +1,5 @@
 from django.db import models
-from poet.models.choices import RELEASE_STATES_CHOICES, PENDING
+from poet.models.choices import ReleaseState, PENDING
 from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
@@ -7,46 +7,55 @@ from django.contrib.postgres.fields import JSONField
 from poet.models.work import Work
 
 
+PERSON = 'PERSONA'
+GROUP = 'GRUPO'
+ORGANISATION = 'ORGANIZACIÓN'
+FESTIVAL = 'FESTIVAL'
+UNIVERSITY = 'UNIVERSIDAD'
+COLLECTIVE = 'COLECTIVO'
+RADIO_STATION = 'ESTACIÓN RADIOFÓNICA'
+EDUCATION_AND_RESEARCH = 'EDUCACIÓN E INVESTIGACIÓN'
+AUDIO_ARCHIVE = 'ARCHIVO SONORO'
+STREAMING_SERVICE = 'SERVICIOS DE STREAMING'
+MUSEUM = 'MUSEO'
+EDITORIAL = 'EDITORIAL'
+RECORD_LABEL = 'SELLO DISCOGRÁFICO'
+CULTURAL_CENTER = 'CENTRO CULTURAL'
+BAND = 'BANDA MUSICAL'
+
+ENTITY_TYPE = (
+    (PERSON, _('Persona')),
+    (GROUP, _('Grupo')),
+    (ORGANISATION, _('Organización')),
+    (FESTIVAL, _('Festival')),
+    (UNIVERSITY, _('Universidad')),
+    (COLLECTIVE, _('Colectivo')),
+    (RADIO_STATION, _('Estación radiofónica')),
+    (EDUCATION_AND_RESEARCH, _('Educación e investigación')),
+    (AUDIO_ARCHIVE, _('Archivo sonoro')),
+    (STREAMING_SERVICE, _('Servicios de streaming')),
+    (MUSEUM, _('Museo')),
+    (EDITORIAL, _('Editorial')),
+    (RECORD_LABEL, _('Sello discográfico')),
+    (CULTURAL_CENTER, _('Centro cultural')),
+    (BAND, _('Banda musical')),
+)
+
+
+class EnityType(models.Model):
+    entity_type = models.CharField(max_length=128, choies=ENTITY_TYPE, primary_key=True)
+
+    class Meta:
+        managed = True
+        db_table = 'poet_entity_type'
+
+
 class Entity(models.Model):
-
-    PERSON = 'PERSONA'
-    GROUP = 'GRUPO'
-    ORGANISATION = 'ORGANIZACIÓN'
-    FESTIVAL = 'FESTIVAL'
-    UNIVERSITY = 'UNIVERSIDAD'
-    COLLECTIVE = 'COLECTIVO'
-    RADIO_STATION = 'ESTACIÓN RADIOFÓNICA'
-    EDUCATION_AND_RESEARCH = 'EDUCACIÓN E INVESTIGACIÓN'
-    AUDIO_ARCHIVE = 'ARCHIVO SONORO'
-    STREAMING_SERVICE = 'SERVICIOS DE STREAMING'
-    MUSEUM = 'MUSEO'
-    EDITORIAL = 'EDITORIAL'
-    RECORD_LABEL = 'SELLO DISCOGRÁFICO'
-    CULTURAL_CENTER = 'CENTRO CULTURAL'
-    BAND = 'BANDA MUSICAL'
-
-    ENTITY_TYPE = (
-        (PERSON, _('Persona')),
-        (GROUP, _('Grupo')),
-        (ORGANISATION, _('Organización')),
-        (FESTIVAL, _('Festival')),
-        (UNIVERSITY, _('Universidad')),
-        (COLLECTIVE, _('Colectivo')),
-        (RADIO_STATION, _('Estación radiofónica')),
-        (EDUCATION_AND_RESEARCH, _('Educación e investigación')),
-        (AUDIO_ARCHIVE, _('Archivo sonoro')),
-        (STREAMING_SERVICE, _('Servicios de streaming')),
-        (MUSEUM, _('Museo')),
-        (EDITORIAL, _('Editorial')),
-        (RECORD_LABEL, _('Sello discográfico')),
-        (CULTURAL_CENTER, _('Centro cultural')),
-        (BAND, _('Banda musical')),
-    )
 
     full_name = models.TextField(blank=True, null=True)
     alt_name = models.TextField(blank=True, null=True)
 
-    entity_type = models.CharField(max_length=32, choices=ENTITY_TYPE, default=PERSON)
+    entity_type = models.ForeignKey(EnityType, on_delete=models.PROTECT)
 
     from_date = models.DateField(blank=True, null=True)
     to_date = models.DateField(blank=True, null=True)
@@ -72,7 +81,7 @@ class Entity(models.Model):
 
     self_relation = models.ManyToManyField('self', blank=True, symmetrical=False, through='EntityToEntityRel')
 
-    release_state = models.CharField(max_length=32, choices=RELEASE_STATES_CHOICES, default=PENDING)
+    release_state = models.ForeignKey(ReleaseState, on_delete=models.PROTECT, default=PENDING)
 
     class Meta:
         managed = True
@@ -87,7 +96,7 @@ class EntityToEntityRel(models.Model):
 
     from_model = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name='from_entity')
     to_model = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name='to_entity')
-    contains = models.BooleanField(_('Is part of'), default=False)
+    contains = models.BooleanField(_('Consists of'), default=False)
 
     role = models.TextField(blank=True, null=True)
 
