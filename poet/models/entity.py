@@ -42,8 +42,8 @@ ENTITY_TYPE = (
 )
 
 
-class EnityType(models.Model):
-    entity_type = models.CharField(max_length=128, choies=ENTITY_TYPE, primary_key=True)
+class EntityType(models.Model):
+    entity_type = models.CharField(max_length=128, choices=ENTITY_TYPE, primary_key=True)
 
     class Meta:
         managed = True
@@ -55,7 +55,7 @@ class Entity(models.Model):
     full_name = models.TextField(blank=True, null=True)
     alt_name = models.TextField(blank=True, null=True)
 
-    entity_type = models.ForeignKey(EnityType, on_delete=models.PROTECT)
+    entity_type = models.ForeignKey(EntityType, on_delete=models.PROTECT, db_column='entity_type')
 
     from_date = models.DateField(blank=True, null=True)
     to_date = models.DateField(blank=True, null=True)
@@ -81,7 +81,7 @@ class Entity(models.Model):
 
     self_relation = models.ManyToManyField('self', blank=True, symmetrical=False, through='EntityToEntityRel')
 
-    release_state = models.ForeignKey(ReleaseState, on_delete=models.PROTECT, default=PENDING)
+    release_state = models.ForeignKey(ReleaseState, on_delete=models.PROTECT, default=PENDING, db_column='release_state')
 
     class Meta:
         managed = True

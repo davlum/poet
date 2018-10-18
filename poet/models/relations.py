@@ -32,7 +32,7 @@ ENTITY_WORK_ROLE = (
 
 
 class EntityToWorkRole(models.Model):
-    role_type = models.CharField(max_length=128, choies=ENTITY_WORK_ROLE, primary_key=True)
+    role_type = models.CharField(max_length=128, choices=ENTITY_WORK_ROLE, primary_key=True)
 
     class Meta:
         managed = True

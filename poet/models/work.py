@@ -5,20 +5,16 @@ from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 from django.contrib.postgres.fields import JSONField
 
-ALBUM = 'ALBUM'
-SERIES = 'SERIE'
-COMPOSITION = 'COMPOSICION'
-RECORDING = 'PISTA SON'
+SERIES = 'SERIES'
+RECORDING = 'RECORDING'
 WORK_TYPE = (
-    (ALBUM, _('Album')),
     (SERIES, _('Series')),
-    (COMPOSITION, _('Composition')),
     (RECORDING, _('Recording')),
 )
 
 
 class WorkType(models.Model):
-    work_type = models.CharField(max_length=128, choies=WORK_TYPE, primary_key=True)
+    work_type = models.CharField(max_length=128, choices=WORK_TYPE, primary_key=True)
 
     class Meta:
         managed = True
@@ -53,7 +49,7 @@ class Work(models.Model):
     alt_name = models.TextField(blank=True, null=True)
 
     # This should be types of works. Media types are additional data
-    work_type = models.ForeignKey(WorkType, on_delete=models.PROTECT)
+    work_type = models.ForeignKey(WorkType, on_delete=models.PROTECT, db_column='work_type')
 
     from_date = models.DateField(blank=True, null=True)
     to_date = models.DateField(blank=True, null=True)
@@ -72,7 +68,7 @@ class Work(models.Model):
 
     self_relation = models.ManyToManyField('self', blank=True, symmetrical=False, through='WorkToWorkRel')
 
-    release_state = models.ForeignKey(ReleaseState, on_delete=models.PROTECT, default=PENDING)
+    release_state = models.ForeignKey(ReleaseState, on_delete=models.PROTECT, default=PENDING, db_column='release_state')
 
     copyright = models.TextField(blank=True, null=True)
     copyright_country = models.TextField(blank=True, null=True)
