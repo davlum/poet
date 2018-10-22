@@ -14,7 +14,7 @@ WORK_TYPE = (
 
 
 class WorkType(models.Model):
-    work_type = models.CharField(max_length=128, choices=WORK_TYPE, primary_key=True)
+    work_type = models.CharField(max_length=128, primary_key=True)
 
     class Meta:
         managed = True
@@ -62,7 +62,7 @@ class Work(models.Model):
 
     tags = ArrayField(models.CharField(max_length=200), blank=True, default=list, null=True)
 
-    comments = models.TextField(blank=True, null=True)
+    commentary = models.TextField(blank=True, null=True)
     additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 
@@ -85,13 +85,13 @@ class WorkToWorkRel(models.Model):
     Recursive many to many relationship with the Work model.
     """
 
-    from_model = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='from_work')
-    to_model = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='to_work')
+    from_work = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='ww_from_model')
+    to_work = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='ww_to_model')
     contains = models.BooleanField(_('Consists of'), default=False)
     order = models.IntegerField(blank=True, null=True)
-    role = models.TextField(blank=True, null=True)
+    role = models.TextField(blank=True, null=True, db_column='role_id')
     # Arbitrary additional information
-    comments = models.TextField(blank=True, null=True)
+    commentary = models.TextField(blank=True, null=True)
     additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 

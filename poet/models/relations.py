@@ -32,7 +32,7 @@ ENTITY_WORK_ROLE = (
 
 
 class EntityToWorkRole(models.Model):
-    role_type = models.CharField(max_length=128, choices=ENTITY_WORK_ROLE, primary_key=True)
+    role_type = models.CharField(max_length=128, primary_key=True)
 
     class Meta:
         managed = True
@@ -40,12 +40,12 @@ class EntityToWorkRole(models.Model):
 
 
 class EntityToWorkRel(models.Model):
-    from_model = models.ForeignKey(Entity, on_delete=models.CASCADE)
-    to_model = models.ForeignKey(Work, on_delete=models.CASCADE)
+    from_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name='ew_from_model')
+    to_work = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='ew_to_model')
 
     role = models.ForeignKey(EntityToWorkRole, on_delete=models.PROTECT)
     # Arbitrary additional information
-    comments = models.TextField(blank=True, null=True)
+    commentary = models.TextField(blank=True, null=True)
     additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 

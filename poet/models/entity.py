@@ -43,7 +43,7 @@ ENTITY_TYPE = (
 
 
 class EntityType(models.Model):
-    entity_type = models.CharField(max_length=128, choices=ENTITY_TYPE, primary_key=True)
+    entity_type = models.CharField(max_length=128, primary_key=True)
 
     class Meta:
         managed = True
@@ -73,7 +73,7 @@ class Entity(models.Model):
     tags = ArrayField(models.CharField(max_length=200), blank=True, default=list, null=True)
 
     # Arbitrary additional information
-    comments = models.TextField(blank=True, null=True)
+    commentary = models.TextField(blank=True, null=True)
     additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 
@@ -94,8 +94,8 @@ class EntityToEntityRel(models.Model):
     Recursive many to many relationship with the Entity model.
     """
 
-    from_model = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name='from_entity')
-    to_model = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name='to_entity')
+    from_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name='ee_from_model')
+    to_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name='ee_to_model')
     contains = models.BooleanField(_('Consists of'), default=False)
 
     role = models.TextField(blank=True, null=True)
@@ -107,7 +107,7 @@ class EntityToEntityRel(models.Model):
     to_date_end = models.DateField(blank=True, null=True)
 
     # Arbitrary additional information
-    comment = models.TextField(blank=True, null=True)
+    commentary = models.TextField(blank=True, null=True)
     additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 

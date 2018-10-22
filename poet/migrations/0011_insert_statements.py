@@ -11,6 +11,20 @@ class Migration(migrations.Migration):
 
     operations = [
 
+        migrations.RunSQL("""
+        INSERT INTO poet_release_state VALUES ('PUBLICADO'), ( 'DEPOSITAR'), ( 'RECHAZADO'), ( 'PENDIENTE')
+        """),
+        migrations.RunSQL("""
+        INSERT INTO poet_entity_type VALUES('PERSONA'), ( 'GRUPO'), ( 'ORGANIZACIÓN'), ( 'FESTIVAL'), ( 'UNIVERSIDAD'), 
+        ( 'COLECTIVO'), ('ESTACIÓN RADIOFÓNICA'), ('EDUCACIÓN E INVESTIGACIÓN'), ( 'ARCHIVO SONORO'), 
+        ( 'SERVICIOS DE STREAMING'), ('MUSEO'), ('EDITORIAL'), ('SELLO DISCOGRÁFICO'), ('CENTRO CULTURAL'), 
+        ('BANDA MUSICAL')"""),
+        migrations.RunSQL("""INSERT INTO poet_work_type VALUES('RECORDING'), ( 'SERIES')"""),
+        migrations.RunSQL("""
+        INSERT INTO poet_entity_to_work_role VALUES ('Lectura en voz alta'), ('Interpretación musical'), 
+        ('Ingeniería de sonido'), ('Producción'), ('Dirección'), ('Post-producción'), ('Auxiliar de sonido'), 
+        ('Contribuidor'), ('Publicador'), ('Composición'), ('Traducción')"""),
+
         # ENTITY INSERT STATEMENTS
         migrations.RunSQL("""
         WITH inserts AS (
@@ -34,6 +48,7 @@ class Migration(migrations.Migration):
 
         migrations.RunSQL("""
         DO $$
+        
             DECLARE
                 old_query integer;
                 new_query integer;
@@ -47,7 +62,7 @@ class Migration(migrations.Migration):
 
         migrations.RunSQL("""
         WITH inserts AS (
-            SELECT part_id, nom_part, tipo_grupo, 
+            SELECT part_id, nom_part, UPPER(tipo_grupo), 
                 (transform_date(fecha_comienzo)).start_date, (transform_date(fecha_comienzo)).end_date,
                 (transform_date(fecha_finale)).start_date, (transform_date(fecha_finale)).end_date,
                 array_to_string(ARRAY[g.city_of_origin, g.subdivision_of_origin], ','), g.country_of_origin,
@@ -107,11 +122,9 @@ class Migration(migrations.Migration):
             END comments_col, 
             jsonb_strip_nulls(
                 jsonb_build_object('file_id',a.id, 'comp_id', c.id, 'recording_id', p.pista_son_id, 
-            'order_number', coalesce(p.numero_de_pista::text, 'null'),'media_of_origin', 
-            quote(p.medio), 'date_contributed', quote(p.fecha_cont::text), 'duration', a.duracion, 'series_id', 
-            coalesce(p.serie_id::text, 'null'), 'language', ic.nom_idioma,
-            'date_digitalized', quote(p.fecha_dig::text), 
-            'date_published', quote(c.fecha_pub::text)
+            'order_number', p.numero_de_pista,'media_of_origin', p.medio, 'date_contributed', p.fecha_cont, 
+            'duration', a.duracion, 'series_id', p.serie_id, 'language', ic.nom_idioma,
+            'date_digitalized', p.fecha_dig, 'date_published', c.fecha_pub
                 )
             ), 
             array_cat(gm.nom, tc.nom_tema), p.estado, cob.licencia_cobertura, cob.pais_cobertura, 
@@ -184,193 +197,11 @@ class Migration(migrations.Migration):
         migrations.RunSQL("""
         WITH inserts AS (
             SELECT a.nom, 'SERIES', jsonb_strip_nulls(jsonb_build_object('id', a.id, 'series_id', 
-                coalesce(a.serie_id::text, 'null'), 'is_album', TRUE)
+                a.serie_id, 'is_album', TRUE)
             ), 'PUBLICADO' FROM album a
         )
         INSERT INTO poet_work (
           full_name, work_type, additional_data, release_state
           )  SELECT * FROM inserts;"""),
-
-
-        migrations.RunSQL("""
-        DO $$
-            DECLARE
-                old_query integer;
-                new_query integer;
-            BEGIN
-                SELECT count(*) FROM album INTO old_query;
-                SELECT count(*) FROM poet_work WHERE (additional_data->>'is_album')::boolean = TRUE INTO new_query;
-                ASSERT old_query = new_query, concat('ALBUM FAILED. ', old_query, ' != ',new_query);
-            END;
-        $$;"""),
-
-        migrations.RunSQL("""
-        WITH inserts AS (
-            SELECT s.id, a.id, TRUE, 'Is the series which contains this album.' 
-            FROM (
-            SELECT id, additional_data->'id' AS old_id 
-            FROM poet_work WHERE work_type = 'SERIES'
-            ) s JOIN (
-            SELECT id, additional_data->'series_id' AS series_id 
-            FROM poet_work WHERE (additional_data->>'is_album')::boolean = TRUE  
-            ) a ON s.old_id = a.series_id
-        )
-        INSERT INTO poet_work_to_work_rel (
-          from_model_id, to_model_id, contains, role
-          )  SELECT * FROM inserts;"""),
-
-        migrations.RunSQL("""
-        DO $$
-            DECLARE
-                old_query integer;
-                new_query integer;
-            BEGIN
-                SELECT count(*) FROM album WHERE serie_id IS NOT NULL INTO old_query;
-                SELECT count(*) FROM poet_work_to_work_rel WHERE role = 'Is the series which contains this album.' INTO new_query;
-                ASSERT old_query = new_query, concat('SERIES ALBUM REL FAILED. ', old_query, ' != ',new_query);
-            END;
-        $$;"""),
-
-        migrations.RunSQL("""
-        WITH inserts AS (
-            SELECT s.id, t.id, TRUE, 'Is the series which contains this track.' 
-            FROM (
-                SELECT id, additional_data->'id' AS old_id 
-                FROM poet_work WHERE work_type = 'SERIES'
-            ) s JOIN (
-                SELECT id, additional_data->'series_id' AS serie_id 
-                FROM poet_work WHERE work_type = 'RECORDING'    
-            ) t ON s.old_id = t.serie_id
-        )
-        INSERT INTO poet_work_to_work_rel (
-          from_model_id, to_model_id, contains, role
-          )  SELECT * FROM inserts;"""),
-
-        migrations.RunSQL("""
-        DO $$
-            DECLARE
-                old_query integer;
-                new_query integer;
-            BEGIN
-                SELECT count(*) FROM pista_son WHERE serie_id IS NOT NULL INTO old_query;
-                SELECT count(*) FROM poet_work_to_work_rel WHERE role = 'Is the series which contains this track.' INTO new_query;
-                ASSERT old_query = new_query, concat('SERIES TRACK REL FAILED. ', old_query, ' != ',new_query);
-            END;
-        $$;"""),
-
-        migrations.RunSQL("""
-        WITH inserts AS (
-            SELECT pc.rol_composicion , pc.part_id, pw.id
-            FROM participante_composicion pc
-            JOIN poet_work pw ON (pw.additional_data->>'comp_id')::integer = pc.composicion_id
-            WHERE pw.work_type = 'RECORDING'
-        )
-        INSERT INTO poet_entity_to_work_rel (
-          role, from_model_id, to_model_id
-          )  SELECT * FROM inserts;"""),
-
-            migrations.RunSQL("""
-        DO $$
-            DECLARE
-                old_query integer;
-                new_query integer;
-            BEGIN
-                SELECT count(*) FROM participante_composicion INTO old_query;
-                SELECT count(*) FROM poet_entity_to_work_rel WHERE role IN (
-                    SELECT * FROM rol_composicion
-                ) INTO new_query;
-                ASSERT old_query = new_query, concat('ENTITY WORK REL FAILED. ', old_query, ' != ',new_query);
-            END;
-        $$;"""),
-
-        migrations.RunSQL("""
-        WITH inserts AS (
-            SELECT ps.rol_pista_son, jsonb_strip_nulls(
-            jsonb_build_object(
-                'instrument', i.nom, 'instrument_family', fi.nom
-                )
-            ), ps.part_id, pw.id, i.coment
-            FROM participante_pista_son ps
-            JOIN poet_work pw ON (pw.additional_data->>'recording_id')::integer = ps.pista_son_id
-            JOIN instrumento i on ps.instrumento_id = i.id
-            LEFT JOIN familia_instrumento fi on i.familia_instr_id = fi.id
-            WHERE pw.work_type = 'RECORDING'
-        )
-        INSERT INTO poet_entity_to_work_rel (
-          role, additional_data, from_model_id, to_model_id, comments
-          )  SELECT * FROM inserts;"""),
-
-        migrations.RunSQL("""
-        DO $$
-            DECLARE
-                old_query integer;
-                new_query integer;
-            BEGIN
-                SELECT count(*) FROM participante_pista_son INTO old_query;
-                SELECT count(*) FROM poet_entity_to_work_rel WHERE role IN (
-                    SELECT * FROM rol_pista_son
-                ) INTO new_query;
-                ASSERT old_query = new_query, concat('ENTITY WORK REL FAILED. ', old_query, ' != ',new_query);
-            END;
-        $$;"""),
-
-        ##########################################################
-        # NEW RELATIONSHIPS POSSIBLE WITH THE REFACTORED SCHEMA. #
-        ##########################################################
-
-        # Relate SERIES to ENTITIES
-
-        # Relate ENTITIES to SERIES.
-
-        # migrations.RunSQL("""
-        # WITH inserts AS (
-        #     SELECT DISTINCT
-        #         ps.rol_pista_son,
-        #         jsonb_strip_nulls(jsonb_build_object('instrument', i.nom)),
-        #         ps.part_id, s.id
-        #     FROM participante_pista_son ps
-        #     JOIN poet_work t ON (t.additional_data->>'recording_id')::integer = ps.pista_son_id
-        #     JOIN instrumento i on ps.instrumento_id = i.id
-        #     JOIN poet_work_to_work_rel rel on t.id = rel.to_model_id
-        #     JOIN poet_work s ON rel.from_model_id = s.id
-        #     WHERE t.work_type = 'RECORDING'
-        #     AND s.work_type = 'SERIES'
-        # )
-        # INSERT INTO poet_entity_to_work_rel (
-        #   role, additional_data, from_model_id, to_model_id
-        #   )  SELECT * FROM inserts;"""),
-
-        # migrations.RunSQL("""
-        # DO $$
-        #     DECLARE
-        #         old_query integer;
-        #         new_query integer;
-        #     BEGIN
-        #         SELECT count(DISTINCT u.part_id) FROM ((
-        #         SELECT pc.part_id
-        #         FROM pista_son ps
-        #         JOIN serie s2 ON ps.serie_id = s2.id
-        #         JOIN composicion c2 ON ps.composicion_id = c2.id
-        #         JOIN participante_composicion pc ON c2.id = pc.composicion_id
-        #         WHERE s2.nom ~* 'eslam'
-        #         AND pc.rol_composicion = 'Composición'
-        #         ) UNION (
-        #         SELECT DISTINCT s3.part_id
-        #         FROM pista_son ps
-        #         JOIN serie s2 ON ps.serie_id = s2.id
-        #         JOIN participante_pista_son s3 on ps.pista_son_id = s3.pista_son_id
-        #         WHERE s2.nom ~* 'eslam'
-        #         AND s3.rol_pista_son IN ('Lectura en voz alta', 'Interpretación musical')
-        #         )) u INTO old_query;
-        #         SELECT count(DISTINCT e_to_s.from_model_id)
-        #         FROM poet_work s
-        #         JOIN poet_entity_to_work_rel e_to_s on s.id = e_to_s.to_model_id
-        #         WHERE s.full_name ~* 'eslam'
-        #         AND s.work_type = 'SERIES'
-        #         AND e_to_s.role IN ('Lectura en voz alta', 'Interpretación musical', 'Composición') INTO new_query;
-        #         ASSERT old_query = new_query, concat('ENTITY WORK REL FAILED. ', old_query, ' != ',new_query);
-        #     END;
-       # $$;"""),
-        
 
     ]

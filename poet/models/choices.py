@@ -3,7 +3,7 @@ from django.db import models
 
 PUBLISHED = 'PUBLICADO'
 DEPOSITED = 'DEPOSITAR'
-REJECTED = 'REJECTED'
+REJECTED = 'RECHAZADO'
 PENDING = 'PENDIENTE'
 RELEASE_STATES_CHOICES = (
     (PUBLISHED, _('Published')),
@@ -14,8 +14,7 @@ RELEASE_STATES_CHOICES = (
 
 
 class ReleaseState(models.Model):
-    release_state = models.CharField(max_length=128, choices=RELEASE_STATES_CHOICES, primary_key=True,
-                                     db_column='release_state')
+    release_state = models.CharField(max_length=128, primary_key=True, db_column='release_state')
 
     class Meta:
         managed = True

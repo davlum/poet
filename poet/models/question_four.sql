@@ -6,7 +6,7 @@ SELECT
      p.seudonimo,
      p.nom_materno,
      p.nom_paterno], ''), ' ') author,
-  count(DISTINCT c.nom) recordings
+  count(DISTINCT ps.pista_son_id) recordings
 FROM participante_pista_son son
 LEFT JOIN persona p ON p.part_id = son.part_id
 LEFT JOIN grupo g ON g.part_id = son.part_id
@@ -16,32 +16,52 @@ JOIN serie s ON s.id = ps.serie_id
 WHERE son.rol_pista_son IN ('Lectura en voz alta', 'Interpretación musical')
 AND s.nom ~* 'eslam'
 GROUP BY author
-ORDER BY recordings DESC;
+ORDER BY recordings DESC
+LIMIT 10;
 
 /*
- *                  author                 | recordings
- *  ---------------------------------------+------------
- *   Rojo Córdova                          |         11
- *   Luis Ro                               |          8
- *   Caco Pontes                           |          6
- *   Jonatan Huachimingo Barreda Hernández |          5
- *   Hugo Cóatl                            |          4
+ *                 author                 | recordings
+ * ---------------------------------------+------------
+ *  Rojo Córdova                          |         12
+ *  Luis Ro                               |          8
+ *  Caco Pontes                           |          6
+ *  Jonatan Huachimingo Barreda Hernández |          5
+ *  Josuelfo                              |          4
+ *  Renato                                |          4
+ *  Kevin Kev Mara                        |          4
+ *  Hugo Cóatl                            |          4
+ *  Maiiky Trauma                         |          4
+ *  Victoria Tyler                        |          4
  *
  */
 
-        Column
------------------------
- nom                 -- full name
- nom_alt             -- alt_name
- 'Recording'         -- work_type
- numero_de_pista     -- ad
- medio               -- ad
- coment_pista_son    -- comment
- fecha_grab          -- ad
- fecha_dig           -- ad
- fecha_cont          -- ad
- city_of_origin      -- city
- country_of_origin   -- country
- fecha_pub
- composicion_orig    -- ad
- texto               -- Append to comments with concat(coment_pista_son, '\r', chr(10), '\r', chr(10), texto)
+SELECT array_to_string(array_remove(ARRAY[pe.full_name, pe.alt_name], ''), ' ') author
+     , count(DISTINCT pw.id) recordings
+FROM poet_entity pe
+JOIN poet_entity_to_work_rel rel ON pe.id = rel.from_entity
+JOIN poet_work pw ON pw.id = rel.to_work
+JOIN poet_work_to_work_rel rel2 on pw.id = rel2.to_model_id
+JOIN poet_work ps ON rel2.from_model_id = ps.id
+WHERE rel.role_id IN ('Lectura en voz alta', 'Interpretación musical')
+AND pw.work_type = 'RECORDING'
+AND ps.work_type = 'SERIES'
+AND ps.full_name ~* 'eslam'
+GROUP BY author
+ORDER BY recordings DESC
+LIMIT 10;
+
+/*
+ *                 author                 | recordings
+ * ---------------------------------------+------------
+ *  Rojo Córdova                          |         12
+ *  Luis Ro                               |          8
+ *  Caco Pontes                           |          6
+ *  Jonatan Barreda Hernández Huachimingo |          5
+ *  Josuelfo                              |          4
+ *  Renato                                |          4
+ *  Kevin Mara Kev                        |          4
+ *  Hugo Cóatl                            |          4
+ *  Maiiky Trauma                         |          4
+ *  Victoria Tyler                        |          4
+ *
+ */
