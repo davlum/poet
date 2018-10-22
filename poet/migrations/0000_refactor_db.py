@@ -57,6 +57,7 @@ LANGUAGE plpgsql;
         migrations.RunSQL('DROP FUNCTION IF EXISTS public.us_pers_insert() CASCADE;'),
         migrations.RunSQL('DROP FUNCTION IF EXISTS public.usuario_id_insert() CASCADE;'),
 
+
         # Change date type to string
         migrations.RunSQL("SELECT fix_date('cobertura', 'fecha_comienzo');"),
         migrations.RunSQL("SELECT fix_date('cobertura', 'fecha_finale');"),

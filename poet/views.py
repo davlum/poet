@@ -35,4 +35,3 @@ def index(request):
 def home(request):
     return render(request, 'poet/home.html.j2')
 
-
