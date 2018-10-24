@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from poet.entities.artist import get_artist_context
-from poet.entities.composition import get_composition_context
+from poet.entities.recording import get_composition_context
 from poet.entities.collective import get_collective_context
 from poet.entities.series import get_series_context
 from poet.entities.search import get_search_context
@@ -16,7 +16,7 @@ def collective(request, artist_id):
 
 
 def composition(request, composition_id):
-    return render(request, 'poet/composition.html.j2', get_composition_context(composition_id))
+    return render(request, 'poet/recording.html.j2', get_composition_context(composition_id))
 
 
 def series(request, series_id):

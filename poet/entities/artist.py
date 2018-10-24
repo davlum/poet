@@ -1,5 +1,5 @@
 from poet.entities.util import query
-from poet.entities.composition import get_composition
+from poet.entities.recording import get_composition
 from poet.models.models import Persona
 
 

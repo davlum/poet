@@ -19,16 +19,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'evvhq@4l03(%4b9q3_wb82p!s3hxbf!)@)6=83%3m*d$mq3ma$'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.environ['DEBUG'] == 'true')
 
 ALLOWED_HOSTS = []
 
 # Application definition
 
 INSTALLED_APPS = [
+    'hitcount',
     'django_jinja',
     'simple_history',
     'poet.apps.PoetConfig',
@@ -110,11 +111,11 @@ WSGI_APPLICATION = 'pojo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pojo',
-        'USER': 'davidlum',
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
         'PASSWORD': os.environ['DATABASE_PASSWORD'],
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
     }
 }
 
@@ -152,9 +153,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/poet/static'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'poet/static'),
 ]
 
 EMAIL_USE_TLS = True
@@ -163,7 +164,8 @@ EMAIL_HOST_USER = 'poetica.sonora.auto@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ['APP_MAIL_PASSWORD']
 EMAIL_PORT = 587
 
-# Should be comented out for production
+# Should be commented out for production
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-WATSON_POSTGRES_SEARCH_CONFIG = "pg_catalog.spanish"
+# For testing the watson search app
+# WATSON_POSTGRES_SEARCH_CONFIG = "pg_catalog.spanish"
