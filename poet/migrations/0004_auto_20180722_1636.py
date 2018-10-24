@@ -110,5 +110,9 @@ class Migration(migrations.Migration):
             model_name='serie',
             name='nom',
             field=models.TextField(db_column='nom'),
-        )
+        ),
+
+        migrations.RunSQL('ALTER TABLE archivo RENAME COLUMN nom_archivo TO nom;'),
+        migrations.RunSQL('ALTER TABLE composicion RENAME COLUMN nom_tit TO nom;')
+
     ]

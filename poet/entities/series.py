@@ -1,6 +1,6 @@
-from poet.entities.util import query, query_one
+from poet.entities.util import query
 from poet.entities.composition import get_composition
-from poet.models import Serie
+from poet.models.models import Serie
 
 
 def get_series_context(series_id):

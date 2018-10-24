@@ -1,6 +1,6 @@
 from poet.entities.util import query, get_or_404
 from poet.entities.performance import get_performance_context
-from poet.models import Idioma, Tema, PistaSon
+from poet.models.models import Idioma, Tema, PistaSon
 
 
 def get_composition_context(comp_id):

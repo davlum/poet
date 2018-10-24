@@ -1,0 +1,66 @@
+{% extends '../../layout/main.html.j2' %}
+
+{% block body %}
+
+    {% from "includes/_formhelpers.html.j2" import render_field, nom_pers, origen, dyn_grupo %}
+  <h1>Información opcional</h1>
+    <br>
+    <br>
+    <div id="toggle-div" style="display: none;" name="{{ session['is_person']|safe }}"></div>
+    <form id="info-form" method='POST' action="">
+
+        {{ form.csrf_token }}
+        <br>
+        <div class="center-block skinny">
+        <div class="text-center">
+            <p>Ahora que ha creado su cuenta, cuéntenos un poco más sobre usted. <br>
+NOTA: la información confidencial (dirección postal y teléfono) no será compartida en nuestra
+base de datos. <br> Sólo tiene como propósito comunicarnos con usted en caso de ser necesario.
+            </p>
+        </div>
+            <br>
+            {{ nom_pers(form, True) }}
+            <div class="organization">
+                <div class="form-group">
+                  {{render_field(form.nom_part_gr, class ="form-control")}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                  {{render_field(form.sitio_web, class ="form-control"
+                                             , placeholder="https://www.example.com")}}
+                </div>
+                <div class="form-group col-md-6">
+                  {{render_field(form.telefono, class ="form-control"
+                           , placeholder="(55)5555-55555")}}
+                </div>
+            </div>
+            <div class="form-group">
+              {{render_field(form.direccion, class ="form-control")}}
+            </div>
+            <div class="form-group">
+                {{render_field(form.fecha_comienzo, class ="form-control"
+                                   , placeholder="dd/mm/aaaa")}}
+            </div>
+            <div class="form-group individual">
+                {{render_field(form.genero, class ="form-control")}}
+            </div>
+            {{ origen(form, 'Origen') }}
+            {{ dyn_grupo(form, True) }}
+            <div class="organization">
+                <div class="form-group">
+                  {{render_field(form.tipo_grupo, class ="form-control")}}
+                </div>
+            </div>
+            <div class="form-group">
+              {{render_field(form.coment_part, class ="form-control")}}
+            </div>
+             <div>
+                <input data-inline="true" type="submit" class="btn btn-primary" value="Enviar">
+                <a data-inline="true" role="button" class="btn btn-info" href="{{ url_for('user.perfil') }}">Omitir</a>
+            </div>
+        </div>
+      </form>
+  </div>
+    {% include 'includes/_footer.html.j2' %}
+{% endblock %}

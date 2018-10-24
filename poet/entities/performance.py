@@ -1,5 +1,5 @@
 from poet.entities.util import query_one, query
-from poet.models import GeneroMusical
+from poet.models.models import GeneroMusical
 
 
 def get_performance_context(performance_id):

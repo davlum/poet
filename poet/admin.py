@@ -1,11 +1,11 @@
 from django.contrib import admin
-
+from simple_history.admin import SimpleHistoryAdmin
 # Register your models here.
 
-from .models import PistaSon, Cobertura, Composicion, Persona, Grupo
+from poet.models.models import PistaSon, Cobertura, Composicion, Persona, Grupo
 
-admin.site.register(PistaSon)
-admin.site.register(Cobertura)
-admin.site.register(Composicion)
-admin.site.register(Persona)
-admin.site.register(Grupo)
+admin.site.register(PistaSon, SimpleHistoryAdmin)
+admin.site.register(Cobertura, SimpleHistoryAdmin)
+admin.site.register(Composicion, SimpleHistoryAdmin)
+admin.site.register(Persona, SimpleHistoryAdmin)
+admin.site.register(Grupo, SimpleHistoryAdmin)

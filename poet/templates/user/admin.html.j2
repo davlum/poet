@@ -1,0 +1,92 @@
+{% extends "../../layout/search.html.j2" %}
+
+{% block resultbody %}
+
+{% from "includes/_formhelpers.html.j2" import render_field %}
+{% from "macros/macros.html.j2" import nom, fecha, render_profile, render_select %}
+
+<div id="tabs" class="container" style="width: 80%;">
+
+    <h3>El panel Mod</h3>
+    <a class="right underline" href="{{ url_for('user.perfil') }}">Volver al perfil</a>
+    <p> Desde aquí puede cambiar el estado de
+        cualquier inserto y ponerlo a disposición del público, o retractarlo.<br>
+        También tiene la posibilidad de editar cualquiera de las
+        entradas actuales en la base de datos.</p>
+    <ul class="nav nav-tabs nav-justified">
+        <li class="active"><a data-toggle="tab" href="#part">Añadir artistas</a></li>
+        <li><a data-toggle="tab" href="#pista">Añadir composición</a></li>
+        <li><a data-toggle="tab" href="#vario">Añadir varios</a></li>
+        <li><a data-toggle="tab" href="#usuario">Usuarios</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+        {% include 'includes/_profile.html.j2' %}
+
+
+
+        <div class="tab-pane fade" id="usuario">
+
+            <div class="card">
+                <div class="card-header" role="tab" id="usuario-heading">
+                    <h3 class="mb-0">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#usuario-collapse" aria-expanded="true" aria-controls="usuario-collapse">
+                            Usuarios
+                        </a>
+                    </h3>
+                </div>
+                <div id="usuario-collapse" class="collapse in">
+                    <div class="card-block">
+                        <table class="table table-striped mod-tables">
+                        <thead>
+                            <tr>
+                                <th>Nombre usuario</th>
+                                <th>Correo electrónico</th>
+                                <th>Fecha registro</th>
+                                <th>Permiso</th>
+                                <th>Prohibido</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for entry in result.usuarios %}
+                            <tr>
+                                <td>{{ entry.nom_usuario }}</td>
+                                <td>{{ entry.email }}</td>
+                                <td>{{ entry.fecha_registro }}</td>
+                                <td>
+                                    <select class="form-control ajax-permission"
+                                            data-id="{{ entry.usuario_id }}">
+                                        {{ render_select('Editor', entry.permiso) }}
+                                        {{ render_select('Moderador', entry.permiso) }}
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control ajax-banned"
+                                            data-id="{{ entry.usuario_id }}">
+                                        {% if entry.prohibido %}
+                                            <option value="True" selected>Prohibido</option>
+                                            <option value="False">Activo</option>
+                                        {% else %}
+                                            <option value="True">Prohibido</option>
+                                            <option value="False" selected>Activo</option>
+                                        {% endif %}
+                                    </select>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

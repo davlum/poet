@@ -1,0 +1,21 @@
+{% extends 'layout/search.html.j2' %}
+{% from 'macros/artist.html.j2' import render_artists %}
+{% from 'macros/composition.html.j2' import render_compositions %}
+{% from 'macros/series.html.j2' import render_series %}
+
+{% block resultbody %}
+    <div class="container">
+        <div class="row">
+           <div class="col-md-10">
+               {{ render_artists(artists) }}
+{#               {{ grupo(result) }}#}
+               {{ render_compositions(compositions) }}
+               {{ render_series(series) }}
+           </div>
+
+            {% include 'includes/_sidebar.html.j2' %}
+        </div>
+    </div>
+
+
+{% endblock %}
