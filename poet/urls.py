@@ -19,10 +19,7 @@ register_converter(SearchParameterConverter, 'entity')
 urlpatterns = [
     path('', views.index, name='index'),
     path('home', views.home, name='home'),
-    path('autor/<int:artist_id>', views.artist, name='artist'),
-    path('composicion/<int:composition_id>', views.composition, name='composition'),
-    path('serie/<int:series_id>', views.series, name='series'),
-    path('colectivo/<int:artist_id>', views.collective, name='collective'),
+    path('work/<int:work_id>', views.work, name='work'),
     path('search/', views.search, name='search'),
     path('search/<entity:entity_name>', views.search, name='search')
 ]

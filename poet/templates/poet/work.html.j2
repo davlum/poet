@@ -1,0 +1,58 @@
+{% extends 'layout/search.html.j2' %}
+{% from 'macros/util.html.j2' import render_name_links, render_table %}
+{% from 'macros/performance.html.j2' import render_performance %}
+
+{% block resultbody %}
+    <div class="center-block" style="width: 80%;">
+        <h2>{{ _('Recording') }}</h2>
+        <hr>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <h4>{{ _('Title') }}</h4>
+                        <h3 class="indented">
+                            {{ work.full_name }}
+                            {% if work.alt_name is not none and work.alt_name|trim != "" %}
+                                    ({{ work.alt_name }})
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <br>
+                    <div>
+                        <h4>{{ _('Composers') }}</h4>
+                        <h3 class="indented">
+                            {% for composer in composers %}
+                                {{ composer.link|safe }} - {{ composer.role_id }} <br>
+                            {% endfor %}
+                        </h3>
+                    </div>
+                    <div>
+                        <h4>{{ _('Interpreters') }}</h4>
+                        <h3 class="indented">
+                            {% for interpreter in interpreters %}
+                                {{ interpreter.link|safe }} - {{ interpreter.role_id }} <br>
+                            {% endfor %}
+                        </h3>
+                    </div>
+                    <div>
+                        <h4>{{ _('Other') }}</h4>
+                        <h3 class="indented">
+                            {% for other in others %}
+                                {{ other.link|safe }} - {{ other.role_id }} <br>
+                            {% endfor %}
+                        </h3>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div>
+            <p class="text-center center-block">
+                {{ work.copyright }} <br>
+                {{ work.copyright_date }} <br>
+                {{ work.copyright_country }}
+            </p>
+        </div>
+    </div>
+{% endblock %}

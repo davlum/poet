@@ -16,9 +16,17 @@ CONTRIBUTOR = 'Contribuidor'
 PUBLISHER = 'Publicador'
 COMPOSER = 'Composición'
 TRANSLATOR = 'Traducción'
-ENTITY_WORK_ROLE = (
+
+COMPOSERS = (
+    (COMPOSER, _('Composición')),
+)
+
+INTERPRETERS = (
     (READER, _('Lectura en voz alta')),
     (MUSICIAN, _('Interpretación musical')),
+)
+
+OTHER = (
     (SOUND_ENGINEER, _('Ingeniería de sonido')),
     (PRODUCTION, _('Producción')),
     (DIRECTION, _('Dirección')),
@@ -26,9 +34,10 @@ ENTITY_WORK_ROLE = (
     (AUX, _('Auxiliar de sonido')),
     (CONTRIBUTOR, _('Contribuidor')),
     (PUBLISHER, _('Publicador')),
-    (COMPOSER, _('Composición')),
     (TRANSLATOR, _('Traducción')),
 )
+
+ENTITY_WORK_ROLE = COMPOSERS + INTERPRETERS + OTHER
 
 
 class EntityToWorkRole(models.Model):

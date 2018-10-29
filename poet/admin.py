@@ -1,11 +1,13 @@
 from django.contrib import admin
 from simple_history.admin import SimpleHistoryAdmin
+from poet.models.work import Work, WorkToWorkRel
+from poet.models.entity import Entity, EntityToEntityRel
+from poet.models.relations import EntityToWorkRel
 # Register your models here.
 
-from poet.models.models import PistaSon, Cobertura, Composicion, Persona, Grupo
 
-admin.site.register(PistaSon, SimpleHistoryAdmin)
-admin.site.register(Cobertura, SimpleHistoryAdmin)
-admin.site.register(Composicion, SimpleHistoryAdmin)
-admin.site.register(Persona, SimpleHistoryAdmin)
-admin.site.register(Grupo, SimpleHistoryAdmin)
+admin.site.register(Entity, SimpleHistoryAdmin)
+admin.site.register(EntityToEntityRel, SimpleHistoryAdmin)
+admin.site.register(Work, SimpleHistoryAdmin)
+admin.site.register(WorkToWorkRel, SimpleHistoryAdmin)
+admin.site.register(EntityToWorkRel, SimpleHistoryAdmin)

@@ -4,26 +4,42 @@
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">
-        <h2>Composicion</h2>
+        <h2>{{ _('Recording') }}</h2>
         <hr>
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
                     <div>
-                        <h4>Título</h4>
+                        <h4>{{ _('Title') }}</h4>
                         <h3 class="indented">
-                            {{ composition.0.nom_tit }}
-                            {% if composition.0.nom_alt is not none and composition.0.nom_alt|trim != "" %}
-                                    ({{ composition.0.nom_alt }})
+                            {{ work.full_name }}
+                            {% if work.alt_name is not none and work.alt_name|trim != "" %}
+                                    ({{ work.alt_name }})
                             {% endif %}
                         </h3>
                     </div>
                     <br>
                     <div>
-                        <h4>Autor</h4>
+                        <h4>{{ _('Composers') }}</h4>
                         <h3 class="indented">
-                            {% for autor in composition %}
-                                {{ render_name_links(autor) }} ({{ autor.rol_composicion }}) <br>
+                            {% for composer in composers %}
+                                {{ composer.link }} - {{ composer.role_id }} <br>
+                            {% endfor %}
+                        </h3>
+                    </div>
+                    <div>
+                        <h4>{{ _('Interpreters') }}</h4>
+                        <h3 class="indented">
+                            {% for interpreter in interpreters %}
+                                {{ interpreter.link }} - {{ interpreter.role_id }} <br>
+                            {% endfor %}
+                        </h3>
+                    </div>
+                    <div>
+                        <h4>{{ _('Other') }}</h4>
+                        <h3 class="indented">
+                            {% for other in others %}
+                                {{ other.link }} - {{ other.role_id }} <br>
                             {% endfor %}
                         </h3>
                     </div>
