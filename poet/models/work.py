@@ -51,9 +51,6 @@ class Work(models.Model):
     # This should be types of works. Media types are additional data
     work_type = models.ForeignKey(WorkType, on_delete=models.PROTECT, db_column='work_type')
 
-    from_date = models.DateField(blank=True, null=True)
-    to_date = models.DateField(blank=True, null=True)
-
     city = models.TextField(blank=True, null=True)
     country = models.TextField(blank=True, null=True)
 

@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('poet', '0010_util_funcs'),
+        ('poet', '0012_delete_date_columns'),
     ]
 
     operations = [
@@ -15,11 +15,12 @@ class Migration(migrations.Migration):
         INSERT INTO poet_release_state VALUES ('PUBLICADO'), ( 'DEPOSITAR'), ( 'RECHAZADO'), ( 'PENDIENTE')
         """),
         migrations.RunSQL("""
-        INSERT INTO poet_entity_type VALUES('PERSONA'), ( 'GRUPO'), ( 'ORGANIZACIÓN'), ( 'FESTIVAL'), ( 'UNIVERSIDAD'), 
-        ( 'COLECTIVO'), ('ESTACIÓN RADIOFÓNICA'), ('EDUCACIÓN E INVESTIGACIÓN'), ( 'ARCHIVO SONORO'), 
-        ( 'SERVICIOS DE STREAMING'), ('MUSEO'), ('EDITORIAL'), ('SELLO DISCOGRÁFICO'), ('CENTRO CULTURAL'), 
-        ('BANDA MUSICAL')"""),
-        migrations.RunSQL("""INSERT INTO poet_work_type VALUES('RECORDING'), ( 'SERIES')"""),
+        INSERT INTO poet_entity_type VALUES('Persona'), ( 'Grupo'), ( 'Organización'), ( 'Festival'), ( 'Universidad'), 
+        ( 'Colectivo'), ('Estación radiofónica'), ('Educación e investigación'), ( 'Archivo sonoro'), 
+        ( 'Servicios de streaming'), ('Museo'), ('Editorial'), ('Sello discográfico'), ('Centro cultural'), 
+        ('Banda musical')"""),
+
+        migrations.RunSQL("""INSERT INTO poet_work_type VALUES('Pista son'), ( 'Serie')"""),
         migrations.RunSQL("""
         INSERT INTO poet_entity_to_work_role VALUES ('Lectura en voz alta'), ('Interpretación musical'), 
         ('Ingeniería de sonido'), ('Producción'), ('Dirección'), ('Post-producción'), ('Auxiliar de sonido'), 
@@ -30,20 +31,18 @@ class Migration(migrations.Migration):
         WITH inserts AS (
             SELECT part_id, 
                 array_to_string(array_remove(ARRAY[nom_part, nom_materno, nom_paterno], ''), ' ')
-                , seudonimo, 'PERSONA', 
-                (transform_date(fecha_comienzo)).start_date, (transform_date(fecha_comienzo)).end_date,
-                (transform_date(fecha_finale)).start_date, (transform_date(fecha_finale)).end_date,
+                , seudonimo, 'Persona', 
                 array_to_string(ARRAY[p.city_of_origin, p.subdivision_of_origin], ', '), p.country_of_origin,
-                email, ruta_foto, coment_part, jsonb_strip_nulls(concat('{"place_of_death":', 
-                    quote(array_to_string(
-                        array_remove(ARRAY[p.city_of_death, p.subdivision_of_death, p.country_of_death], ''), ', ')
-                    ), 
-                ',"website":', quote(sitio_web), ',"address":', quote(direccion), ',"telephone":', quote(telefono), 
-                ',"gender":', quote(genero),'}')::jsonb), estado, ARRAY[]::text[] FROM persona p
+                email, ruta_foto, coment_part, jsonb_strip_nulls(jsonb_build_object('Lugar de la muerte', 
+                    array_to_string(
+                        array_remove(ARRAY[p.city_of_death, p.subdivision_of_death, p.country_of_death], ''), 
+                    ', '), 
+                'Sitio Web', sitio_web, 'Dirección', direccion, 'Teléfono', telefono, 'Nacimiento', fecha_comienzo, 
+                'Fallecimiento', fecha_finale, 'Género', genero)), estado, ARRAY[]::text[] FROM persona p
         )
         INSERT INTO poet_entity (
-          id, full_name, alt_name, entity_type, from_date, to_date, from_date_end,
-          to_date_end, city, country, email, file_path, comments, additional_data, release_state, tags
+          id, full_name, alt_name, entity_type, city, country, email, file_path, commentary, 
+          additional_data, release_state, tags
           )  SELECT * FROM inserts;"""),
 
         migrations.RunSQL("""
@@ -54,7 +53,7 @@ class Migration(migrations.Migration):
                 new_query integer;
             BEGIN
                 SELECT count(*) FROM persona INTO old_query;
-                SELECT count(*) FROM poet_entity WHERE entity_type = 'PERSONA' INTO new_query;
+                SELECT count(*) FROM poet_entity WHERE entity_type = 'Persona' INTO new_query;
                 ASSERT old_query = new_query, concat('PERSONA ENTITY FAILED. ', old_query, ' != ',new_query);
             END;
         $$;"""),
@@ -62,16 +61,14 @@ class Migration(migrations.Migration):
 
         migrations.RunSQL("""
         WITH inserts AS (
-            SELECT part_id, nom_part, UPPER(tipo_grupo), 
-                (transform_date(fecha_comienzo)).start_date, (transform_date(fecha_comienzo)).end_date,
-                (transform_date(fecha_finale)).start_date, (transform_date(fecha_finale)).end_date,
+            SELECT part_id, nom_part, tipo_grupo, 
                 array_to_string(ARRAY[g.city_of_origin, g.subdivision_of_origin], ','), g.country_of_origin,
-                email, coment_part, jsonb_strip_nulls(jsonb_build_object('website', quote(sitio_web), 'address', 
-                quote(direccion), 'telephone', quote(telefono))), estado, ARRAY[]::text[] FROM grupo g
+                email, coment_part, jsonb_strip_nulls(jsonb_build_object('Sitio Web', quote(sitio_web), 'Dirección', 
+                direccion, 'Teléfono', telefono, 'Inicio', fecha_comienzo, 'Finalización', fecha_finale)), 
+                estado, ARRAY[]::text[] FROM grupo g
         )
         INSERT INTO poet_entity (
-          id, full_name, entity_type, from_date, to_date, from_date_end,
-          to_date_end, city, country, email, comments, additional_data, release_state, tags
+          id, full_name, entity_type, city, country, email, commentary, additional_data, release_state, tags
           )  SELECT * FROM inserts;"""),
 
         migrations.RunSQL("""
@@ -81,7 +78,7 @@ class Migration(migrations.Migration):
                 new_query integer;
             BEGIN
                 SELECT count(*) FROM grupo INTO old_query;
-                SELECT count(*) FROM poet_entity WHERE entity_type <> 'PERSONA' INTO new_query;
+                SELECT count(*) FROM poet_entity WHERE entity_type <> 'Persona' INTO new_query;
                 ASSERT old_query = new_query, concat('NON-PERSONA ENTITY FAILED. ', old_query, ' != ',new_query);
             END;
         $$;"""),
@@ -89,13 +86,11 @@ class Migration(migrations.Migration):
         migrations.RunSQL("""
         WITH inserts AS (
             SELECT grupo_id, persona_id, TRUE, titulo, 
-            (transform_date(fecha_comienzo)).start_date, (transform_date(fecha_comienzo)).end_date,
-            (transform_date(fecha_finale)).start_date, (transform_date(fecha_finale)).end_date, NULL, '{}'::jsonb
+            jsonb_strip_nulls(jsonb_build_object('Inicio', fecha_comienzo, 'Finalización', fecha_finale))
              FROM persona_grupo
         )
         INSERT INTO poet_entity_to_entity_rel (
-          from_model_id, to_model_id, contains, role, from_date, to_date, from_date_end,
-          to_date_end, comment, additional_data
+          from_entity_id, to_entity_id, contains, role, additional_data
           )  SELECT * FROM inserts;"""),
 
         migrations.RunSQL("""
@@ -113,18 +108,18 @@ class Migration(migrations.Migration):
         # WORK INSERT STATEMENTS
         migrations.RunSQL("""
         WITH inserts AS (
-            SELECT c.nom, c.nom_alt, 'RECORDING', 'AUDIO', concat(a.id , '/', a.nom), 
+            SELECT c.nom, c.nom_alt, 'Pista son', 'AUDIO', concat(a.id , '/', a.nom), 
             array_to_string(ARRAY[p.city_of_origin, p.subdivision_of_origin], ', '), p.country_of_origin, 
-            (transform_date(fecha_grab)).start_date, (transform_date(fecha_grab)).end_date,
             CASE WHEN c.texto <> '' AND c.texto IS NOT NULL 
             THEN concat(p.coment_pista_son, '\r', chr(10), '\r', chr(10),'Texto:\r', chr(10), '\r', c.texto) 
             ELSE p.coment_pista_son 
             END comments_col, 
             jsonb_strip_nulls(
                 jsonb_build_object('file_id',a.id, 'comp_id', c.id, 'recording_id', p.pista_son_id, 
-            'order_number', p.numero_de_pista,'media_of_origin', p.medio, 'date_contributed', p.fecha_cont, 
-            'duration', a.duracion, 'series_id', p.serie_id, 'language', ic.nom_idioma,
-            'date_digitalized', p.fecha_dig, 'date_published', c.fecha_pub
+            'Número de pista', p.numero_de_pista,'Medios de origen', p.medio, 'Grabación', p.fecha_grab,
+            'Contribución', p.fecha_cont, 
+            'Duración', a.duracion, 'series_id', p.serie_id, 'Idiomas', ic.nom_idioma,
+            'Digitalizado', p.fecha_dig, 'Publicado', c.fecha_pub
                 )
             ), 
             array_cat(gm.nom, tc.nom_tema), p.estado, cob.licencia_cobertura, cob.pais_cobertura, 
@@ -154,7 +149,7 @@ class Migration(migrations.Migration):
                 ) ic ON ic.composicion_id = c.id
         )
         INSERT INTO poet_work (
-          full_name, alt_name, work_type, file_type, path_to_file, city, country, from_date, to_date, comments, 
+          full_name, alt_name, work_type, file_type, path_to_file, city, country, commentary, 
           additional_data, tags, release_state, copyright, copyright_country, copyright_date
           )  SELECT * FROM inserts;"""),
 
@@ -165,21 +160,21 @@ class Migration(migrations.Migration):
                 new_query integer;
             BEGIN
                 SELECT count(*) FROM pista_son INTO old_query;
-                SELECT count(*) FROM poet_work WHERE work_type = 'RECORDING' INTO new_query;
+                SELECT count(*) FROM poet_work WHERE work_type = 'Pista son' INTO new_query;
                 ASSERT old_query = new_query, concat('RECORDING FAILED. ', old_query, ' != ',new_query);
                 SELECT sum(pista_son_id) FROM pista_son INTO old_query;
-                SELECT sum((additional_data->>'recording_id')::integer) FROM poet_work WHERE work_type = 'RECORDING' INTO new_query;
+                SELECT sum((additional_data->>'recording_id')::integer) FROM poet_work WHERE work_type = 'Pista son' INTO new_query;
                 ASSERT old_query = new_query, concat('RECORDING SUM FAILED. ', old_query, ' != ',new_query);
             END;
         $$;"""),
 
         migrations.RunSQL("""
         WITH inserts AS (
-            SELECT s.nom, 'SERIES', s.coment, 'IMAGE', s.ruta_foto, jsonb_strip_nulls(jsonb_build_object('id', s.id, 
-            'giro', quote(s.giro))), estado FROM serie s
+            SELECT s.nom, 'Serie', s.coment, 'IMAGE', s.ruta_foto, jsonb_strip_nulls(jsonb_build_object('id', s.id, 
+            'Giro', s.giro)), estado FROM serie s
         )
         INSERT INTO poet_work (
-          full_name, work_type, comments, file_type, path_to_file, additional_data, release_state
+          full_name, work_type, commentary, file_type, path_to_file, additional_data, release_state
           )  SELECT * FROM inserts;"""),
 
         migrations.RunSQL("""
@@ -189,14 +184,14 @@ class Migration(migrations.Migration):
                 new_query integer;
             BEGIN
                 SELECT count(*) FROM serie INTO old_query;
-                SELECT count(*) FROM poet_work WHERE work_type = 'SERIES' INTO new_query;
+                SELECT count(*) FROM poet_work WHERE work_type = 'Serie' INTO new_query;
                 ASSERT old_query = new_query, concat('SERIES FAILED. ', old_query, ' != ',new_query);
             END;
         $$;"""),
 
         migrations.RunSQL("""
         WITH inserts AS (
-            SELECT a.nom, 'SERIES', jsonb_strip_nulls(jsonb_build_object('id', a.id, 'series_id', 
+            SELECT a.nom, 'Serie', jsonb_strip_nulls(jsonb_build_object('id', a.id, 'series_id', 
                 a.serie_id, 'is_album', TRUE)
             ), 'PUBLICADO' FROM album a
         )

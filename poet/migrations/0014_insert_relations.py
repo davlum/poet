@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('poet', '0011_insert_statements'),
+        ('poet', '0013_insert_statements'),
     ]
 
     operations = [
@@ -16,14 +16,14 @@ class Migration(migrations.Migration):
             SELECT DISTINCT s.id, a.id, TRUE, 'Is the series which contains this album.' 
             FROM (
             SELECT id, additional_data->'id' AS old_id 
-            FROM poet_work WHERE work_type = 'SERIES'
+            FROM poet_work WHERE work_type = 'Serie'
             ) s JOIN (
             SELECT id, additional_data->'series_id' AS series_id
             FROM poet_work WHERE (additional_data->>'is_album')::boolean = TRUE  
             ) a ON s.old_id = a.series_id
         )
         INSERT INTO poet_work_to_work_rel (
-          from_model_id, to_model_id, contains, role_id
+          from_work_id, to_work_id, contains, role_id
           )  SELECT * FROM inserts;"""),
 
         migrations.RunSQL("""
@@ -43,15 +43,15 @@ class Migration(migrations.Migration):
             SELECT DISTINCT s.id, t.id, TRUE, 'Is the series which contains this track.' 
             FROM (
                 SELECT id, additional_data->'id' AS old_id 
-                FROM poet_work WHERE work_type = 'SERIES'
+                FROM poet_work WHERE work_type = 'Serie'
                 AND NOT additional_data ? 'is_album'
             ) s JOIN (
                 SELECT id, additional_data->'series_id' AS series_id 
-                FROM poet_work WHERE work_type = 'RECORDING'    
+                FROM poet_work WHERE work_type = 'Pista son'    
             ) t ON s.old_id = t.series_id
         )
         INSERT INTO poet_work_to_work_rel (
-          from_model_id, to_model_id, contains, role_id
+          from_work_id, to_work_id, contains, role_id
           )  SELECT * FROM inserts;"""),
 
         migrations.RunSQL("""
@@ -71,10 +71,10 @@ class Migration(migrations.Migration):
             SELECT DISTINCT pc.rol_composicion , pc.part_id, pw.id
             FROM participante_composicion pc
             JOIN poet_work pw ON (pw.additional_data->>'comp_id')::integer = pc.composicion_id
-            WHERE pw.work_type = 'RECORDING'
+            WHERE pw.work_type = 'Pista son'
         )
         INSERT INTO poet_entity_to_work_rel (
-          role_id, from_model_id, to_model_id
+          role_id, from_entity_id, to_work_id
           )  SELECT * FROM inserts;"""),
 
         migrations.RunSQL("""
@@ -96,17 +96,17 @@ class Migration(migrations.Migration):
         WITH inserts AS (
             SELECT ps.rol_pista_son, jsonb_strip_nulls(
             jsonb_build_object(
-                'instrument', i.nom, 'instrument_family', fi.nom
+                'Instrumento', i.nom, 'Familia de instrumentos', fi.nom
                 )
             ), ps.part_id, pw.id, i.coment
             FROM participante_pista_son ps
             JOIN poet_work pw ON (pw.additional_data->>'recording_id')::integer = ps.pista_son_id
             JOIN instrumento i on ps.instrumento_id = i.id
             LEFT JOIN familia_instrumento fi on i.familia_instr_id = fi.id
-            WHERE pw.work_type = 'RECORDING'
+            WHERE pw.work_type = 'Pista son'
         )
         INSERT INTO poet_entity_to_work_rel (
-          role_id, additional_data, from_model_id, to_model_id, comments
+          role_id, additional_data, from_entity_id, to_work_id, commentary
           )  SELECT * FROM inserts;"""),
 
         migrations.RunSQL("""

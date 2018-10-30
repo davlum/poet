@@ -7,32 +7,33 @@ from django.contrib.postgres.fields import JSONField
 from poet.models.work import Work
 
 
-PERSON = 'PERSONA'
-GROUP = 'GRUPO'
-ORGANISATION = 'ORGANIZACIÓN'
-FESTIVAL = 'FESTIVAL'
-UNIVERSITY = 'UNIVERSIDAD'
-COLLECTIVE = 'COLECTIVO'
-RADIO_STATION = 'ESTACIÓN RADIOFÓNICA'
-EDUCATION_AND_RESEARCH = 'EDUCACIÓN E INVESTIGACIÓN'
-AUDIO_ARCHIVE = 'ARCHIVO SONORO'
-STREAMING_SERVICE = 'SERVICIOS DE STREAMING'
-MUSEUM = 'MUSEO'
-EDITORIAL = 'EDITORIAL'
-RECORD_LABEL = 'SELLO DISCOGRÁFICO'
-CULTURAL_CENTER = 'CENTRO CULTURAL'
-BAND = 'BANDA MUSICAL'
+PERSON = 'Persona'
+GROUP = 'Grupo'
+ORGANISATION = 'Organización'
+FESTIVAL = 'Festival'
+UNIVERSITY = 'Universidad'
+COLLECTIVE = 'Colectivo'
+RADIO_STATION = 'Estación radiofónica'
+EDUCATION_AND_RESEARCH = 'Educación e investigación'
+AUDIO_ARCHIVE = 'Archivo sonoro'
+STREAMING_SERVICE = 'Servicios de streaming'
+MUSEUM = 'Museo'
+EDITORIAL = 'Editorial'
+RECORD_LABEL = 'Sello discográfico'
+CULTURAL_CENTER = 'Centro cultural'
+BAND = 'Banda musical'
+
 
 ENTITY_TYPE = (
-    (PERSON, _('Persona')),
-    (GROUP, _('Grupo')),
-    (ORGANISATION, _('Organización')),
-    (FESTIVAL, _('Festival')),
-    (UNIVERSITY, _('Universidad')),
-    (COLLECTIVE, _('Colectivo')),
-    (RADIO_STATION, _('Estación radiofónica')),
-    (EDUCATION_AND_RESEARCH, _('Educación e investigación')),
-    (AUDIO_ARCHIVE, _('Archivo sonoro')),
+    (PERSON, PERSON),
+    (GROUP, GROUP),
+    (ORGANISATION, ORGANISATION),
+    (FESTIVAL, FESTIVAL),
+    (UNIVERSITY, UNIVERSITY),
+    (COLLECTIVE, COLLECTIVE),
+    (RADIO_STATION, RADIO_STATION),
+    (EDUCATION_AND_RESEARCH, EDUCATION_AND_RESEARCH),
+    (AUDIO_ARCHIVE, AUDIO_ARCHIVE),
     (STREAMING_SERVICE, _('Servicios de streaming')),
     (MUSEUM, _('Museo')),
     (EDITORIAL, _('Editorial')),
@@ -56,12 +57,6 @@ class Entity(models.Model):
     alt_name = models.TextField(blank=True, null=True)
 
     entity_type = models.ForeignKey(EntityType, on_delete=models.PROTECT, db_column='entity_type')
-
-    from_date = models.DateField(blank=True, null=True)
-    to_date = models.DateField(blank=True, null=True)
-
-    from_date_end = models.DateField(blank=True, null=True)
-    to_date_end = models.DateField(blank=True, null=True)
 
     city = models.TextField(blank=True, null=True)
     country = models.TextField(blank=True, null=True)
@@ -99,12 +94,6 @@ class EntityToEntityRel(models.Model):
     contains = models.BooleanField(_('Consists of'), default=False)
 
     role = models.TextField(blank=True, null=True)
-
-    from_date = models.DateField(blank=True, null=True)
-    to_date = models.DateField(blank=True, null=True)
-
-    from_date_end = models.DateField(blank=True, null=True)
-    to_date_end = models.DateField(blank=True, null=True)
 
     # Arbitrary additional information
     commentary = models.TextField(blank=True, null=True)
