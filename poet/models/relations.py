@@ -17,42 +17,26 @@ PUBLISHER = 'Publicador'
 COMPOSER = 'Composición'
 TRANSLATOR = 'Traducción'
 
-COMPOSERS = (
-    (COMPOSER, _('Composición')),
+ENTITY_WORK_ROLE = (
+    (COMPOSER, COMPOSER),
+    (READER, READER),
+    (MUSICIAN, MUSICIAN),
+    (SOUND_ENGINEER, SOUND_ENGINEER),
+    (PRODUCTION, PRODUCTION),
+    (DIRECTION, DIRECTION),
+    (POST_PRODUCTION, POST_PRODUCTION),
+    (AUX, AUX),
+    (CONTRIBUTOR, CONTRIBUTOR),
+    (PUBLISHER, PUBLISHER),
+    (TRANSLATOR, PUBLISHER),
 )
-
-INTERPRETERS = (
-    (READER, _('Lectura en voz alta')),
-    (MUSICIAN, _('Interpretación musical')),
-)
-
-OTHER = (
-    (SOUND_ENGINEER, _('Ingeniería de sonido')),
-    (PRODUCTION, _('Producción')),
-    (DIRECTION, _('Dirección')),
-    (POST_PRODUCTION, _('Post-producción')),
-    (AUX, _('Auxiliar de sonido')),
-    (CONTRIBUTOR, _('Contribuidor')),
-    (PUBLISHER, _('Publicador')),
-    (TRANSLATOR, _('Traducción')),
-)
-
-ENTITY_WORK_ROLE = COMPOSERS + INTERPRETERS + OTHER
-
-
-class EntityToWorkRole(models.Model):
-    role_type = models.CharField(max_length=128, primary_key=True)
-
-    class Meta:
-        managed = True
-        db_table = 'poet_entity_to_work_role'
 
 
 class EntityToWorkRel(models.Model):
     from_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name='ew_from_model')
     to_work = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='ew_to_model')
 
-    role = models.ForeignKey(EntityToWorkRole, on_delete=models.PROTECT)
+    role = models.TextField(choices=ENTITY_WORK_ROLE, default=READER)
     # Arbitrary additional information
     commentary = models.TextField(blank=True, null=True)
     additional_data = JSONField(blank=True, null=True)

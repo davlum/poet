@@ -4,10 +4,6 @@ from typing import List, Dict
 from poet.models.entity import Entity
 
 
-def get_roles(tup):
-    return tuple(i[0] for i in tup)
-
-
 def get_or_404(query_result, message=None):
     try:
         return query_result[0]

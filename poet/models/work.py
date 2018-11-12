@@ -5,20 +5,12 @@ from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 from django.contrib.postgres.fields import JSONField
 
-SERIES = 'SERIES'
-RECORDING = 'RECORDING'
+SERIES = 'Serie'
+RECORDING = 'Pista Son'
 WORK_TYPE = (
     (SERIES, _('Series')),
     (RECORDING, _('Recording')),
 )
-
-
-class WorkType(models.Model):
-    work_type = models.CharField(max_length=128, primary_key=True)
-
-    class Meta:
-        managed = True
-        db_table = 'poet_work_type'
 
 
 class Work(models.Model):
@@ -49,7 +41,7 @@ class Work(models.Model):
     alt_name = models.TextField(blank=True, null=True)
 
     # This should be types of works. Media types are additional data
-    work_type = models.ForeignKey(WorkType, on_delete=models.PROTECT, db_column='work_type')
+    work_type = models.TextField(choices=WORK_TYPE, default=RECORDING,db_column='work_type')
 
     city = models.TextField(blank=True, null=True)
     country = models.TextField(blank=True, null=True)

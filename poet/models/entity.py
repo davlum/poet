@@ -34,21 +34,13 @@ ENTITY_TYPE = (
     (RADIO_STATION, RADIO_STATION),
     (EDUCATION_AND_RESEARCH, EDUCATION_AND_RESEARCH),
     (AUDIO_ARCHIVE, AUDIO_ARCHIVE),
-    (STREAMING_SERVICE, _('Servicios de streaming')),
-    (MUSEUM, _('Museo')),
-    (EDITORIAL, _('Editorial')),
-    (RECORD_LABEL, _('Sello discográfico')),
-    (CULTURAL_CENTER, _('Centro cultural')),
-    (BAND, _('Banda musical')),
+    (STREAMING_SERVICE, STREAMING_SERVICE),
+    (MUSEUM, MUSEUM),
+    (EDITORIAL, EDITORIAL),
+    (RECORD_LABEL, RECORD_LABEL),
+    (CULTURAL_CENTER, CULTURAL_CENTER),
+    (BAND, BAND),
 )
-
-
-class EntityType(models.Model):
-    entity_type = models.CharField(max_length=128, primary_key=True)
-
-    class Meta:
-        managed = True
-        db_table = 'poet_entity_type'
 
 
 class Entity(models.Model):
@@ -56,7 +48,7 @@ class Entity(models.Model):
     full_name = models.TextField(blank=True, null=True)
     alt_name = models.TextField(blank=True, null=True)
 
-    entity_type = models.ForeignKey(EntityType, on_delete=models.PROTECT, db_column='entity_type')
+    entity_type = models.TextField(choices=ENTITY_TYPE, default=PERSON, db_column='entity_type')
 
     city = models.TextField(blank=True, null=True)
     country = models.TextField(blank=True, null=True)
