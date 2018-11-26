@@ -1,5 +1,5 @@
 from django.db import models
-from poet.models.choices import ReleaseState, PENDING
+from poet.models.choices import PENDING, RELEASE_STATES_CHOICES
 from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
@@ -68,7 +68,7 @@ class Entity(models.Model):
 
     self_relation = models.ManyToManyField('self', blank=True, symmetrical=False, through='EntityToEntityRel')
 
-    release_state = models.ForeignKey(ReleaseState, on_delete=models.PROTECT, default=PENDING, db_column='release_state')
+    release_state = models.TextField(choices=RELEASE_STATES_CHOICES, default=PENDING, db_column='release_state')
 
     class Meta:
         managed = True
@@ -81,8 +81,8 @@ class EntityToEntityRel(models.Model):
     Recursive many to many relationship with the Entity model.
     """
 
-    from_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name='ee_from_model')
-    to_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name='ee_to_model')
+    from_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, db_column='from_entity', related_name='ee_from_model')
+    to_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, db_column='to_entity', related_name='ee_to_model')
     contains = models.BooleanField(_('Consists of'), default=False)
 
     role = models.TextField(blank=True, null=True)

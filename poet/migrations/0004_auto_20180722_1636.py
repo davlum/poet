@@ -96,23 +96,7 @@ class Migration(migrations.Migration):
             name='medio',
             field=models.CharField(choices=[('Digital', 'Digital'), ('CD', 'CD'), ('Cinta', 'Tape'), ('Vinilo', 'Vinyl')], default='Digital', max_length=32),
         ),
-        migrations.AlterField(
-            model_name='serie',
-            name='coment',
-            field=models.TextField(blank=True, db_column='coment', null=True),
-        ),
-        migrations.AlterField(
-            model_name='serie',
-            name='id',
-            field=models.AutoField(db_column='id', primary_key=True, serialize=False),
-        ),
-        migrations.AlterField(
-            model_name='serie',
-            name='nom',
-            field=models.TextField(db_column='nom'),
-        ),
 
-        migrations.RunSQL('ALTER TABLE archivo RENAME COLUMN nom_archivo TO nom;'),
-        migrations.RunSQL('ALTER TABLE composicion RENAME COLUMN nom_tit TO nom;')
+
 
     ]

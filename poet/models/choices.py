@@ -11,11 +11,3 @@ RELEASE_STATES_CHOICES = (
     (PENDING, _('Pending')),
     (REJECTED, _('Rejected')),
 )
-
-
-class ReleaseState(models.Model):
-    release_state = models.CharField(max_length=128, primary_key=True, db_column='release_state')
-
-    class Meta:
-        managed = True
-        db_table = 'poet_release_state'

@@ -5,7 +5,8 @@ from poet.urls import Entities
 
 
 def work(request, work_id):
-    return render(request, 'poet/work.html.j2', get_work_context(work_id))
+    context = get_work_context(work_id)
+    return render(request, context.template, context.data)
 
 
 def search(request, entity_name=Entities.ALL.value):

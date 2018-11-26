@@ -73,6 +73,41 @@ class Migration(migrations.Migration):
             name='to_work',
             field=models.ForeignKey(db_column='to_work', on_delete=django.db.models.deletion.CASCADE, to='poet.Work'),
         ),
+
         migrations.RunSQL("ALTER TABLE poet_entity_to_work_rel RENAME COLUMN from_entity TO from_entity_id"),
         migrations.RunSQL("ALTER TABLE poet_entity_to_work_rel RENAME COLUMN to_work TO to_work_id"),
+
+        migrations.RunSQL("ALTER TABLE idioma RENAME COLUMN idioma_id TO id"),
+        migrations.RunSQL("ALTER TABLE idioma RENAME COLUMN nom_idioma TO nom"),
+
+        migrations.RunSQL("ALTER TABLE tema RENAME COLUMN tema_id TO id"),
+        migrations.RunSQL("ALTER TABLE tema RENAME COLUMN nom_tema TO nom"),
+
+        migrations.RunSQL("ALTER TABLE genero_musical RENAME COLUMN gen_mus_id TO id"),
+        migrations.RunSQL("ALTER TABLE genero_musical RENAME COLUMN nom_gen_mus TO nom"),
+        migrations.RunSQL("ALTER TABLE genero_musical RENAME COLUMN coment_gen_mus TO coment"),
+
+        migrations.RunSQL("ALTER TABLE album RENAME COLUMN album_id TO id"),
+        migrations.RunSQL("ALTER TABLE album RENAME COLUMN nom_album TO nom"),
+
+        migrations.RunSQL("ALTER TABLE serie RENAME COLUMN serie_id TO id"),
+        migrations.RunSQL("ALTER TABLE serie RENAME COLUMN nom_serie TO nom"),
+        migrations.RunSQL("ALTER TABLE serie RENAME COLUMN coment_serie TO coment"),
+
+        migrations.RunSQL("ALTER TABLE familia_instrumento RENAME COLUMN familia_instr_id TO id"),
+        migrations.RunSQL("ALTER TABLE familia_instrumento RENAME COLUMN nom_familia_instr TO nom"),
+
+        migrations.RunSQL("ALTER TABLE instrumento RENAME COLUMN instrumento_id TO id"),
+        migrations.RunSQL("ALTER TABLE instrumento RENAME COLUMN nom_inst TO nom"),
+        migrations.RunSQL("ALTER TABLE instrumento RENAME COLUMN instrumento_comentario TO coment"),
+
+        migrations.RunSQL("ALTER TABLE archivo RENAME COLUMN archivo_id TO id"),
+
+        migrations.RunSQL("ALTER TABLE cobertura RENAME COLUMN cobertura_id TO id"),
+        migrations.RunSQL("ALTER TABLE cobertura_licencia RENAME COLUMN cobertura_lic_id TO id"),
+
+        migrations.RunSQL("ALTER TABLE composicion RENAME COLUMN composicion_id TO id"),
+        migrations.RunSQL("ALTER TABLE composicion RENAME COLUMN nom_tit TO nom"),
+        migrations.RunSQL("ALTER TABLE archivo RENAME COLUMN nom_archivo TO nom"),
+
     ]

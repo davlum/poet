@@ -33,8 +33,8 @@ ENTITY_WORK_ROLE = (
 
 
 class EntityToWorkRel(models.Model):
-    from_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name='ew_from_model')
-    to_work = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='ew_to_model')
+    from_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, db_column='from_entity', related_name='ew_from_model')
+    to_work = models.ForeignKey(Work, on_delete=models.CASCADE, db_column='to_work', related_name='ew_to_model')
 
     role = models.TextField(choices=ENTITY_WORK_ROLE, default=READER)
     # Arbitrary additional information

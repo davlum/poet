@@ -4,6 +4,20 @@ from typing import List, Dict
 from poet.models.entity import Entity
 
 
+class Context:
+
+    def __init__(self, template, data):
+        self.template = template
+        self.data = data
+
+    template: str
+    data: Dict
+
+
+def raise_(e):
+    raise e
+
+
 def get_or_404(query_result, message=None):
     try:
         return query_result[0]

@@ -15,7 +15,7 @@ UPDATE grupo g
 SET (city_of_origin, subdivision_of_origin, country_of_origin) = (
   SELECT l.ciudad, l.subdivision, l.pais
   FROM lugar l
-  WHERE l.id = g.lugar_id);
+  WHERE l.lugar_id = g.lugar_id);
 """),
 
         migrations.RunSQL("""
@@ -23,7 +23,7 @@ UPDATE persona p
 SET (city_of_origin, subdivision_of_origin, country_of_origin) = (
   SELECT l.ciudad, l.subdivision, l.pais
   FROM lugar l
-  WHERE l.id = p.lugar_id);
+  WHERE l.lugar_id = p.lugar_id);
 """),
 
         migrations.RunSQL("""
@@ -31,7 +31,7 @@ UPDATE persona p
 SET (city_of_death, subdivision_of_death, country_of_death) = (
   SELECT l.ciudad, l.subdivision, l.pais
   FROM lugar l
-  WHERE l.id = p.lugar_muer);
+  WHERE l.lugar_id = p.lugar_muer);
     """),
 
         migrations.RunSQL("""
@@ -39,7 +39,7 @@ UPDATE pista_son p
 SET (city_of_origin, subdivision_of_origin, country_of_origin) = (
   SELECT l.ciudad, l.subdivision, l.pais
   FROM lugar l
-  WHERE l.id = p.lugar_id);
+  WHERE l.lugar_id = p.lugar_id);
     """),
 
         migrations.RemoveField(

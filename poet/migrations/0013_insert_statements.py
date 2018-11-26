@@ -162,8 +162,8 @@ class Migration(migrations.Migration):
                 SELECT count(*) FROM pista_son INTO old_query;
                 SELECT count(*) FROM poet_work WHERE work_type = 'Pista son' INTO new_query;
                 ASSERT old_query = new_query, concat('RECORDING FAILED. ', old_query, ' != ',new_query);
-                SELECT sum(pista_son_id) FROM pista_son INTO old_query;
-                SELECT sum((additional_data->>'recording_id')::integer) FROM poet_work WHERE work_type = 'Pista son' INTO new_query;
+                SELECT COALESCE(sum(pista_son_id), 0) FROM pista_son INTO old_query;
+                SELECT COALESCE(sum((additional_data->>'recording_id')::integer), 0) FROM poet_work WHERE work_type = 'Pista son' INTO new_query;
                 ASSERT old_query = new_query, concat('RECORDING SUM FAILED. ', old_query, ' != ',new_query);
             END;
         $$;"""),

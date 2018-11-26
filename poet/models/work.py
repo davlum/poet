@@ -1,5 +1,5 @@
 from django.db import models
-from poet.models.choices import ReleaseState, PENDING
+from poet.models.choices import PENDING, RELEASE_STATES_CHOICES
 from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
@@ -41,7 +41,7 @@ class Work(models.Model):
     alt_name = models.TextField(blank=True, null=True)
 
     # This should be types of works. Media types are additional data
-    work_type = models.TextField(choices=WORK_TYPE, default=RECORDING,db_column='work_type')
+    work_type = models.TextField(choices=WORK_TYPE, default=RECORDING, db_column='work_type')
 
     city = models.TextField(blank=True, null=True)
     country = models.TextField(blank=True, null=True)
@@ -57,7 +57,7 @@ class Work(models.Model):
 
     self_relation = models.ManyToManyField('self', blank=True, symmetrical=False, through='WorkToWorkRel')
 
-    release_state = models.ForeignKey(ReleaseState, on_delete=models.PROTECT, default=PENDING, db_column='release_state')
+    release_state = models.TextField(choices=RELEASE_STATES_CHOICES, default=PENDING, db_column='release_state')
 
     copyright = models.TextField(blank=True, null=True)
     copyright_country = models.TextField(blank=True, null=True)
@@ -68,14 +68,17 @@ class Work(models.Model):
         db_table = 'poet_work'
 
 
+SERIES_TO_RECORDING = 'Is the series which contains this track.'
+
+
 class WorkToWorkRel(models.Model):
     """
 
     Recursive many to many relationship with the Work model.
     """
 
-    from_work = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='ww_from_model')
-    to_work = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='ww_to_model')
+    from_work = models.ForeignKey(Work, on_delete=models.CASCADE, db_column='from_work', related_name='ww_from_model')
+    to_work = models.ForeignKey(Work, on_delete=models.CASCADE, db_column='to_work', related_name='ww_to_model')
     contains = models.BooleanField(_('Consists of'), default=False)
     order = models.IntegerField(blank=True, null=True)
     role = models.TextField(blank=True, null=True, db_column='role_id')

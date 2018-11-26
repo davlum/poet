@@ -252,16 +252,6 @@ class Migration(migrations.Migration):
                 'managed': True,
             },
         ),
-        # migrations.RenameField(
-        #     model_name='coberturalicencia',
-        #     old_name='cobertura_lic_id',
-        #     new_name='id',
-        # ),
-        # migrations.AlterField(
-        #     model_name='cobertura',
-        #     name='cobertura_lic',
-        #     field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='poet.CoberturaLicencia', to_field='cobertura_lic_id'),
-        # ),
         migrations.AddField(
             model_name='work',
             name='self_relation',
