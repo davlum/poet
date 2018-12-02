@@ -1,9 +1,10 @@
 from django.db import models
-from poet.models.choices import PENDING, RELEASE_STATES_CHOICES
+from poet.models.choices import PENDING, RELEASE_STATES_CHOICES, validate_date
 from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 from django.contrib.postgres.fields import JSONField
+from django.core.exceptions import ValidationError
 from poet.models.work import Work
 
 
@@ -64,11 +65,30 @@ class Entity(models.Model):
     additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 
+    start_date = models.CharField(max_length=10, blank=True, null=True)
+    end_date = models.CharField(max_length=10, blank=True, null=True)
+    website = models.URLField(blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    email_address = models.EmailField(blank=True, null=True)
+
     work_relation = models.ManyToManyField(Work, blank=True, symmetrical=False, through='EntityToWorkRel')
 
     self_relation = models.ManyToManyField('self', blank=True, symmetrical=False, through='EntityToEntityRel')
 
     release_state = models.TextField(choices=RELEASE_STATES_CHOICES, default=PENDING, db_column='release_state')
+
+    def clean(self, *args, **kwargs):
+        try:
+            validate_date(self.end_date)
+            validate_date(self.start_date)
+        except ValueError as e:
+            raise ValidationError(e)
+
+        super(Entity, self).clean(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(Entity, self).save(*args, **kwargs)
 
     class Meta:
         managed = True
@@ -85,12 +105,28 @@ class EntityToEntityRel(models.Model):
     to_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, db_column='to_entity', related_name='ee_to_model')
     contains = models.BooleanField(_('Consists of'), default=False)
 
-    role = models.TextField(blank=True, null=True)
+    relationship = models.TextField(blank=True, null=True)
+
+    start_date = models.CharField(max_length=10, blank=True, null=True)
+    end_date = models.CharField(max_length=10, blank=True, null=True)
 
     # Arbitrary additional information
     commentary = models.TextField(blank=True, null=True)
     additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
+
+    def clean(self, *args, **kwargs):
+        try:
+            validate_date(self.end_date)
+            validate_date(self.start_date)
+        except ValueError as e:
+            raise ValidationError(e)
+
+        super(EntityToEntityRel, self).clean(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(EntityToEntityRel, self).save(*args, **kwargs)
 
     class Meta:
         managed = True

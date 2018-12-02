@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                         array_remove(ARRAY[p.city_of_death, p.subdivision_of_death, p.country_of_death], ''), 
                     ', '), 
                 'Sitio Web', sitio_web, 'Dirección', direccion, 'Teléfono', telefono, 'Nacimiento', fecha_comienzo, 
-                'Fallecimiento', fecha_finale, 'Género', genero)), estado, ARRAY[]::text[] FROM persona p
+                'Fallecimiento', fecha_finale, 'Género', genero, 'Email', email)), estado, ARRAY[]::text[] FROM persona p
         )
         INSERT INTO poet_entity (
           id, full_name, alt_name, entity_type, city, country, email, file_path, commentary, 

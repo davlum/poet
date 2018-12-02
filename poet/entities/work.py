@@ -9,7 +9,7 @@ def get_entities(work_id: int):
     q = """
     SELECT 
         rel.from_entity_id,
-        rel.role_id
+        rel.relationship
     FROM poet_entity_to_work_rel rel 
     WHERE rel.to_work_id = %s
     """
@@ -20,11 +20,11 @@ def get_recordings(work_id: int):
     q = """
     SELECT 
         rel.from_entity_id,
-        rel.role_id
+        rel.relationship
     FROM poet_entity_to_work_rel rel 
     JOIN poet_work track ON rel.to_work_id = track.id
-    JOIN poet_work_to_work_rel s_to_t ON track.id = s_to_t.to_work_id
-    JOIN poet_work series ON series.id = s_to_t.from_work_id
+    JOIN poet_work_to_work_rel s_to_t ON track.id = s_to_t.to_work
+    JOIN poet_work series ON series.id = s_to_t.from_work
     WHERE series.id = %s
     """
     return query(q, [work_id])
@@ -33,9 +33,9 @@ def get_recordings(work_id: int):
 def get_work_entities(work_id: int):
     entities = get_entities(work_id)
     entities = list(map(lambda e: {'link': render_name_link(e['from_entity_id']), **e}, entities))
-    composers = [i for i in entities if i['role_id'] == COMPOSER]
-    interpreters = [i for i in entities if i['role_id'] in [READER, MUSICIAN]]
-    others = [i for i in entities if i['role_id'] not in [READER, MUSICIAN, COMPOSER]]
+    composers = [i for i in entities if i['relationship'] == COMPOSER]
+    interpreters = [i for i in entities if i['relationship'] in [READER, MUSICIAN]]
+    others = [i for i in entities if i['relationship'] not in [READER, MUSICIAN, COMPOSER]]
     return {
         'composers': composers,
         'interpreters': interpreters,

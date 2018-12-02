@@ -12,7 +12,9 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunSQL("""
-        UPDATE poet_work SET additional_data = additional_data - '{file_id, comp_id, recording_id, series_id, id}'::text[]
+        UPDATE poet_work 
+        SET additional_data = 
+        additional_data - '{file_id, comp_id, recording_id, series_id, id}'::text[]
         """),
 
         migrations.RemoveField(

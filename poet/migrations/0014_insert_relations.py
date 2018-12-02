@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
 
         migrations.RunSQL("""
         WITH inserts AS (
-            SELECT DISTINCT s.id, a.id, TRUE, 'Is the series which contains this album.' 
+            SELECT DISTINCT s.id, a.id, TRUE, 'Series<contains>Album' 
             FROM (
             SELECT id, additional_data->'id' AS old_id 
             FROM poet_work WHERE work_type = 'Serie'
@@ -33,25 +33,25 @@ class Migration(migrations.Migration):
                 new_query integer;
             BEGIN
                 SELECT count(*) FROM album WHERE serie_id IS NOT NULL INTO old_query;
-                SELECT count(*) FROM poet_work_to_work_rel WHERE role_id = 'Is the series which contains this album.' INTO new_query;
+                SELECT count(*) FROM poet_work_to_work_rel WHERE role_id = 'Series<contains>Album' INTO new_query;
                 ASSERT old_query = new_query, concat('SERIES ALBUM REL FAILED. ', old_query, ' != ',new_query);
             END;
         $$;"""),
 
         migrations.RunSQL("""
         WITH inserts AS (
-            SELECT DISTINCT s.id, t.id, TRUE, 'Is the series which contains this track.' 
+            SELECT DISTINCT s.id, t.id, TRUE, 'Series<contains>Recording', t.track_number 
             FROM (
                 SELECT id, additional_data->'id' AS old_id 
                 FROM poet_work WHERE work_type = 'Serie'
                 AND NOT additional_data ? 'is_album'
             ) s JOIN (
-                SELECT id, additional_data->'series_id' AS series_id 
+                SELECT id, additional_data->'series_id' AS series_id, (additional_data->>'Número de pista')::int AS track_number
                 FROM poet_work WHERE work_type = 'Pista son'    
             ) t ON s.old_id = t.series_id
         )
         INSERT INTO poet_work_to_work_rel (
-          from_work_id, to_work_id, contains, role_id
+          from_work_id, to_work_id, contains, role_id, "order"
           )  SELECT * FROM inserts;"""),
 
         migrations.RunSQL("""
@@ -61,7 +61,7 @@ class Migration(migrations.Migration):
                 new_query integer;
             BEGIN
                 SELECT count(*) FROM pista_son WHERE serie_id IS NOT NULL INTO old_query;
-                SELECT count(*) FROM poet_work_to_work_rel WHERE role_id = 'Is the series which contains this track.' INTO new_query;
+                SELECT count(*) FROM poet_work_to_work_rel WHERE role_id = 'Series<contains>Recording' INTO new_query;
                 ASSERT old_query = new_query, concat('SERIES TRACK REL FAILED. ', old_query, ' != ',new_query);
             END;
         $$;"""),
