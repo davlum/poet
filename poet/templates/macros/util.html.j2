@@ -1,36 +1,26 @@
-{% macro render_name(result) -%}
-    {% set name %}
-            {% if result.nom_part_ag is defined and result.nom_part_ag is not none %}
-                {{ result.nom_part_ag }}
-            {% else %}
-                  {{ render_none(result.nom_part) }} {{ render_none(result.nom_paterno) }} {{ render_none(result.nom_materno) }}
-                {% if result.seudonimo is not none %}
-                    '{{ result.seudonimo }}'
-                {% endif %}
-            {% endif %}
-    {% endset %}
-    {% if name|trim == "" %}
-        <div style="display: inline;">Desconocido</div>
-    {% else %}
-        <div style="display: inline;">{{ name|safe|trim }}</div>
-    {% endif %}
-{% endmacro %}
-
-{%  macro render_name_links(result) -%}
-    {% if result.pers_id is not none %}
-        <a href="{{ url("artist", artist_id=result.pers_id) }}">{{ render_name(result) }}</a>
-    {% else %}
-        <a href="{{ url("collective", artist_id=result.gr_id) }}">{{ render_name(result) }}</a>
-    {% endif %}
+{%  macro render_name_link(entity) -%}
+        <a href="{{ url("entity", entity_id=entity.id) }}">{{ entity.name }}</a>
 {% endmacro %}
 
 
-{% macro render_profile(label, result) -%}
-    {% if result is not none and result is defined %}
-        <tr><th scope="row">{{ label|safe }} </th><td>{{ result|safe }}</td></tr>
-    {% endif %}
+{%  macro render_name_relation(entity) -%}
+      {{ render_name_link(entity) }} - {{ entity.relationship }} <br>
 {% endmacro %}
 
+{%  macro render_entity(entity) -%}
+      {{ render_name_link(entity) }} - {{ entity.relationship }} <br>
+{% endmacro %}
+
+{% macro render_entity_ls(entity_type, entities) %}
+<div>
+    <h4>{{ _(entity_type) }}</h4>
+    <h3 class="indented">
+        {% for entity in entities %}
+            {{ render_name_relation(entity) }}
+        {% endfor %}
+    </h3>
+</div>
+{% endmacro %}
 
 {% macro render_place(result, muer=False) -%}
     {% set lugar %}

@@ -74,9 +74,6 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(db_column='to_work', on_delete=django.db.models.deletion.CASCADE, to='poet.Work'),
         ),
 
-        migrations.RunSQL("ALTER TABLE poet_entity_to_work_rel RENAME COLUMN from_entity TO from_entity_id"),
-        migrations.RunSQL("ALTER TABLE poet_entity_to_work_rel RENAME COLUMN to_work TO to_work_id"),
-
         migrations.RunSQL("ALTER TABLE idioma RENAME COLUMN idioma_id TO id"),
         migrations.RunSQL("ALTER TABLE idioma RENAME COLUMN nom_idioma TO nom"),
 

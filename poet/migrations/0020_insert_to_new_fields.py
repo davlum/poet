@@ -57,6 +57,6 @@ class Migration(migrations.Migration):
         migrations.RunSQL("""
         UPDATE poet_work
         SET additional_data = 
-        additional_data - '{Medios de origen,Contribución,Digitalizado,Grabación,Idiomas,Publicado,Número de pista}'::text[]
+        additional_data - '{Medios de origen,Contribución,Digitalizado,Grabación,Idiomas,Publicado,Número de pista,Duración}'::text[]
         """),
     ]

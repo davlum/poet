@@ -41,8 +41,8 @@ class Work(models.Model):
     /<STATIC_DIR>/<MEDIA_TYPE>/<GENERATED_UUID>_<FILENAME>
     """
 
-    IMAGE = 'IMAGE'
-    AUDIO = 'AUDIO'
+    IMAGE = 'images'
+    AUDIO = 'audio'
     FILE_TYPE = (
         (AUDIO, _('Audio')),
         (IMAGE, _('Image'))

@@ -128,22 +128,22 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='entitytoworkrel',
-            name='from_entity_id',
+            name='from_entity',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ew_from_model', to='poet.Entity'),
         ),
         migrations.AlterField(
             model_name='entitytoworkrel',
-            name='to_work_id',
+            name='to_work',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ew_to_model', to='poet.Work'),
         ),
         migrations.AlterField(
             model_name='historicalentitytoworkrel',
-            name='from_entity_id',
+            name='from_entity',
             field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Entity'),
         ),
         migrations.AlterField(
             model_name='historicalentitytoworkrel',
-            name='to_work_id',
+            name='to_work',
             field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Work'),
         ),
         migrations.AlterField(

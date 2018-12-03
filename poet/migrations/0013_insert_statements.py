@@ -108,7 +108,7 @@ class Migration(migrations.Migration):
         # WORK INSERT STATEMENTS
         migrations.RunSQL("""
         WITH inserts AS (
-            SELECT c.nom, c.nom_alt, 'Pista son', 'AUDIO', concat(a.id , '/', a.nom), 
+            SELECT c.nom, c.nom_alt, 'Pista son', 'audio', concat(p.pista_son_id, '/', a.id , '/', a.nom), 
             array_to_string(ARRAY[p.city_of_origin, p.subdivision_of_origin], ', '), p.country_of_origin, 
             CASE WHEN c.texto <> '' AND c.texto IS NOT NULL 
             THEN concat(p.coment_pista_son, '\r', chr(10), '\r', chr(10),'Texto:\r', chr(10), '\r', c.texto) 
@@ -170,7 +170,7 @@ class Migration(migrations.Migration):
 
         migrations.RunSQL("""
         WITH inserts AS (
-            SELECT s.nom, 'Serie', s.coment, 'IMAGE', s.ruta_foto, jsonb_strip_nulls(jsonb_build_object('id', s.id, 
+            SELECT s.nom, 'Serie', s.coment, 'images', concat(s.id, '/', s.ruta_foto), jsonb_strip_nulls(jsonb_build_object('id', s.id, 
             'Giro', s.giro)), estado FROM serie s
         )
         INSERT INTO poet_work (

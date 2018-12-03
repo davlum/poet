@@ -1,5 +1,5 @@
 {% extends 'layout/search.html.j2' %}
-{% from 'macros/util.html.j2' import render_name_links, render_table %}
+{% from 'macros/util.html.j2' import render_entity_ls, render_table %}
 {% from 'macros/performance.html.j2' import render_performance %}
 
 {% block resultbody %}
@@ -8,41 +8,32 @@
         <hr>
         <div class="container">
             <div class="row">
+                <div class="col-md-1">
+                    <button onclick="wavesurfer.playPause()">
+                      Play | Pause
+                    </button>
+                    <button onclick="wavesurfer.toggleMute()">
+                      Toggle Mute
+                    </button>
+                </div>
+                <div class="col-md-11" id="wavesurfer-waveform">
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div>
                         <h4>{{ _('Title') }}</h4>
                         <h3 class="indented">
                             {{ work.full_name }}
-                            {% if work.alt_name is not none and work.alt_name|trim != "" %}
+                            {% if work.alt_name is not none %}
                                     ({{ work.alt_name }})
                             {% endif %}
                         </h3>
                     </div>
                     <br>
-                    <div>
-                        <h4>{{ _('Composers') }}</h4>
-                        <h3 class="indented">
-                            {% for composer in composers %}
-                                {{ helpers.render_name_link(composer.from_entity_id) }} - {{ composer.relationship }} <br>
-                            {% endfor %}
-                        </h3>
-                    </div>
-                    <div>
-                        <h4>{{ _('Interpreters') }}</h4>
-                        <h3 class="indented">
-                            {% for interpreter in interpreters %}
-                                {{ interpreter.link|safe }} - {{ interpreter.relationship }} <br>
-                            {% endfor %}
-                        </h3>
-                    </div>
-                    <div>
-                        <h4>{{ _('Other') }}</h4>
-                        <h3 class="indented">
-                            {% for other in others %}
-                                {{ other.link|safe }} - {{ other.relationship }} <br>
-                            {% endfor %}
-                        </h3>
-                    </div>
+                    {{ render_entity_ls('Composers', entity.composers) }}
+                    {{ render_entity_ls('Interpreters', entity.interpreters) }}
+                    {{ render_entity_ls('Other', entity.others) }}
                     <div>
                         <h4>{{ _('Additional Information') }}</h4>
                         <h3 class="indented">
