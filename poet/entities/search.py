@@ -6,19 +6,7 @@ from functools import partial
 
 class Entities(Enum):
     ALL = 'all'
-    AUTHOR = 'autor'
-    COLLECTIVE = 'colectivo'
-    COMPOSITION = 'composicion'
-    SERIES = 'serie'
-    THEME = 'tema'
-    GENRES = 'genero'
-    INSTRUMENT = 'instrumento'
-    LANGUAGE = 'idioma'
-    PERFORMANCE = 'interp'
-    USER = 'usuario'
-    CITY = 'ciudad'
-    SUBDIVISION = 'subdivision'
-    COUNTRY = 'pais'
+
 
 
 def make_field_search(field_list: List[str]):

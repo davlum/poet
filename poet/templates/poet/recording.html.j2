@@ -1,55 +1,46 @@
 {% extends 'layout/search.html.j2' %}
-{% from 'macros/util.html.j2' import render_entity_ls, render_table %}
+{% from 'macros/util.html.j2' import render_entity_ls, render_table, render_comments, render_copyright,
+render_table, render_work_entities %}
 {% from 'macros/performance.html.j2' import render_performance %}
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">
         <h2>{{ _('Recording') }}</h2>
-        <hr>
+        <br>
         <div class="container">
             <div class="row">
-                <div class="col-md-1">
-                    <button onclick="wavesurfer.playPause()">
-                      Play | Pause
-                    </button>
-                    <button onclick="wavesurfer.toggleMute()">
-                      Toggle Mute
-                    </button>
-                </div>
-                <div class="col-md-11" id="wavesurfer-waveform">
+                <div id="wavesurfer-waveform">
                 </div>
             </div>
+            <br>
+            <div class="row">
+                <div class="col-md-2">
+                    <button onclick="wavesurfer.playPause()">
+                      &#9658;
+                    </button>
+                </div>
+                  <div class="col-md-6 volbox">
+                  <input id="volume" type="range" min="0" max="1" value="0.5" step="0.01">
+                  </div>
+            </div>
+            <br>
+            <div class="row">
+                {{ render_work_entities(work, entity) }}
+            </div>
+            {{ render_comments(work) }}
             <div class="row">
                 <div class="col-md-6">
-                    <div>
-                        <h4>{{ _('Title') }}</h4>
-                        <h3 class="indented">
-                            {{ work.full_name }}
-                            {% if work.alt_name is not none %}
-                                    ({{ work.alt_name }})
-                            {% endif %}
-                        </h3>
-                    </div>
-                    <br>
-                    {{ render_entity_ls('Composers', entity.composers) }}
-                    {{ render_entity_ls('Interpreters', entity.interpreters) }}
-                    {{ render_entity_ls('Other', entity.others) }}
-                    <div>
-                        <h4>{{ _('Additional Information') }}</h4>
-                        <h3 class="indented">
-                            {{ work.additional_data }}
-                        </h3>
-                    </div>
-                    <br>
+                    {{ render_table(_('Tags'), work.tags) }}
+                </div>
+                <div class="col-md-6">
+                    {{ render_table(_('Languages'), work.languages) }}
                 </div>
             </div>
         </div>
-        <div>
-            <p class="text-center center-block">
-                {{ work.copyright }} <br>
-                {{ work.copyright_date }} <br>
-                {{ work.copyright_country }}
-            </p>
-        </div>
+        {{ render_copyright(work) }}
+    <script>
+        {# This is used in the /static/js/wavesurfer.js file #}
+        var audio_file ="{{ work_data.full_path }}";
+    </script>
     </div>
 {% endblock %}

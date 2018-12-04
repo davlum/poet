@@ -18,6 +18,19 @@ def raise_(e):
     raise e
 
 
+def to_none(s):
+    """Converts identity objects to None"""
+    if s is None:
+        return s
+    if type(s) is dict and not s:
+        return None
+    if type(s) is list and not s:
+        return None
+    if type(s) is str and not s.strip():
+        return None
+    return s
+
+
 def get_or_404(query_result, message=None):
     try:
         return query_result[0]
@@ -26,13 +39,6 @@ def get_or_404(query_result, message=None):
             raise Http404(message)
         else:
             raise Http404()
-
-
-def get_entity_name(entity_id):
-    entity = Entity.objects.get(pk=entity_id)
-    names_ls = [entity.full_name, entity.alt_name]
-    names_ls = ' - '.join([x for x in names_ls if x is not None])
-    return names_ls
 
 
 def to_dict(cursor):

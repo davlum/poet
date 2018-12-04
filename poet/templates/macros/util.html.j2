@@ -1,5 +1,17 @@
+{%  macro non(thing) -%}
+    {% if thing is not none %}
+        {{ thing }}
+    {% endif %}
+{% endmacro %}
+
+
 {%  macro render_name_link(entity) -%}
         <a href="{{ url("entity", entity_id=entity.id) }}">{{ entity.name }}</a>
+{% endmacro %}
+
+
+{%  macro render_work_link(work) -%}
+        <a href="{{ url("work", work_id=work.id) }}">{{ work.name }}</a>
 {% endmacro %}
 
 
@@ -7,9 +19,11 @@
       {{ render_name_link(entity) }} - {{ entity.relationship }} <br>
 {% endmacro %}
 
+
 {%  macro render_entity(entity) -%}
       {{ render_name_link(entity) }} - {{ entity.relationship }} <br>
 {% endmacro %}
+
 
 {% macro render_entity_ls(entity_type, entities) %}
 <div>
@@ -21,6 +35,88 @@
     </h3>
 </div>
 {% endmacro %}
+
+
+{% macro render_comments(work) %}
+    <div>
+        {% if work.commentary is not none %}
+            <h4>{{ _('Commentary') }}</h4>
+            <p class="skinny text-center center-block"> {{ work.commentary }}</p>
+            <br>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro render_work_entities(work, entity) %}
+<div>
+    <h4>{{ _('Title') }}</h4>
+    <h3 class="indented">
+        {{ work.full_name }}
+        {% if work.alt_name is not none %}
+                ({{ work.alt_name }})
+        {% endif %}
+    </h3>
+</div>
+{{ render_entity_ls('Composers', entity.composers) }}
+{{ render_entity_ls('Interpreters', entity.interpreters) }}
+{{ render_entity_ls('Other', entity.others) }}
+<br>
+{% endmacro %}
+
+
+{% macro render_copyright(work) %}
+<div>
+    <p class="text-center center-block">
+        {{ non(work.copyright) }} <br>
+        {{ non(work.copyright_date) }} <br>
+        {{ non(work.copyright_country) }}
+    </p>
+</div>
+{% endmacro %}
+
+{% macro render_recordings(list) -%}
+    {% if list is not none %}
+        <hr>
+        <div class="card">
+            <div class="card-header" role="tab" id="recordings-heading">
+                <h3 class="mb-0">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#recordings-collapse" aria-expanded="true" aria-controls="recordings-collapse">
+                        {{ _('Recordings')|title }}
+                    </a>
+                </h3>
+            </div>
+            <div id="recordings-collapse" class="collapse in">
+                <div class="card-block">
+                    <table class="mod-tables table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ _('Recording') }}</th>
+                            <th>{{ _('Title') }}</th>
+                            <th>{{ _('Date recorded') }}</th>
+{#                            <th>Autor(es)</th>#}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for entry in list %}
+                        <tr>
+                            <td>
+                                <audio controls="controls">Su navegador no admite reproducción de<code>audio</code>
+                                    <source src="{{ entry.full_path }}" type="{{ entry.codec }}">
+                                </audio>
+                            </td>
+                            <td>{{ render_work_link(entry) }}</td>
+                            <td>{{ entry.date_recorded }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+   {% endif %}
+{% endmacro %}
+
+
 
 {% macro render_place(result, muer=False) -%}
     {% set lugar %}
@@ -71,7 +167,7 @@
     {% endif %}
 {% endmacro %}
 
-{% macro render_table(list, name) -%}
+{% macro render_table(name, list) -%}
     {% if list|length > 0 %}
         <hr>
         <div class="card">
@@ -88,7 +184,7 @@
                     <tbody>
                     {% for entry in list %}
                         <tr>
-                            <td>{{ entry.nom }}</td>
+                            <td>{{ entry }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
