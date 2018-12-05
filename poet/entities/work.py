@@ -1,13 +1,10 @@
 from django.shortcuts import get_object_or_404
-from poet.entities.util import query, raise_, Context, to_none
+import poet.entities.util as u
 from django.forms.models import model_to_dict
 from poet.models.work import Work, SERIES, RECORDING
 from poet.models.relations import COMPOSER, READER, MUSICIAN
 from typing import Dict, List
-from pojo.settings import STATIC_URL
 from pampy import match, _
-import pathlib
-import os
 
 
 def get_recording_entities(work_id: int) -> List[Dict[str, str]]:
@@ -23,7 +20,7 @@ def get_recording_entities(work_id: int) -> List[Dict[str, str]]:
     JOIN poet_entity en ON en.id = rel.from_entity
     WHERE rel.to_work = %s
     """
-    return query(q, [work_id])
+    return u.query(q, [work_id])
 
 
 def get_series_entities(work_id: int) -> List[Dict[str, str]]:
@@ -41,9 +38,9 @@ def get_series_entities(work_id: int) -> List[Dict[str, str]]:
     JOIN poet_work_to_work_rel wtw on track.id = wtw.to_work
     JOIN poet_work series ON wtw.from_work = series.id
     WHERE series.id = %s
-    AND wtw.relationship = 'Series<contains>Recording'
+    AND wtw.relationship = 'series<contains>recording'
     """
-    return query(q, [work_id])
+    return u.query(q, [work_id])
 
 
 def get_recordings(work_id: int):
@@ -59,40 +56,21 @@ def get_recordings(work_id: int):
     JOIN poet_work track ON rel.to_work = track.id
     JOIN poet_work series ON rel.from_work = series.id
     WHERE series.id = %s
-    AND rel.relationship = 'Series<contains>Recording'
+    AND rel.relationship = 'series<contains>recording'
     """
-    return query(q, [work_id])
+    return u.query(q, [work_id])
 
 
 def get_series_recordings(work_id: int):
     recordings = get_recordings(work_id)
-    return list(map(lambda e: {
-        'name': get_dashed_name(e),
-        'codec': get_codec(e),
-        'full_path': get_full_path(e),
-        **e
-    }, recordings))
-
-
-def get_codec(dict_or_work):
-    return 'audio/{}'.format(pathlib.PurePosixPath(dict_or_work['path_to_file']).suffix.replace('.', ''))
-
-
-def get_full_path(dict_or_work):
-    if dict_or_work['path_to_file'] is None:
-        return None
-    return os.path.join(STATIC_URL, dict_or_work['file_type'], dict_or_work['path_to_file'])
-
-
-def get_dashed_name(entity_dict: Dict[str, str]) -> str:
-    name_ls = [entity_dict['full_name'], entity_dict['alt_name']]
-    return ' - '.join([x for x in name_ls if x is not None])
+    cleaned_recordings = [{k: u.to_none(v) for k, v in entry.items()} for entry in recordings]
+    return list(map(u.enrich_work, cleaned_recordings))
 
 
 def clean_recording_entities(entity_ls: List[Dict[str, str]]):
-    cleaned_entities = [{k: to_none(v) for k, v in entry.items()} for entry in entity_ls]
+    cleaned_entities = [{k: u.to_none(v) for k, v in entry.items()} for entry in entity_ls]
     entities = list(map(lambda e: {
-        'name': get_dashed_name(e),
+        'name': u.get_dashed_name(e),
         **e
     }, cleaned_entities))
     composers = [i for i in entities if i['relationship'] == COMPOSER]
@@ -105,12 +83,12 @@ def clean_recording_entities(entity_ls: List[Dict[str, str]]):
     }
 
 
-def get_series(work) -> Context:
-    return Context(
+def get_series(work) -> u.Context:
+    return u.Context(
         data={
             'work': work,
             'work_data': {
-                'full_path': get_full_path(work),
+                'full_path': u.get_full_path(work),
             },
             'recordings': get_series_recordings(work['id']),
             'entity': clean_recording_entities(get_series_entities(work['id']))
@@ -119,13 +97,13 @@ def get_series(work) -> Context:
     )
 
 
-def get_recording(work) -> Context:
-    return Context(
+def get_recording(work) -> u.Context:
+    return u.Context(
         data={
             'work': work,
             'work_data': {
-                'full_path': get_full_path(work),
-                'codec': get_codec(work)
+                'full_path': u.get_full_path(work),
+                'codec': u.get_codec(work)
             },
             'entity': clean_recording_entities(get_recording_entities(work['id']))
         },
@@ -133,15 +111,15 @@ def get_recording(work) -> Context:
     )
 
 
-def get_work_context(work_id: int):
+def get_work_context(work_id: int) -> u.Context:
     work = model_to_dict(get_object_or_404(Work, pk=work_id))
     pattern = work['work_type']
 
     # filter empty string to none values
-    cleaned_work = {k: to_none(v) for k, v in work.items()}
+    cleaned_work = {k: u.to_none(v) for k, v in work.items()}
 
     return match(pattern,
         SERIES, lambda _: get_series(cleaned_work),
         RECORDING, lambda _: get_recording(cleaned_work),
-        _, lambda _: raise_(ValueError("Could not match '{}' of type '{}'".format(pattern, type(pattern))))
+        _, lambda _: u.raise_(ValueError("Could not match '{}' of type '{}'".format(pattern, type(pattern))))
     )

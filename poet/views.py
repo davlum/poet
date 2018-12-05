@@ -14,9 +14,10 @@ def entity(request, entity_id):
     return render(request, context.template, context.data)
 
 
-def search(request, entity_name):
+def search(request):
     search_term = request.GET.get('term', '')
-    return render(request, 'poet/search.html.j2', get_search_context(entity_name, search_term))
+    context = get_search_context(search_term)
+    return render(request, context.template, context.data)
 
 
 def index(request):

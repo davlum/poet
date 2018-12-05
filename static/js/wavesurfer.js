@@ -7,7 +7,7 @@ var wavesurfer = WaveSurfer.create({
     progressColor: 'black',
     cursorColor: 'grey',
     // This parameter makes the waveform look like SoundCloud's player
-    barWidth: 1,
+    barWidth: 2,
     normalize: true
 });
 
