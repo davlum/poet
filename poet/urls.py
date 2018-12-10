@@ -1,5 +1,6 @@
-from django.urls import path, register_converter
-from poet.entities.search import Entities
+from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from poet import views
 
 
@@ -24,3 +25,6 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     # path('search/<entity:entity_name>', views.search, name='search')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

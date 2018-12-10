@@ -15,6 +15,8 @@ RELEASE_STATES_CHOICES = (
 
 
 def validate_date(date):
+    if date is None:
+        return
     bad_format = _('Date does not match format YYYY-MM-DD.')
     bad_date = _('Not a valid date.')
     try:

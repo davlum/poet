@@ -29,10 +29,6 @@
 	outline: 0;
 }
 
-customhtml > * {
-	position: relative;
-    z-index: 10;
-}
 
 /**
  * Global
@@ -40,9 +36,9 @@ customhtml > * {
 
 body,
 html {
-	min-height: 0vh;
-	margin: 0px;
-	padding: 0px;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
 }
 
 html {
@@ -233,8 +229,8 @@ hr {
 
 [data-predefined-style="true"] main a {
 	color: rgb(42, 39, 39);
-    padding-bottom: 0em;
-    border-bottom: 0em solid rgba(127, 127, 127, 0.2);
+    padding-bottom: 0;
+    border-bottom: 0 solid rgba(127, 127, 127, 0.2);
     text-decoration: none;
 }
 

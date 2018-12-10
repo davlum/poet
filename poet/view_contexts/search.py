@@ -1,11 +1,7 @@
-from enum import Enum
+from poet.view_contexts.work import add_media_url_to_path
 from typing import List
 from functools import partial
-import poet.entities.util as u
-
-
-class Entities(Enum):
-    ALL = 'all'
+import poet.view_contexts.util as u
 
 
 def make_field_search(field_list: List[str]):
@@ -14,7 +10,7 @@ def make_field_search(field_list: List[str]):
     ])
 
 
-def search_model(model: Entities, field_list: List[str], term: str, join_statement='', predicate=''):
+def search_model(model, field_list: List[str], term: str, join_statement='', predicate=''):
     suffix = make_field_search(field_list)
     query_string = """
     SELECT *
@@ -37,9 +33,9 @@ search_recordings = partial(search_model, 'poet_work', SHARED_FIELDS)
 def get_search_context(search_term):
     return u.Context(
         data={
-            'entities': search_entities(term=search_term),
+            'view_contexts': search_entities(term=search_term),
             'recordings': list(map(
-                u.enrich_work, search_recordings(term=search_term, predicate="AND work_type = 'Pista son'"))
+                add_media_url_to_path, search_recordings(term=search_term))
             )
         },
         template='poet/search.html.j2'

@@ -36,9 +36,7 @@
         <link href="{{ static('css/stylesheet.css') }}" id="member_stylesheet" rel="stylesheet" type="text/css" />
         <link href="{{ static('css/global.css') }}" id="" rel="stylesheet" type="text/css" />
         <link href="{{ static('css/searchbar.css') }}" id="" rel="stylesheet" type="text/css" />
-        <link href="{{ static('css/dynamic-form.css') }}" id="" rel="stylesheet" type="text/css" />
         <link href="{{ static('css/sidebar.css') }}" id="" rel="stylesheet" type="text/css" />
-        <link href="{{ static('css/fade.css') }}" id="" rel="stylesheet" type="text/css" />
         {% block css %}{% endblock %}
     </head>
     <body data-bodyview="index" class="default">
@@ -127,14 +125,8 @@
         <script src ="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src ="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
         <script src="https://unpkg.com/wavesurfer.js"></script>
-        <script src="{{ static('js/wavesurfer.js') }}"></script>
-        <script src="{{ static('js/form-toggle.js') }}"></script>
-        <script src="{{ static('js/tab-url.js') }}"></script>
-        <script src="{{ static('js/dynamic-forms.js') }}"></script>
-        <script src="{{ static('js/ajax-change-state.js') }}"></script>
-        <script src="{{ static('js/ajax-change-permission.js') }}"></script>
+        <script src="{{ static('js/init_wavesurfer.js') }}"></script>
         <script src="{{ static('js/data-tables.js') }}"></script>
-        <script src="{{ static('js/progress-bar.js') }}"></script>
         {% block js %}{% endblock %}
     </body>
 </html>

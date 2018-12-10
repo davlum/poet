@@ -46,17 +46,17 @@ ENTITY_TYPE = (
 
 class Entity(models.Model):
 
-    full_name = models.TextField(blank=True, null=True)
-    alt_name = models.TextField(blank=True, null=True)
+    full_name = models.CharField(max_length=256, blank=True, null=True)
+    alt_name = models.CharField(max_length=128, blank=True, null=True)
 
-    entity_type = models.TextField(choices=ENTITY_TYPE, default=PERSON, db_column='entity_type')
+    entity_type = models.CharField(max_length=128, choices=ENTITY_TYPE, default=PERSON, db_column='entity_type')
 
-    city = models.TextField(blank=True, null=True)
-    country = models.TextField(blank=True, null=True)
+    city = models.CharField(max_length=128, blank=True, null=True)
+    country = models.CharField(max_length=128, blank=True, null=True)
 
     email = models.EmailField(blank=True, null=True)
 
-    file_path = models.FilePathField(blank=True, null=True)
+    image = models.ImageField(max_length=512, blank=True, null=True, upload_to='images/upload_date=%Y%m%d')
 
     tags = ArrayField(models.CharField(max_length=200), blank=True, default=list, null=True)
 
@@ -68,14 +68,14 @@ class Entity(models.Model):
     start_date = models.CharField(max_length=10, blank=True, null=True)
     end_date = models.CharField(max_length=10, blank=True, null=True)
     website = models.URLField(blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
+    address = models.CharField(max_length=256, blank=True, null=True)
     email_address = models.EmailField(blank=True, null=True)
 
     work_relation = models.ManyToManyField(Work, blank=True, symmetrical=False, through='EntityToWorkRel')
 
     self_relation = models.ManyToManyField('self', blank=True, symmetrical=False, through='EntityToEntityRel')
 
-    release_state = models.TextField(choices=RELEASE_STATES_CHOICES, default=PENDING, db_column='release_state')
+    release_state = models.CharField(max_length=32, choices=RELEASE_STATES_CHOICES, default=PENDING, db_column='release_state')
 
     def clean(self, *args, **kwargs):
         try:
@@ -105,7 +105,7 @@ class EntityToEntityRel(models.Model):
     to_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, db_column='to_entity', related_name='ee_to_model')
     contains = models.BooleanField(_('Consists of'), default=False)
 
-    relationship = models.TextField(blank=True, null=True)
+    relationship = models.CharField(max_length=256, blank=True, null=True)
 
     start_date = models.CharField(max_length=10, blank=True, null=True)
     end_date = models.CharField(max_length=10, blank=True, null=True)

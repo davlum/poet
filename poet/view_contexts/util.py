@@ -1,35 +1,50 @@
 from django.db import connection
 from django.http import Http404
 from typing import List, Dict
-from pojo.settings import STATIC_URL
 import pathlib
-import os
+from pydub import AudioSegment
+import math
 
 
-def enrich_work(work_dict: Dict[str, str]) -> Dict[str, str]:
-    return {
-        'name': get_dashed_name(work_dict),
-        'codec': get_codec(work_dict),
-        'full_path': get_full_path(work_dict),
-        **work_dict
-    }
+def return_or_404(f, message=None, **kwargs):
+    try:
+        return f(**kwargs)
+    except IndexError:
+        if message is not None:
+            raise Http404(message)
+        else:
+            raise Http404
 
 
-def get_string_location(model_dict):
-    name_ls = [model_dict['city'], model_dict['country']]
-    return ' - '.join([x for x in name_ls if x is not None])
+def normalize(arr):
+    max_val = abs(max(arr, key=abs))
+    min_val = abs(min(arr, key=abs))
+    denom = max_val - min_val
+    return list(map(lambda x: round((x - min_val) / denom, 4), arr))
 
 
-def get_codec(dict_or_work):
-    if dict_or_work['path_to_file'] is None:
-        return None
-    return 'audio/{}'.format(pathlib.PurePosixPath(dict_or_work['path_to_file']).suffix.replace('.', ''))
+def get_peaks_from_audio_path(file, codec) -> List[float]:
+    """
+
+    :param file: Could be a string or file object
+    :param codec: string of the codec of the file e.g. mp3, wav
+    :return: a list of 1000 normalized samples from the audio file
+    """
+    audio = AudioSegment.from_file(file, codec)
+    mono_audio = audio.set_channels(1)
+    samples = mono_audio.get_array_of_samples()
+    # We want to get about a thousand samples for drawing the waveform
+    every_nth = math.floor(len(samples) / 1000)
+    sliced_samples = samples[0::every_nth]
+    return normalize(sliced_samples)
 
 
-def get_full_path(dict_or_work):
-    if dict_or_work['path_to_file'] is None:
-        return None
-    return os.path.join(STATIC_URL, dict_or_work['file_type'], dict_or_work['path_to_file'])
+def get_extension(path: str) -> str:
+    """
+    :param path: returns the extension of the file without the .
+    :return: file extension e.g. jpg, wav
+    """
+    return pathlib.PurePosixPath(path).suffix.replace('.', '')
 
 
 class Context:
@@ -40,10 +55,6 @@ class Context:
 
     template: str
     data: Dict
-
-
-def raise_(e):
-    raise e
 
 
 def to_none(s):
@@ -57,16 +68,6 @@ def to_none(s):
     if type(s) is str and not s.strip():
         return None
     return s
-
-
-def get_or_404(query_result, message=None):
-    try:
-        return query_result[0]
-    except IndexError:
-        if message is not None:
-            raise Http404(message)
-        else:
-            raise Http404()
 
 
 def to_dict(cursor):
@@ -88,8 +89,8 @@ def query(query_string: str, query_args: List) -> List[Dict]:
         return to_dict(cursor)
 
 
-def query_one(query_string: str, query_args: List, message=None):
-    return get_or_404(query(query_string, query_args), message)
+def get_dashed_location(model_dict):
+    return get_dashed_list(['city', 'country'], model_dict)
 
 
 def get_dashed_name(model_dict: Dict[str, str]) -> str:

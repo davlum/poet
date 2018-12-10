@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from poet.entities.work import get_work_context
-from poet.entities.search import get_search_context
-from poet.entities.entity import get_entity_context
+from poet.view_contexts.work import get_work_context
+from poet.view_contexts.search import get_search_context
+from poet.view_contexts.entity import get_entity_context
 
 
 def work(request, work_id):

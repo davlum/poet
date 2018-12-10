@@ -2,16 +2,12 @@ from django.db import models
 from poet.models.choices import PENDING, RELEASE_STATES_CHOICES, validate_date
 from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import gettext_lazy as _
+import poet.view_contexts.util as u
 from simple_history.models import HistoricalRecords
 from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
+import io
 
-SERIES = 'Serie'
-RECORDING = 'Pista son'
-WORK_TYPE = (
-    (SERIES, SERIES),
-    (RECORDING, RECORDING),
-)
 
 DIGITAL = 'Digital'
 TAPE = 'Cinta'
@@ -25,52 +21,53 @@ MEDIA_CHOICES = (
 )
 
 
-class Work(models.Model):
-    """
-    Model representing an abstract work, be it a recording, composition,
-    album
+class WorkCollection(models.Model):
 
-    I believe the path is currently the archivo_id and filename.
+    work_name = models.CharField(max_length=256, blank=True)
 
-    Paths are being used instead of django's built in file type in order
-    to easily transition to an external service if necessary (S3 for example).
-    in order to refactor to using Django's built in file type see;
-    https://www.revsys.com/tidbits/loading-django-files-from-code/
-
-    Future paths will use;
-    /<STATIC_DIR>/<MEDIA_TYPE>/<GENERATED_UUID>_<FILENAME>
-    """
-
-    IMAGE = 'images'
-    AUDIO = 'audio'
-    FILE_TYPE = (
-        (AUDIO, _('Audio')),
-        (IMAGE, _('Image'))
-    )
-
-    full_name = models.TextField(blank=True, null=True)
-    alt_name = models.TextField(blank=True, null=True)
-
-    # This should be types of works. Media types are additional data
-    work_type = models.TextField(choices=WORK_TYPE, default=RECORDING, db_column='work_type')
-
-    city = models.TextField(blank=True, null=True)
-    country = models.TextField(blank=True, null=True)
-
-    path_to_file = models.FilePathField(blank=True, null=True)
-    file_type = models.CharField(max_length=25, choices=FILE_TYPE, null=True)
-
-    tags = ArrayField(models.CharField(max_length=200), blank=True, default=list, null=True)
+    image = models.ImageField(max_length=512, upload_to='images/upload_date=%Y%m%d', null=True)
 
     commentary = models.TextField(blank=True, null=True)
     additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 
-    self_relation = models.ManyToManyField('self', blank=True, symmetrical=False, through='WorkToWorkRel')
+    release_state = models.CharField(max_length=32, choices=RELEASE_STATES_CHOICES, default=PENDING,
+                                     db_column='release_state')
 
-    release_state = models.TextField(choices=RELEASE_STATES_CHOICES, default=PENDING, db_column='release_state')
+    class Meta:
+        managed = True
+        db_table = 'poet_work_collection'
 
-    languages = ArrayField(models.CharField(max_length=200), blank=True, default=list, null=True)
+
+class Work(models.Model):
+    """
+    Model representing an abstract work, be it a recording, composition,
+    album
+    """
+
+    full_name = models.CharField(max_length=256, blank=True, null=True)
+    alt_name = models.CharField(max_length=128, blank=True, null=True)
+
+    city = models.CharField(max_length=128, blank=True, null=True)
+    country = models.CharField(max_length=128, blank=True, null=True)
+
+    audio = models.FileField(max_length=512, upload_to='audio/upload_date=%Y%m%d')
+
+    waveform_peaks = ArrayField(models.FloatField(), editable=False, default=list)
+
+    tags = ArrayField(models.CharField(max_length=256), blank=True, default=list, null=True)
+
+    commentary = models.TextField(blank=True, null=True)
+    additional_data = JSONField(blank=True, null=True)
+    history = HistoricalRecords()
+
+    in_collection = models.ForeignKey(WorkCollection, null=True, on_delete=models.PROTECT, db_column='in_collection')
+
+    track_number = models.IntegerField(blank=True, null=True)
+
+    release_state = models.CharField(max_length=32, choices=RELEASE_STATES_CHOICES, default=PENDING, db_column='release_state')
+
+    languages = ArrayField(models.CharField(max_length=128), blank=True, default=list, null=True)
 
     date_published = models.CharField(max_length=10, blank=True, null=True)
     date_digitalized = models.CharField(max_length=10, blank=True, null=True)
@@ -79,8 +76,8 @@ class Work(models.Model):
 
     media_of_origin = models.CharField(max_length=20, choices=MEDIA_CHOICES, default=DIGITAL, blank=True, null=True)
 
-    copyright = models.TextField(blank=True, null=True)
-    copyright_country = models.TextField(blank=True, null=True)
+    copyright = models.CharField(max_length=128, blank=True, null=True)
+    copyright_country = models.CharField(max_length=150, blank=True, null=True)
     copyright_date = models.DateField(blank=True, null=True)
 
     def clean(self, *args, **kwargs):
@@ -96,39 +93,12 @@ class Work(models.Model):
 
     def save(self, *args, **kwargs):
         self.full_clean()
+        buf = io.BytesIO(self.audio.file.read())
+        codec = u.get_extension(self.audio.file.name)
+        peaks = u.get_peaks_from_audio_path(buf, codec)
+        self.waveform_peaks = peaks
         super(Work, self).save(*args, **kwargs)
 
     class Meta:
         managed = True
         db_table = 'poet_work'
-
-
-SERIES_CONTAINS_RECORDING = 'Series<contains>Recording'
-SERIES_CONTAINS_ALBUM = 'Series<contains>Album'
-SERIES_INFLUENCED_RECORDING = 'Series<influenced>Recording'
-
-RELATIONSHIP_CHOICES = (
-    (SERIES_CONTAINS_ALBUM, _('Is the series which contains this album.')),
-    (SERIES_CONTAINS_RECORDING, _('Is the series which contains this track.')),
-    (SERIES_INFLUENCED_RECORDING, _('Is a series which influenced this track.'))
-)
-
-
-class WorkToWorkRel(models.Model):
-    """
-    Recursive many to many relationship with the Work model.
-    """
-
-    from_work = models.ForeignKey(Work, on_delete=models.CASCADE, db_column='from_work', related_name='ww_from_model')
-    to_work = models.ForeignKey(Work, on_delete=models.CASCADE, db_column='to_work', related_name='ww_to_model')
-    contains = models.BooleanField(_('Consists of'), default=False)
-    track_order = models.IntegerField(blank=True, null=True)
-    relationship = models.TextField(choices=RELATIONSHIP_CHOICES, default=SERIES_CONTAINS_RECORDING, blank=True, null=True)
-    # Arbitrary additional information
-    commentary = models.TextField(blank=True, null=True)
-    additional_data = JSONField(blank=True, null=True)
-    history = HistoricalRecords()
-
-    class Meta:
-        managed = True
-        db_table = 'poet_work_to_work_rel'

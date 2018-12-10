@@ -85,6 +85,13 @@
                     </a>
                 </h3>
             </div>
+            <script>
+                var audioIterator = {
+                    containersIds: [],
+                    audioPaths: [],
+                    waveformPeaks: []
+                };
+            </script>
             <div id="recordings-collapse" class="collapse in">
                 <div class="card-block">
                     <table class="mod-tables table table-striped">
@@ -100,13 +107,17 @@
                     {% for entry in list %}
                         <tr>
                             <td>
-                                <audio controls="controls">Su navegador no admite reproducción de<code>audio</code>
-                                    <source src="{{ entry.full_path }}" type="{{ entry.codec }}">
-                                </audio>
+                                <div class="row" id="wavesurfer-container-{{ loop.index }}">
+                                </div>
                             </td>
                             <td>{{ render_work_link(entry) }}</td>
                             <td>{{ entry.date_recorded }}</td>
                         </tr>
+                        <script>
+                            audioIterator.containersIds.push("wavesurfer-container-{{ loop.index }}");
+                            audioIterator.audioPaths.push("{{ entry.audio }}");
+                            audioIterator.waveformPeaks.push({{ entry.waveform_peaks }});
+                        </script>
                     {% endfor %}
                     </tbody>
                     </table>
@@ -117,58 +128,8 @@
 {% endmacro %}
 
 
-
-{% macro render_place(result, muer=False) -%}
-    {% set lugar %}
-        {% if muer %}
-            {% if result.city_of_death is not none and result.city_of_death is defined %}
-                {{ result.city_of_death }},
-            {% endif %}
-            {% if result.subdivision_of_death is not none and result.subdivision_of_death is defined %}
-               {{ result.subdivision_of_death }},
-            {% endif %}
-            {% if result.country_of_death is not none %}
-               {{ result.country_of_death }}
-            {% endif %}
-        {% else %}
-            {% if result.city_of_origin is not none and result.city_of_origin is defined %}
-                {{ result.city_of_origin }},
-            {% endif %}
-            {% if result.subdivision_of_origin is not none and result.subdivision_of_origin is defined %}
-               {{ result.subdivision_of_origin }},
-            {% endif %}
-            {% if result.country_of_origin is not none %}
-               {{ result.country_of_origin }}
-            {% endif %}
-        {% endif %}
-    {% endset %}
-    {% if lugar|trim == "" %}
-        <div style="display: inline;">Desconocido</div>
-    {% else %}
-        <div style="display: inline;">{{ lugar|safe }}</div>
-    {% endif %}
-{% endmacro %}
-
-
-{% macro render_select(value, default) -%}
-    {% if value|lower == default|lower %}
-    <option value="{{ value|lower|safe }}" selected>{{ value|safe }}</option>
-    {% else %}
-    <option value="{{ value|lower|safe }}">{{ value|safe }}</option>
-    {% endif %}
-{% endmacro %}
-
-
-{% macro render_none(value, output=none) -%}
-    {% if value is not none %}
-        {{ value|safe }}
-     {% elif output is not none %}
-       {{ output|safe }}
-    {% endif %}
-{% endmacro %}
-
 {% macro render_table(name, list) -%}
-    {% if list|length > 0 %}
+    {% if list is not none %}
         <hr>
         <div class="card">
             <div class="card-header" role="tab" id="{{ name|safe }}-heading">

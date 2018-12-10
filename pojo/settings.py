@@ -29,7 +29,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'hitcount',
     'django_jinja',
     'simple_history',
     'poet.apps.PoetConfig',
@@ -157,6 +156,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+MEDIA_ROOT = os.environ['MEDIA_ROOT']
+MEDIA_URL = '/media/'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = os.environ['APP_MAIL_USERNAME']
