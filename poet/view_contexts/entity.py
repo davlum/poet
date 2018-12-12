@@ -27,7 +27,7 @@ def get_entitys_recordings(entity_id: int):
     return list(map(u.enrich_work, cleaned_recordings))
 
 
-def get_entity_context(entity_id: int) -> u.Context:
+def get_entity_context(entity_id: int):
     entity = model_to_dict(get_object_or_404(Entity, pk=entity_id))
 
     # filter empty string to none values
@@ -35,14 +35,11 @@ def get_entity_context(entity_id: int) -> u.Context:
 
     location_entity = {
         **cleaned_entity,
-        'location': u.get_string_location(cleaned_entity),
+        'location': u.get_dashed_location(cleaned_entity),
         'dates': u.get_dashed_date(cleaned_entity)
     }
 
-    return u.Context(
-        data={
-            'entity': location_entity,
-            'recordings': get_entitys_recordings(cleaned_entity['id'])
-        },
-        template='poet/entity.html.j2'
-    )
+    return {
+        'entity': location_entity,
+        'recordings': get_entitys_recordings(cleaned_entity['id'])
+    }

@@ -13,7 +13,7 @@ def make_field_search(field_list: List[str]):
 def search_model(model, field_list: List[str], term: str, join_statement='', predicate=''):
     suffix = make_field_search(field_list)
     query_string = """
-    SELECT *
+    SELECT id
     FROM {model}
     {join}
     WHERE ({suffix})
@@ -31,12 +31,9 @@ search_recordings = partial(search_model, 'poet_work', SHARED_FIELDS)
 
 
 def get_search_context(search_term):
-    return u.Context(
-        data={
-            'view_contexts': search_entities(term=search_term),
-            'recordings': list(map(
-                add_media_url_to_path, search_recordings(term=search_term))
-            )
-        },
-        template='poet/search.html.j2'
-    )
+    return {
+        'view_contexts': search_entities(term=search_term),
+        'recordings': list(map(
+            add_media_url_to_path, search_recordings(term=search_term))
+        )
+    }

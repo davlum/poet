@@ -13,6 +13,7 @@ LANGUAGE plpgsql
 IMMUTABLE
 RETURNS NULL ON NULL INPUT;
 
+
 CREATE OR REPLACE FUNCTION fix_date(target_table REGCLASS, target_col text) RETURNS void AS $body$
 BEGIN
   EXECUTE format('ALTER TABLE %I ' ||
@@ -20,6 +21,7 @@ BEGIN
 END;
 $body$
 LANGUAGE plpgsql;
+
 
 DROP VIEW IF EXISTS gr_view CASCADE;
 DROP VIEW IF EXISTS part_view CASCADE;

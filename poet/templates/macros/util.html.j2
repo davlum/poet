@@ -6,17 +6,12 @@
 
 
 {%  macro render_name_link(entity) -%}
-        <a href="{{ url("entity", entity_id=entity.id) }}">{{ entity.name }}</a>
+        <a href="{{ url("entity", entity_id=entity.entity_id) }}">{{ entity.entity_name }}</a>
 {% endmacro %}
 
 
 {%  macro render_work_link(work) -%}
-        <a href="{{ url("work", work_id=work.id) }}">{{ work.name }}</a>
-{% endmacro %}
-
-
-{%  macro render_name_relation(entity) -%}
-      {{ render_name_link(entity) }} - {{ entity.relationship }} <br>
+        <a href="{{ url("work", work_id=work.work_id) }}">{{ work.work_name }}</a>
 {% endmacro %}
 
 

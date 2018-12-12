@@ -47,16 +47,6 @@ def get_extension(path: str) -> str:
     return pathlib.PurePosixPath(path).suffix.replace('.', '')
 
 
-class Context:
-
-    def __init__(self, template, data):
-        self.template = template
-        self.data = data
-
-    template: str
-    data: Dict
-
-
 def to_none(s):
     """Converts identity objects to None"""
     if s is None:
