@@ -32,6 +32,20 @@
 {% endmacro %}
 
 
+{% macro render_search_entity(entity_type, entities) %}
+<div>
+    <div class="row">
+        <strong>{{ _(entity_type) }}</strong>
+    </div>
+    <div class="row">
+        {% for entity in entities %}
+            {{ render_entity(entity) }}
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}
+
+
 {% macro render_comments(work) %}
     <div>
         {% if work.commentary is not none %}
@@ -59,6 +73,16 @@
 {% endmacro %}
 
 
+{% macro render_search_entities(entity) %}
+<div>
+    {{ render_search_entity('Composers', entity.composers) }}
+    {{ render_search_entity('Interpreters', entity.interpreters) }}
+    {{ render_search_entity('Other', entity.others) }}
+</div>
+{% endmacro %}
+
+
+
 {% macro render_copyright(work) %}
 <div>
     <p class="text-center center-block">
@@ -71,15 +95,7 @@
 
 {% macro render_recordings(list) -%}
     {% if list is not none %}
-        <hr>
         <div class="card">
-            <div class="card-header" role="tab" id="recordings-heading">
-                <h3 class="mb-0">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#recordings-collapse" aria-expanded="true" aria-controls="recordings-collapse">
-                        {{ _('Recordings')|title }}
-                    </a>
-                </h3>
-            </div>
             <script>
                 var audioIterator = {
                     containersIds: [],
@@ -89,29 +105,59 @@
             </script>
             <div id="recordings-collapse" class="collapse in">
                 <div class="card-block">
-                    <table class="mod-tables table table-striped">
-                    <thead>
-                        <tr>
-                            <th>{{ _('Recording') }}</th>
-                            <th>{{ _('Title') }}</th>
-                            <th>{{ _('Date recorded') }}</th>
-{#                            <th>Autor(es)</th>#}
-                        </tr>
-                    </thead>
+                    <table class="table">
                     <tbody>
                     {% for entry in list %}
                         <tr>
                             <td>
-                                <div class="row" id="wavesurfer-container-{{ loop.index }}">
+                                <div class="wavesurfer-padding" id="wavesurfer-container-{{ loop.index }}">
+                                </div>
+                                <div>
+                                    {{ _( "Tags" ) }}: {{ entry.work.tags }}
+                                </div>
+                                <div>
+                                    {{ _( "Languages" ) }}: {{ entry.work.languages }}
                                 </div>
                             </td>
-                            <td>{{ render_work_link(entry) }}</td>
-                            <td>{{ entry.date_recorded }}</td>
+                            <td>
+                                <div class="wavesurfer-padding">
+                                    <div class="row">
+                                        <a href="{{ url("work", work_id=entry.work.work_id) }}">
+                                            <strong>{{ entry.work.work_name }}</strong>
+                                        </a>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{ _( "Published" ) }}:
+                                        </div>
+                                        <div class="col-md-6">
+                                             {{ entry.work.date_published }}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{ _( "Recorded" ) }}:
+                                        </div>
+                                        <div class="col-md-6">
+                                             {{ entry.work.date_recorded }}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {{ _( "Contributed" ) }}:
+                                        </div>
+                                        <div class="col-md-6">
+                                             {{ entry.work.date_contributed }}
+                                        </div>
+                                    </div>
+                                    {{ render_search_entities(entry.entities) }}
+                                </div>
+                            </td>
                         </tr>
                         <script>
                             audioIterator.containersIds.push("wavesurfer-container-{{ loop.index }}");
-                            audioIterator.audioPaths.push("{{ entry.audio }}");
-                            audioIterator.waveformPeaks.push({{ entry.waveform_peaks }});
+                            audioIterator.audioPaths.push("{{ entry.work.audio }}");
+                            audioIterator.waveformPeaks.push({{ entry.work.waveform_peaks }});
                         </script>
                     {% endfor %}
                     </tbody>

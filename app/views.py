@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from poet.view_contexts.work import get_work_context
-from poet.view_contexts.search import get_search_context
-from poet.view_contexts.entity import get_entity_context
-from poet.view_contexts.work_collection import get_work_collection_context
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from app.view_contexts.work import get_work_context
+from app.view_contexts.search import get_search_context
+from app.view_contexts.entity import get_entity_context
+from app.view_contexts.work_collection import get_work_collection_context
 
 
 def index(request):
@@ -28,11 +29,32 @@ def entity(request, entity_id):
     return render(request, 'poet/entity.html.j2', context)
 
 
+def search_paginator(request, recording_list):
+    paginator = Paginator(recording_list, 10)
+    page = request.GET.get('page', 1)
+    get_copy = request.GET.copy()
+    parameters = get_copy.pop('page', True) and get_copy.urlencode()
+
+    try:
+        recordings = paginator.page(page)
+    except PageNotAnInteger:
+        recordings = paginator.page(1)
+    except EmptyPage:
+        recordings = paginator.page(paginator.num_pages)
+    return {
+        'recordings': recordings,
+        'search_terms': parameters,
+    }
+
+
 def search(request):
     search_term = request.GET.get('term', '')
-    context = get_search_context(search_term)
+    recording_list = get_search_context(search_term)
+    context = search_paginator(request, recording_list)
+
     return render(request, 'poet/search.html.j2', context)
 
 
-
+def adv_search(request):
+    pass
 

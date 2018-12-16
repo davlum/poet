@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('poet', '0019_work_relationship_choices'),
+        ('app', '0019_work_relationship_choices'),
     ]
 
     operations = [

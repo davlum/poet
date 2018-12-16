@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('poet', '0010_util_funcs'),
+        ('app', '0010_util_funcs'),
     ]
 
     operations = [
@@ -54,24 +54,24 @@ class Migration(migrations.Migration):
             model_name='historicalentitytoworkrel',
             name='from_entity',
             field=models.ForeignKey(blank=True, db_column='from_entity', db_constraint=False, null=True,
-                                    on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Entity'),
+                                    on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Entity'),
         ),
         migrations.AddField(
             model_name='historicalentitytoworkrel',
             name='to_work',
             field=models.ForeignKey(blank=True, db_column='to_work', db_constraint=False, null=True,
-                                    on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Work'),
+                                    on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Work'),
         ),
         migrations.AlterField(
             model_name='entitytoworkrel',
             name='from_entity',
             field=models.ForeignKey(db_column='from_entity', on_delete=django.db.models.deletion.CASCADE,
-                                    to='poet.Entity'),
+                                    to='app.Entity'),
         ),
         migrations.AlterField(
             model_name='entitytoworkrel',
             name='to_work',
-            field=models.ForeignKey(db_column='to_work', on_delete=django.db.models.deletion.CASCADE, to='poet.Work'),
+            field=models.ForeignKey(db_column='to_work', on_delete=django.db.models.deletion.CASCADE, to='app.Work'),
         ),
 
         migrations.RunSQL("ALTER TABLE idioma RENAME COLUMN idioma_id TO id"),

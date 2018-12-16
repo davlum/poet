@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('poet', '0014_insert_relations'),
+        ('app', '0014_insert_relations'),
     ]
 
     operations = [

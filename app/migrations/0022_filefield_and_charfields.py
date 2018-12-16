@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('poet', '0021_change_work_type_names'),
+        ('app', '0021_change_work_type_names'),
     ]
 
     operations = [

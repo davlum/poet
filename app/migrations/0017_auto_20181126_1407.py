@@ -7,68 +7,68 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('poet', '0016_static_lookup_tables'),
+        ('app', '0016_static_lookup_tables'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='entitytoentityrel',
             name='from_entity',
-            field=models.ForeignKey(db_column='from_entity', on_delete=django.db.models.deletion.CASCADE, related_name='ee_from_model', to='poet.Entity'),
+            field=models.ForeignKey(db_column='from_entity', on_delete=django.db.models.deletion.CASCADE, related_name='ee_from_model', to='app.Entity'),
         ),
         migrations.AlterField(
             model_name='entitytoentityrel',
             name='to_entity',
-            field=models.ForeignKey(db_column='to_entity', on_delete=django.db.models.deletion.CASCADE, related_name='ee_to_model', to='poet.Entity'),
+            field=models.ForeignKey(db_column='to_entity', on_delete=django.db.models.deletion.CASCADE, related_name='ee_to_model', to='app.Entity'),
         ),
         migrations.AlterField(
             model_name='entitytoworkrel',
             name='from_entity',
-            field=models.ForeignKey(db_column='from_entity', on_delete=django.db.models.deletion.CASCADE, related_name='ew_from_model', to='poet.Entity'),
+            field=models.ForeignKey(db_column='from_entity', on_delete=django.db.models.deletion.CASCADE, related_name='ew_from_model', to='app.Entity'),
         ),
         migrations.AlterField(
             model_name='entitytoworkrel',
             name='to_work',
-            field=models.ForeignKey(db_column='to_work', on_delete=django.db.models.deletion.CASCADE, related_name='ew_to_model', to='poet.Work'),
+            field=models.ForeignKey(db_column='to_work', on_delete=django.db.models.deletion.CASCADE, related_name='ew_to_model', to='app.Work'),
         ),
         migrations.AlterField(
             model_name='historicalentitytoentityrel',
             name='from_entity',
-            field=models.ForeignKey(blank=True, db_column='from_entity', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Entity'),
+            field=models.ForeignKey(blank=True, db_column='from_entity', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Entity'),
         ),
         migrations.AlterField(
             model_name='historicalentitytoentityrel',
             name='to_entity',
-            field=models.ForeignKey(blank=True, db_column='to_entity', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Entity'),
+            field=models.ForeignKey(blank=True, db_column='to_entity', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Entity'),
         ),
         migrations.AlterField(
             model_name='historicalentitytoworkrel',
             name='from_entity',
-            field=models.ForeignKey(blank=True, db_column='from_entity', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Entity'),
+            field=models.ForeignKey(blank=True, db_column='from_entity', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Entity'),
         ),
         migrations.AlterField(
             model_name='historicalentitytoworkrel',
             name='to_work',
-            field=models.ForeignKey(blank=True, db_column='to_work', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Work'),
+            field=models.ForeignKey(blank=True, db_column='to_work', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Work'),
         ),
         migrations.AlterField(
             model_name='historicalworktoworkrel',
             name='from_work',
-            field=models.ForeignKey(blank=True, db_column='from_work', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Work'),
+            field=models.ForeignKey(blank=True, db_column='from_work', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Work'),
         ),
         migrations.AlterField(
             model_name='historicalworktoworkrel',
             name='to_work',
-            field=models.ForeignKey(blank=True, db_column='to_work', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Work'),
+            field=models.ForeignKey(blank=True, db_column='to_work', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Work'),
         ),
         migrations.AlterField(
             model_name='worktoworkrel',
             name='from_work',
-            field=models.ForeignKey(db_column='from_work', on_delete=django.db.models.deletion.CASCADE, related_name='ww_from_model', to='poet.Work'),
+            field=models.ForeignKey(db_column='from_work', on_delete=django.db.models.deletion.CASCADE, related_name='ww_from_model', to='app.Work'),
         ),
         migrations.AlterField(
             model_name='worktoworkrel',
             name='to_work',
-            field=models.ForeignKey(db_column='to_work', on_delete=django.db.models.deletion.CASCADE, related_name='ww_to_model', to='poet.Work'),
+            field=models.ForeignKey(db_column='to_work', on_delete=django.db.models.deletion.CASCADE, related_name='ww_to_model', to='app.Work'),
         ),
     ]

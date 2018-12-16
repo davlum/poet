@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from poet import views
+from app import views
 
 
 # class SearchParameterConverter:
@@ -23,7 +23,7 @@ urlpatterns = [
     path('work/<int:work_id>', views.work, name='work'),
     path('entity/<int:entity_id>', views.entity, name='entity'),
     path('search/', views.search, name='search'),
-    # path('search/<entity:entity_name>', views.search, name='search')
+    path('adv_search/', views.adv_search, name='adv_search'),
 ]
 
 if settings.DEBUG:

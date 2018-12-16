@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('poet', '0007_historicalcomposicion'),
+        ('app', '0007_historicalcomposicion'),
     ]
 
     operations = [
@@ -53,8 +53,8 @@ class Migration(migrations.Migration):
                 ('to_date_end', models.DateField(blank=True, null=True)),
                 ('comment', models.TextField(blank=True, null=True)),
                 ('additional_data', django.contrib.postgres.fields.jsonb.JSONField(blank=True, null=True)),
-                ('from_model', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='from_entity', to='poet.Entity')),
-                ('to_model', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='to_entity', to='poet.Entity')),
+                ('from_model', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='from_entity', to='app.Entity')),
+                ('to_model', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='to_entity', to='app.Entity')),
             ],
             options={
                 'db_table': 'poet_entity_to_entity_rel',
@@ -68,7 +68,7 @@ class Migration(migrations.Migration):
                 ('role', models.CharField(choices=[('Lectura en voz alta', 'Lectura en voz alta'), ('Interpretación musical', 'Interpretación musical'), ('Ingeniería de sonido', 'Ingeniería de sonido'), ('Producción', 'Producción'), ('Dirección', 'Dirección'), ('Post-producción', 'Post-producción'), ('Auxiliar de sonido', 'Auxiliar de sonido'), ('Contribuidor', 'Contribuidor'), ('Publicador', 'Publicador'), ('Composición', 'Composición'), ('Traducción', 'Traducción')], max_length=128)),
                 ('comments', models.TextField(blank=True, null=True)),
                 ('additional_data', django.contrib.postgres.fields.jsonb.JSONField(blank=True, null=True)),
-                ('from_model', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Entity')),
+                ('from_model', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Entity')),
             ],
             options={
                 'db_table': 'poet_entity_to_work_rel',
@@ -123,9 +123,9 @@ class Migration(migrations.Migration):
                 ('history_change_reason', models.CharField(max_length=100, null=True)),
                 ('history_date', models.DateTimeField()),
                 ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
-                ('from_model', models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Entity')),
+                ('from_model', models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Entity')),
                 ('history_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('to_model', models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Entity')),
+                ('to_model', models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Entity')),
             ],
             options={
                 'verbose_name': 'historical entity to entity rel',
@@ -145,7 +145,7 @@ class Migration(migrations.Migration):
                 ('history_change_reason', models.CharField(max_length=100, null=True)),
                 ('history_date', models.DateTimeField()),
                 ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
-                ('from_model', models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Entity')),
+                ('from_model', models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Entity')),
                 ('history_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -244,8 +244,8 @@ class Migration(migrations.Migration):
                 ('role', models.TextField(blank=True, null=True)),
                 ('comments', models.TextField(blank=True, null=True)),
                 ('additional_data', django.contrib.postgres.fields.jsonb.JSONField(blank=True, null=True)),
-                ('from_model', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='from_work', to='poet.Work')),
-                ('to_model', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='to_work', to='poet.Work')),
+                ('from_model', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='from_work', to='app.Work')),
+                ('to_model', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='to_work', to='app.Work')),
             ],
             options={
                 'db_table': 'poet_work_to_work_rel',
@@ -255,12 +255,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='work',
             name='self_relation',
-            field=models.ManyToManyField(blank=True, through='poet.WorkToWorkRel', to='poet.Work'),
+            field=models.ManyToManyField(blank=True, through='app.WorkToWorkRel', to='app.Work'),
         ),
         migrations.AddField(
             model_name='historicalworktoworkrel',
             name='from_model',
-            field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Work'),
+            field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Work'),
         ),
         migrations.AddField(
             model_name='historicalworktoworkrel',
@@ -270,26 +270,26 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='historicalworktoworkrel',
             name='to_model',
-            field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Work'),
+            field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Work'),
         ),
         migrations.AddField(
             model_name='historicalentitytoworkrel',
             name='to_model',
-            field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.Work'),
+            field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.Work'),
         ),
         migrations.AddField(
             model_name='entitytoworkrel',
             name='to_model',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Work'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Work'),
         ),
         migrations.AddField(
             model_name='entity',
             name='self_relation',
-            field=models.ManyToManyField(blank=True, through='poet.EntityToEntityRel', to='poet.Entity'),
+            field=models.ManyToManyField(blank=True, through='app.EntityToEntityRel', to='app.Entity'),
         ),
         migrations.AddField(
             model_name='entity',
             name='work_relation',
-            field=models.ManyToManyField(blank=True, through='poet.EntityToWorkRel', to='poet.Work'),
+            field=models.ManyToManyField(blank=True, through='app.EntityToWorkRel', to='app.Work'),
         ),
     ]
