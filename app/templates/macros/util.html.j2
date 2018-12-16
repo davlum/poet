@@ -1,0 +1,152 @@
+{%  macro non(thing) -%}
+    {% if thing is not none %}
+        {{ thing }}
+    {% endif %}
+{% endmacro %}
+
+
+{%  macro render_name_link(entity) -%}
+        <a href="{{ url("entity", entity_id=entity.entity_id) }}">{{ entity.entity_name }}</a>
+{% endmacro %}
+
+
+{%  macro render_work_link(work) -%}
+        <a href="{{ url("work", work_id=work.work_id) }}">{{ work.work_name }}</a>
+{% endmacro %}
+
+
+{%  macro render_entity(entity) -%}
+      {{ render_name_link(entity) }} - {{ entity.relationship }} <br>
+{% endmacro %}
+
+
+{% macro render_entity_ls(entity_type, entities) %}
+<div>
+    <h4>{{ _(entity_type) }}</h4>
+    <h3 class="indented">
+        {% for entity in entities %}
+            {{ render_entity(entity) }}
+        {% endfor %}
+    </h3>
+</div>
+{% endmacro %}
+
+
+{% macro render_comments(work) %}
+    <div>
+        {% if work.commentary is not none %}
+            <h4>{{ _('Commentary') }}</h4>
+            <p class="skinny text-center center-block"> {{ work.commentary }}</p>
+            <br>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro render_work_entities(work, entity) %}
+<div>
+    <h4>{{ _('Title') }}</h4>
+    <h3 class="indented">
+        {{ work.full_name }}
+        {% if work.alt_name is not none %}
+                ({{ work.alt_name }})
+        {% endif %}
+    </h3>
+</div>
+{{ render_entity_ls('Composers', entity.composers) }}
+{{ render_entity_ls('Interpreters', entity.interpreters) }}
+{{ render_entity_ls('Other', entity.others) }}
+<br>
+{% endmacro %}
+
+
+{% macro render_copyright(work) %}
+<div>
+    <p class="text-center center-block">
+        {{ non(work.copyright) }} <br>
+        {{ non(work.copyright_date) }} <br>
+        {{ non(work.copyright_country) }}
+    </p>
+</div>
+{% endmacro %}
+
+{% macro render_recordings(list) -%}
+    {% if list is not none %}
+        <hr>
+        <div class="card">
+            <div class="card-header" role="tab" id="recordings-heading">
+                <h3 class="mb-0">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#recordings-collapse" aria-expanded="true" aria-controls="recordings-collapse">
+                        {{ _('Recordings')|title }}
+                    </a>
+                </h3>
+            </div>
+            <script>
+                var audioIterator = {
+                    containersIds: [],
+                    audioPaths: [],
+                    waveformPeaks: []
+                };
+            </script>
+            <div id="recordings-collapse" class="collapse in">
+                <div class="card-block">
+                    <table class="mod-tables table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ _('Recording') }}</th>
+                            <th>{{ _('Title') }}</th>
+                            <th>{{ _('Date recorded') }}</th>
+{#                            <th>Autor(es)</th>#}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for entry in list %}
+                        <tr>
+                            <td>
+                                <div class="row" id="wavesurfer-container-{{ loop.index }}">
+                                </div>
+                            </td>
+                            <td>{{ render_work_link(entry) }}</td>
+                            <td>{{ entry.date_recorded }}</td>
+                        </tr>
+                        <script>
+                            audioIterator.containersIds.push("wavesurfer-container-{{ loop.index }}");
+                            audioIterator.audioPaths.push("{{ entry.audio }}");
+                            audioIterator.waveformPeaks.push({{ entry.waveform_peaks }});
+                        </script>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+   {% endif %}
+{% endmacro %}
+
+
+{% macro render_table(name, list) -%}
+    {% if list is not none %}
+        <hr>
+        <div class="card">
+            <div class="card-header" role="tab" id="{{ name|safe }}-heading">
+                <h3 class="mb-0">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#{{ name|safe }}-collapse" aria-expanded="true" aria-controls="{{ name|safe }}-collapse">
+                        {{ name|safe|title }}
+                    </a>
+                </h3>
+            </div>
+            <div id="{{ name|safe }}-collapse" class="collapse in">
+                <div class="card-block">
+                    <table class="table table-striped">
+                    <tbody>
+                    {% for entry in list %}
+                        <tr>
+                            <td>{{ entry }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+   {% endif %}
+{% endmacro %}

@@ -1,0 +1,38 @@
+{% extends 'layout/search.html.j2' %}
+{% from 'macros/util.html.j2' import render_entity_ls, render_table, render_comments, render_copyright,
+render_table, render_work_entities %}
+
+{% block resultbody %}
+    <div class="center-block" style="width: 80%;">
+        <h2>{{ _('Recording') }}</h2>
+        <br>
+        <div class="container">
+            <div class="row" id="wavesurfer-container">
+            </div>
+            <br>
+            <div class="row">
+                {{ render_work_entities(work, entities) }}
+            </div>
+            {{ render_comments(work) }}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ render_table(_('Tags'), work.tags) }}
+                </div>
+                <div class="col-md-6">
+                    {{ render_table(_('Languages'), work.languages) }}
+                </div>
+            </div>
+        </div>
+        {{ render_copyright(work) }}
+    <script>
+        var audioIterator = {
+            containersIds: ["wavesurfer-container"],
+            audioPaths: ["{{ work.audio }}"],
+            waveformPeaks: [null]
+        };
+        {% if work.waveform_peaks is not none %}
+            audioIterator.waveformPeaks = [{{ work.waveform_peaks }}];
+        {% endif %}
+    </script>
+    </div>
+{% endblock %}
