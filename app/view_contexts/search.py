@@ -13,7 +13,7 @@ def make_field_search(field_list: List[str]):
 def search_model(model, field_list: List[str], term: str, join_statement='', predicate=''):
     suffix = make_field_search(field_list)
     query_string = """
-    SELECT id
+    SELECT *
     FROM {model}
     {join}
     WHERE ({suffix})

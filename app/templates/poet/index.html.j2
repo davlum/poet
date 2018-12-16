@@ -1,16 +1,15 @@
 {% extends 'layout/main.html.j2' %}
 {% block body %}
     <div class="loading" data-loading="page"></div>
-        <div class="loading_animation pulsing <%= extra_class %> "><div>
+        <div><div>
 		<div id="main-page" class="container">
-			<main class="content_width" data-container="content">
-				<div data-container-padding>
+			<main>
+				<div>
 					<div class="content_padded">
-				    	<div class="bodycopy" data-sortable="Content" data-view="ProjectDetail" data-set="Project" style="display:block;">
+				    	<div style="display:block;">
 				    		<a href="#" class="show_index" rel="show_index" style="display: none">✕</a>
 				    		<div id="content" class="padded" data-id="145850">
-                                <div class="project_title" style="display: none">PS Inicio</div>
-					    		<div class="content clearfix" data-elementresizer data-resize-parent>
+					    		<div>
 					    			<div id="project-title">
                                         <br>
                                         <br>
@@ -43,30 +42,7 @@
                                                     <br>
                                                     (2016)</a>
                                             </div>
-                                         <div><small>
-                                          <br>
-                                          <br>
-                                          <br>
-                                          <br>
-                                          <br>
-                                        <a href="http://poeticasonora.mx/Proyecto" rel="history">Sobre el proyecto</a> | <a href="http://poeticasonora.mx/Participantes-PoeticaSonora" rel="history">Participantes</a> |
-                                        <a href="http://poeticasonora.mx/Instancias-que-colaboran-con-nosotros" rel="history">Instancias que colaboran con nosotros</a> |
-                                        <a href="http://poeticasonora.mx/Noticias" rel="history">Prensa</a>&nbsp;| <br>
-                                        <a href="http://poeticasonora.mx/http://laboratorioextendido.dropmark.com/150515" target="_blank">Documentación visual</a> |
-                                        <a href="http://poeticasonora.mx/Equipo" rel="history">Créditos 2016</a> | <a href="http://poeticasonora.mx/Equipo-RDA" rel="history">Créditos 2017</a> |
-                                        <a href="http://poeticasonora.mx/Contacto" rel="history">Contacto</a>&nbsp;<br>
-                                        <a href="http://poeticasonora.mx/Project" rel="history">About the project</a> | <a href="http://poeticasonora.mx/Participants" rel="history">Participants</a> |
-                                        <a href="http://poeticasonora.mx/Collaborating-Institutions" rel="history">Collaborating Institutions</a> | <a href="http://poeticasonora.mx/Press" rel="history">Press</a> |<br>
-                                        <a href="http://poeticasonora.mx/http://laboratorioextendido.dropmark.com/150515" target="_blank">Visual Documentation</a> |
-                                        <a href="http://poeticasonora.mx/Team" rel="history">Credits 2016</a> |
-                                        <a href="http://poeticasonora.mx/Equipo-RDA" rel="history">Credits 2017</a> |
-                                        <a href="http://poeticasonora.mx/Contact" rel="history">Contact</a><br><br><b>
-                                        <a href="http://www.twitter.com/_lleom_" class="icon-link" target="_blank"></a>
-                                        <a href="https://www.facebook.com/laboratorioextendido" class="icon-link" target="_blank"></a></b><br>#PoéticaSonoraMX
-                                      </small></div>
-                                          <br>
-                                          <br>
-                                          <br>
+                                            {% include 'includes/_footer.html.j2' %}
                                       <div>
                                           <a href="https://lleom.net/" class="image-link" target="_blank">
                                               <img src="//payload.persona.co/1/0/28105/145850/lleom_logo_negro_403.jpeg" width="403" height="156"
@@ -77,7 +53,6 @@
                                       </div>
                                     </div>
                                     </div>
-                                <directlink link="http://poeticasonora.mx/PS-Inicio" id="dl_145850"></directlink>
                             </div>
                         </div>
                     </div>

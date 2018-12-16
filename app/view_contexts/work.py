@@ -29,7 +29,7 @@ def get_recording_entities(work_id: int) -> List[Dict[str, str]]:
 
     q = """
     SELECT DISTINCT
-        en.id,
+        en.id entity_id,
         join_words(en.full_name, en.alt_name) entity_name,
         rel.relationship
     FROM poet_entity_to_work_rel rel
@@ -37,6 +37,7 @@ def get_recording_entities(work_id: int) -> List[Dict[str, str]]:
     WHERE rel.to_work = %s
     AND release_state = %s
     """
+
     return u.query(q, [work_id, PUBLISHED])
 
 

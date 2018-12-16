@@ -72,12 +72,13 @@ class Migration(migrations.Migration):
         migrations.RunSQL("""
         CREATE OR REPLACE FUNCTION join_words(word1 text, word2 text) RETURNS text AS $body$
         BEGIN
-          RETURN array_to_string(ARRAY[NULLIF(TRIM(word1), ''), NULLIF(TRIM(word2), '')], ' - ');
+          RETURN array_to_string(
+            ARRAY[nullif(trim(word1), ''), nullif(trim(word2), '')], ' - '
+          );
         END;
         $body$
         LANGUAGE plpgsql
-        IMMUTABLE
-        RETURNS NULL ON NULL INPUT;
+        IMMUTABLE;
         """)
 
     ]
