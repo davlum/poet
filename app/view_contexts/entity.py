@@ -1,45 +1,46 @@
-import poet.view_contexts.util as u
-from django.shortcuts import get_object_or_404
-from django.forms.models import model_to_dict
-from poet.models.entity import Entity
+import app.view_contexts.util as u
+import app.view_contexts.work as work
+from app.models.choices import PUBLISHED
+
+
+def get_entity(entity_id: int):
+    q = """SELECT * FROM poet_entity WHERE id = %s AND release_state = %s"""
+
+    return u.query(q, [entity_id, PUBLISHED])[0]
+
+
+def get_entity_or_404(entity_id):
+    return u.return_or_404(get_entity, entity_id=entity_id)
+
+
+def clean_entity(entity_dict):
+    entity_dict = {k: u.to_none(v) for k, v in entity_dict.items()}
+    entity_dict['entity_id'] = entity_dict['id']
+    entity_dict['entity_name'] = u.get_dashed_name(entity_dict)
+    entity_dict['dates'] = u.get_dashed_date(entity_dict)
+    entity_dict['location'] = u.get_dashed_location(entity_dict)
+    return entity_dict
 
 
 def get_recordings(entity_id: int):
     q = """
-    SELECT 
-        track.id,
-        track.full_name,
-        track.alt_name,
-        track.date_recorded,
-        track.file_type,
-        track.path_to_file
+    SELECT *
     FROM poet_entity_to_work_rel rel
     JOIN poet_work track ON rel.to_work = track.id
-    WHERE track.work_type = 'Pista son'
     AND rel.from_entity = %s
+    AND track.release_state = %s
     """
-    return u.query(q, [entity_id])
+    recordings = u.query(q, [entity_id, PUBLISHED])
+    return list(map(work.enrich_work, recordings))
 
 
-def get_entitys_recordings(entity_id: int):
-    recordings = get_recordings(entity_id)
-    cleaned_recordings = [{k: u.to_none(v) for k, v in entry.items()} for entry in recordings]
-    return list(map(u.enrich_work, cleaned_recordings))
+def enrich_entity(entity):
+    return {
+        'entity': clean_entity(entity),
+        'recordings': get_recordings(entity['id'])
+    }
 
 
 def get_entity_context(entity_id: int):
-    entity = model_to_dict(get_object_or_404(Entity, pk=entity_id))
-
-    # filter empty string to none values
-    cleaned_entity = {k: u.to_none(v) for k, v in entity.items()}
-
-    location_entity = {
-        **cleaned_entity,
-        'location': u.get_dashed_location(cleaned_entity),
-        'dates': u.get_dashed_date(cleaned_entity)
-    }
-
-    return {
-        'entity': location_entity,
-        'recordings': get_entitys_recordings(cleaned_entity['id'])
-    }
+    entity = get_entity_or_404(entity_id)
+    return enrich_entity(entity)

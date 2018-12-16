@@ -1,7 +1,7 @@
-from poet.view_contexts.work import add_media_url_to_path
-from typing import List
+import app.view_contexts.work as work
+from typing import List, Dict
 from functools import partial
-import poet.view_contexts.util as u
+import app.view_contexts.util as u
 
 
 def make_field_search(field_list: List[str]):
@@ -30,10 +30,6 @@ search_entities = partial(search_model, 'poet_entity', SHARED_FIELDS)
 search_recordings = partial(search_model, 'poet_work', SHARED_FIELDS)
 
 
-def get_search_context(search_term):
-    return {
-        'view_contexts': search_entities(term=search_term),
-        'recordings': list(map(
-            add_media_url_to_path, search_recordings(term=search_term))
-        )
-    }
+def get_search_context(search_term: str) -> List[Dict[str, str]]:
+    return list(map(work.enrich_work, search_recordings(term=search_term)))
+

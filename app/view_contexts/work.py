@@ -1,6 +1,6 @@
-import poet.view_contexts.util as u
-from poet.models.relations import COMPOSER, READER, MUSICIAN
-from poet.models.choices import PUBLISHED
+import app.view_contexts.util as u
+from app.models.relations import COMPOSER, READER, MUSICIAN
+from app.models.choices import PUBLISHED
 from typing import Dict, List
 from django.conf import settings
 import os
@@ -9,17 +9,17 @@ import os
 def get_work(work_id: int):
     q = """SELECT * FROM poet_work WHERE id = %s AND release_state = %s"""
 
-    work = u.query(q, [work_id, PUBLISHED])[0]
-
-    return {k: u.to_none(v) for k, v in work.items()}
+    return u.query(q, [work_id, PUBLISHED])[0]
 
 
 def get_work_or_404(work_id):
     return u.return_or_404(get_work, work_id=work_id)
 
 
-def add_media_url_to_path(work_dict):
+def clean_work(work_dict):
+    work_dict = {k: u.to_none(v) for k, v in work_dict.items()}
     file_path = os.path.join(settings.MEDIA_URL, work_dict['audio'])
+    work_dict['work_id'] = work_dict['id']
     work_dict['audio'] = file_path
     work_dict['work_name'] = u.get_dashed_name(work_dict)
     return work_dict
@@ -52,9 +52,14 @@ def clean_recording_entities(entity_ls: List[Dict[str, str]]):
     }
 
 
-def get_work_context(work_id: int):
-    work = get_work_or_404(work_id)
+def enrich_work(work):
     return {
-        'work': add_media_url_to_path(work),
+        'work': clean_work(work),
         'entities': clean_recording_entities(get_recording_entities(work['id']))
     }
+
+
+def get_work_context(work_id: int):
+    work = get_work_or_404(work_id)
+    return enrich_work(work)
+

@@ -2,13 +2,13 @@
 
 from django.db import migrations, models
 import django.contrib.postgres.fields
-import poet.view_contexts.util as u
+import app.view_contexts.util as u
 from django.conf import settings
 import os
 
 
 def generate_waveform_peaks(apps, schema_editor):
-    works = apps.get_model('poet', 'Work')
+    works = apps.get_model('app', 'Work')
     for work in works.objects.all():
         if not work.waveform_peaks:
             fname = work.audio.name
@@ -21,7 +21,7 @@ def generate_waveform_peaks(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('poet', '0024_clean_recursive_relationship'),
+        ('app', '0024_clean_recursive_relationship'),
     ]
 
     operations = [

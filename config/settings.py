@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django_jinja',
     'simple_history',
-    'poet.apps.PoetConfig',
+    'app.apps.PoetConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'simple_history.middleware.HistoryRequestMiddleware'
 ]
 
-ROOT_URLCONF = 'pojo.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -60,7 +60,7 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "match_extension": ".html.j2",
-            "environment": "poet.jinja_config.environment",
+            "environment": "app.jinja_config.environment",
             "context_processors": [
                 "django.contrib.auth.context_processors.auth",
                 "django.template.context_processors.debug",
@@ -102,7 +102,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'pojo.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -169,5 +169,3 @@ EMAIL_PORT = 587
 # Should be commented out for production
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# For testing the watson search app
-# WATSON_POSTGRES_SEARCH_CONFIG = "pg_catalog.spanish"

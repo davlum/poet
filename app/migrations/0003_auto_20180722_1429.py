@@ -7,7 +7,7 @@ from django.contrib.postgres.operations import UnaccentExtension, TrigramExtensi
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('poet', '0002_auto_20180709_0024'),
+        ('app', '0002_auto_20180709_0024'),
     ]
 
     operations = [

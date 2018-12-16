@@ -1,6 +1,6 @@
-import poet.view_contexts.util as u
-from poet.models.relations import COMPOSER, READER, MUSICIAN
-from poet.models.choices import PUBLISHED
+import app.view_contexts.util as u
+from app.models.relations import COMPOSER, READER, MUSICIAN
+from app.models.choices import PUBLISHED
 from typing import Dict, List
 from django.conf import settings
 from functools import reduce

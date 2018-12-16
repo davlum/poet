@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('poet', '0008_model_refactor'),
+        ('app', '0008_model_refactor'),
     ]
 
     operations = [
@@ -54,12 +54,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='entity',
             name='entity_type',
-            field=models.ForeignKey(db_column='entity_type', on_delete=django.db.models.deletion.PROTECT, to='poet.EntityType'),
+            field=models.ForeignKey(db_column='entity_type', on_delete=django.db.models.deletion.PROTECT, to='app.EntityType'),
         ),
         migrations.AlterField(
             model_name='entity',
             name='release_state',
-            field=models.ForeignKey(db_column='release_state', default='PENDIENTE', on_delete=django.db.models.deletion.PROTECT, to='poet.ReleaseState'),
+            field=models.ForeignKey(db_column='release_state', default='PENDIENTE', on_delete=django.db.models.deletion.PROTECT, to='app.ReleaseState'),
         ),
         migrations.AlterField(
             model_name='entitytoentityrel',
@@ -69,17 +69,17 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='entitytoworkrel',
             name='role',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='poet.EntityToWorkRole'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='app.EntityToWorkRole'),
         ),
         migrations.AlterField(
             model_name='historicalentity',
             name='entity_type',
-            field=models.ForeignKey(blank=True, db_column='entity_type', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.EntityType'),
+            field=models.ForeignKey(blank=True, db_column='entity_type', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.EntityType'),
         ),
         migrations.AlterField(
             model_name='historicalentity',
             name='release_state',
-            field=models.ForeignKey(blank=True, db_column='release_state', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.ReleaseState'),
+            field=models.ForeignKey(blank=True, db_column='release_state', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.ReleaseState'),
         ),
         migrations.AlterField(
             model_name='historicalentitytoentityrel',
@@ -89,17 +89,17 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='historicalentitytoworkrel',
             name='role',
-            field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.EntityToWorkRole'),
+            field=models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.EntityToWorkRole'),
         ),
         migrations.AlterField(
             model_name='historicalwork',
             name='release_state',
-            field=models.ForeignKey(blank=True, db_column='release_state', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.ReleaseState'),
+            field=models.ForeignKey(blank=True, db_column='release_state', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.ReleaseState'),
         ),
         migrations.AlterField(
             model_name='historicalwork',
             name='work_type',
-            field=models.ForeignKey(blank=True, db_column='work_type', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.WorkType'),
+            field=models.ForeignKey(blank=True, db_column='work_type', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.WorkType'),
         ),
         migrations.AlterField(
             model_name='historicalworktoworkrel',
@@ -114,12 +114,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='work',
             name='release_state',
-            field=models.ForeignKey(db_column='release_state', default='PENDIENTE', on_delete=django.db.models.deletion.PROTECT, to='poet.ReleaseState'),
+            field=models.ForeignKey(db_column='release_state', default='PENDIENTE', on_delete=django.db.models.deletion.PROTECT, to='app.ReleaseState'),
         ),
         migrations.AlterField(
             model_name='work',
             name='work_type',
-            field=models.ForeignKey(db_column='work_type', on_delete=django.db.models.deletion.PROTECT, to='poet.WorkType'),
+            field=models.ForeignKey(db_column='work_type', on_delete=django.db.models.deletion.PROTECT, to='app.WorkType'),
         ),
         migrations.AlterField(
             model_name='worktoworkrel',

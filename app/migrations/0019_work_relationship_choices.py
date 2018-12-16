@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('poet', '0018_unjsonify_fields'),
+        ('app', '0018_unjsonify_fields'),
     ]
 
     operations = [

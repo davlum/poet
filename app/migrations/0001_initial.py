@@ -126,7 +126,7 @@ class Migration(migrations.Migration):
             name='GeneroPista',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('gen_mus', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='poet.GeneroMusical')),
+                ('gen_mus', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='app.GeneroMusical')),
             ],
             options={
                 'db_table': 'genero_pista',
@@ -148,8 +148,8 @@ class Migration(migrations.Migration):
             name='IdiomaComposicion',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('composicion', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Composicion')),
-                ('idioma', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Idioma')),
+                ('composicion', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Composicion')),
+                ('idioma', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Idioma')),
             ],
             options={
                 'db_table': 'idioma_composicion',
@@ -163,7 +163,7 @@ class Migration(migrations.Migration):
                 ('nom_inst', models.TextField()),
                 ('electronico', models.NullBooleanField()),
                 ('instrumento_comentario', models.TextField(blank=True, null=True)),
-                ('familia_instr', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.FamiliaInstrumento')),
+                ('familia_instr', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.FamiliaInstrumento')),
             ],
             options={
                 'db_table': 'instrumento',
@@ -216,7 +216,7 @@ class Migration(migrations.Migration):
             name='ParticipanteCobertura',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('cobertura', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Cobertura')),
+                ('cobertura', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Cobertura')),
             ],
             options={
                 'db_table': 'participante_cobertura',
@@ -281,10 +281,10 @@ class Migration(migrations.Migration):
                 ('fecha_dig', models.CharField(blank=True, max_length=10, null=True)),
                 ('fecha_cont', models.CharField(blank=True, max_length=10, null=True)),
                 ('estado', models.TextField()),
-                ('composicion', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Composicion')),
-                ('generos', models.ManyToManyField(through='poet.GeneroPista', to='poet.GeneroMusical')),
-                ('lugar', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Lugar')),
-                ('medio', models.ForeignKey(blank=True, db_column='medio', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Medio')),
+                ('composicion', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Composicion')),
+                ('generos', models.ManyToManyField(through='app.GeneroPista', to='app.GeneroMusical')),
+                ('lugar', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Lugar')),
+                ('medio', models.ForeignKey(blank=True, db_column='medio', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Medio')),
             ],
             options={
                 'db_table': 'pista_son',
@@ -341,8 +341,8 @@ class Migration(migrations.Migration):
             name='TemaComposicion',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('composicion', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Composicion')),
-                ('tema', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Tema')),
+                ('composicion', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Composicion')),
+                ('tema', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Tema')),
             ],
             options={
                 'db_table': 'tema_composicion',
@@ -362,7 +362,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Grupo',
             fields=[
-                ('part', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='poet.Participante')),
+                ('part', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='app.Participante')),
                 ('email', models.TextField(blank=True, null=True, unique=True)),
                 ('nom_part', models.TextField(blank=True, null=True)),
                 ('sitio_web', models.TextField(blank=True, null=True)),
@@ -381,7 +381,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Persona',
             fields=[
-                ('part', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='poet.Participante')),
+                ('part', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='app.Participante')),
                 ('nom_paterno', models.TextField(blank=True, null=True)),
                 ('nom_materno', models.TextField(blank=True, null=True)),
                 ('seudonimo', models.TextField(blank=True, null=True)),
@@ -404,16 +404,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Usuario',
             fields=[
-                ('usuario', models.OneToOneField(on_delete=django.db.models.deletion.DO_NOTHING, primary_key=True, serialize=False, to='poet.Participante')),
+                ('usuario', models.OneToOneField(on_delete=django.db.models.deletion.DO_NOTHING, primary_key=True, serialize=False, to='app.Participante')),
                 ('confirmado', models.BooleanField()),
                 ('nom_usuario', models.TextField(unique=True)),
                 ('contrasena', models.TextField()),
                 ('fecha_registro', models.DateTimeField(blank=True, null=True)),
                 ('fecha_confirmado', models.DateTimeField(blank=True, null=True)),
                 ('prohibido', models.BooleanField()),
-                ('gr_email', models.OneToOneField(blank=True, db_column='gr_email', null=True, on_delete=django.db.models.deletion.PROTECT, to='poet.Grupo')),
-                ('permiso', models.ForeignKey(db_column='permiso', on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Permiso')),
-                ('pers_email', models.OneToOneField(blank=True, db_column='pers_email', null=True, on_delete=django.db.models.deletion.PROTECT, to='poet.Persona')),
+                ('gr_email', models.OneToOneField(blank=True, db_column='gr_email', null=True, on_delete=django.db.models.deletion.PROTECT, to='app.Grupo')),
+                ('permiso', models.ForeignKey(db_column='permiso', on_delete=django.db.models.deletion.DO_NOTHING, to='app.Permiso')),
+                ('pers_email', models.OneToOneField(blank=True, db_column='pers_email', null=True, on_delete=django.db.models.deletion.PROTECT, to='app.Persona')),
             ],
             options={
                 'db_table': 'usuario',
@@ -423,142 +423,142 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='serie',
             name='cargador',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Participante'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='app.Participante'),
         ),
         migrations.AddField(
             model_name='pistason',
             name='participantes',
-            field=models.ManyToManyField(through='poet.ParticipantePistaSon', to='poet.Participante'),
+            field=models.ManyToManyField(through='app.ParticipantePistaSon', to='app.Participante'),
         ),
         migrations.AddField(
             model_name='pistason',
             name='serie',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Serie'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Serie'),
         ),
         migrations.AddField(
             model_name='personagrupo',
             name='cargador',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Participante'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='app.Participante'),
         ),
         migrations.AddField(
             model_name='participantepistason',
             name='cargador',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='part_pista_uploader', to='poet.Participante'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='part_pista_uploader', to='app.Participante'),
         ),
         migrations.AddField(
             model_name='participantepistason',
             name='instrumento',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Instrumento'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='app.Instrumento'),
         ),
         migrations.AddField(
             model_name='participantepistason',
             name='part',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Participante'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Participante'),
         ),
         migrations.AddField(
             model_name='participantepistason',
             name='pista_son',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.PistaSon'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.PistaSon'),
         ),
         migrations.AddField(
             model_name='participantepistason',
             name='rol_pista_son',
-            field=models.ForeignKey(db_column='rol_pista_son', on_delete=django.db.models.deletion.DO_NOTHING, to='poet.RolPistaSon'),
+            field=models.ForeignKey(db_column='rol_pista_son', on_delete=django.db.models.deletion.DO_NOTHING, to='app.RolPistaSon'),
         ),
         migrations.AddField(
             model_name='participantecomposicion',
             name='cargador',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='part_comp_uploader', to='poet.Participante'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='part_comp_uploader', to='app.Participante'),
         ),
         migrations.AddField(
             model_name='participantecomposicion',
             name='composicion',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Composicion'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Composicion'),
         ),
         migrations.AddField(
             model_name='participantecomposicion',
             name='part',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Participante'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Participante'),
         ),
         migrations.AddField(
             model_name='participantecomposicion',
             name='rol_composicion',
-            field=models.ForeignKey(db_column='rol_composicion', on_delete=django.db.models.deletion.DO_NOTHING, to='poet.RolComposicion'),
+            field=models.ForeignKey(db_column='rol_composicion', on_delete=django.db.models.deletion.DO_NOTHING, to='app.RolComposicion'),
         ),
         migrations.AddField(
             model_name='participantecobertura',
             name='part',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Participante'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Participante'),
         ),
         migrations.AddField(
             model_name='participante',
             name='coberturas',
-            field=models.ManyToManyField(through='poet.ParticipanteCobertura', to='poet.Cobertura'),
+            field=models.ManyToManyField(through='app.ParticipanteCobertura', to='app.Cobertura'),
         ),
         migrations.AddField(
             model_name='lugar',
             name='pais',
-            field=models.ForeignKey(blank=True, db_column='pais', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Pais'),
+            field=models.ForeignKey(blank=True, db_column='pais', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Pais'),
         ),
         migrations.AddField(
             model_name='generopista',
             name='pista_son',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='poet.PistaSon'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='app.PistaSon'),
         ),
         migrations.AddField(
             model_name='composicion',
             name='cargador',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='composicion_uploader', to='poet.Participante'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='composicion_uploader', to='app.Participante'),
         ),
         migrations.AddField(
             model_name='composicion',
             name='composicion_orig',
-            field=models.ForeignKey(blank=True, db_column='composicion_orig', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Composicion'),
+            field=models.ForeignKey(blank=True, db_column='composicion_orig', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Composicion'),
         ),
         migrations.AddField(
             model_name='composicion',
             name='idiomas',
-            field=models.ManyToManyField(through='poet.IdiomaComposicion', to='poet.Idioma'),
+            field=models.ManyToManyField(through='app.IdiomaComposicion', to='app.Idioma'),
         ),
         migrations.AddField(
             model_name='composicion',
             name='participantes',
-            field=models.ManyToManyField(through='poet.ParticipanteComposicion', to='poet.Participante'),
+            field=models.ManyToManyField(through='app.ParticipanteComposicion', to='app.Participante'),
         ),
         migrations.AddField(
             model_name='composicion',
             name='temas',
-            field=models.ManyToManyField(through='poet.TemaComposicion', to='poet.Tema'),
+            field=models.ManyToManyField(through='app.TemaComposicion', to='app.Tema'),
         ),
         migrations.AddField(
             model_name='coberturalicencia',
             name='tipo_cob',
-            field=models.ForeignKey(blank=True, db_column='tipo_cob', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.CoberturaTipo'),
+            field=models.ForeignKey(blank=True, db_column='tipo_cob', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.CoberturaTipo'),
         ),
         migrations.AddField(
             model_name='cobertura',
             name='cobertura_lic',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='poet.CoberturaLicencia'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='app.CoberturaLicencia'),
         ),
         migrations.AddField(
             model_name='cobertura',
             name='composicion',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Composicion'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Composicion'),
         ),
         migrations.AddField(
             model_name='cobertura',
             name='pais_cobertura',
-            field=models.ForeignKey(blank=True, db_column='pais_cobertura', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Pais'),
+            field=models.ForeignKey(blank=True, db_column='pais_cobertura', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Pais'),
         ),
         migrations.AddField(
             model_name='cobertura',
             name='pista_son',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.PistaSon'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.PistaSon'),
         ),
         migrations.AddField(
             model_name='album',
             name='serie',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Serie'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Serie'),
         ),
         migrations.AlterUniqueTogether(
             name='temacomposicion',
@@ -567,67 +567,67 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='serie',
             name='mod',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Usuario'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Usuario'),
         ),
         migrations.AddField(
             model_name='pistason',
             name='cargador',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='pista_uploader', to='poet.Usuario'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='pista_uploader', to='app.Usuario'),
         ),
         migrations.AddField(
             model_name='pistason',
             name='mod',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Usuario'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Usuario'),
         ),
         migrations.AddField(
             model_name='personagrupo',
             name='grupo',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Grupo'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Grupo'),
         ),
         migrations.AddField(
             model_name='personagrupo',
             name='mod',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Usuario'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Usuario'),
         ),
         migrations.AddField(
             model_name='personagrupo',
             name='persona',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='poet.Persona'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.Persona'),
         ),
         migrations.AddField(
             model_name='persona',
             name='cargador',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='persona_uploader', to='poet.Participante'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='persona_uploader', to='app.Participante'),
         ),
         migrations.AddField(
             model_name='persona',
             name='genero',
-            field=models.ForeignKey(blank=True, db_column='genero', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.GeneroPersona'),
+            field=models.ForeignKey(blank=True, db_column='genero', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.GeneroPersona'),
         ),
         migrations.AddField(
             model_name='persona',
             name='lugar',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Lugar'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Lugar'),
         ),
         migrations.AddField(
             model_name='persona',
             name='lugar_muer',
-            field=models.ForeignKey(blank=True, db_column='lugar_muer', null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='place_of_death', to='poet.Lugar'),
+            field=models.ForeignKey(blank=True, db_column='lugar_muer', null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='place_of_death', to='app.Lugar'),
         ),
         migrations.AddField(
             model_name='persona',
             name='mod',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Usuario'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Usuario'),
         ),
         migrations.AddField(
             model_name='participantepistason',
             name='mod',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Usuario'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Usuario'),
         ),
         migrations.AddField(
             model_name='participantecomposicion',
             name='mod',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Usuario'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Usuario'),
         ),
         migrations.AlterUniqueTogether(
             name='participantecobertura',
@@ -640,27 +640,27 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='grupo',
             name='cargador',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='grupo_uploader', to='poet.Participante'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='grupo_uploader', to='app.Participante'),
         ),
         migrations.AddField(
             model_name='grupo',
             name='lugar',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Lugar'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Lugar'),
         ),
         migrations.AddField(
             model_name='grupo',
             name='mod',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.Usuario'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.Usuario'),
         ),
         migrations.AddField(
             model_name='grupo',
             name='personas',
-            field=models.ManyToManyField(through='poet.PersonaGrupo', to='poet.Persona'),
+            field=models.ManyToManyField(through='app.PersonaGrupo', to='app.Persona'),
         ),
         migrations.AddField(
             model_name='grupo',
             name='tipo_grupo',
-            field=models.ForeignKey(blank=True, db_column='tipo_grupo', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='poet.TipoGrupo'),
+            field=models.ForeignKey(blank=True, db_column='tipo_grupo', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='app.TipoGrupo'),
         ),
         migrations.AlterUniqueTogether(
             name='generopista',
@@ -669,7 +669,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='composicion',
             name='mod',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='mod', to='poet.Usuario'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='mod', to='app.Usuario'),
         ),
         migrations.AlterUniqueTogether(
             name='personagrupo',

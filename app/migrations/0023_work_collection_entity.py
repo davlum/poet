@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('poet', '0022_filefield_and_charfields'),
+        ('app', '0022_filefield_and_charfields'),
     ]
 
     operations = [
@@ -65,12 +65,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='historicalwork',
             name='in_collection',
-            field=models.ForeignKey(blank=True, db_column='in_collection', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='poet.WorkCollection'),
+            field=models.ForeignKey(blank=True, db_column='in_collection', db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='app.WorkCollection'),
         ),
         migrations.AddField(
             model_name='work',
             name='in_collection',
-            field=models.ForeignKey(db_column='in_collection', null=True, on_delete=django.db.models.deletion.PROTECT, to='poet.WorkCollection'),
+            field=models.ForeignKey(db_column='in_collection', null=True, on_delete=django.db.models.deletion.PROTECT, to='app.WorkCollection'),
         ),
 
         migrations.RunSQL("""
