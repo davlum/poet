@@ -1,22 +1,22 @@
 function createWaveSurferElement(containerId, audioFilepath, waveformPeaks) {
 
-    var peaksId = containerId + "-peaks",
-        timeRemainingId = containerId + "-time-remaining",
-        timeCurrentId = containerId + "-time-current",
-        timeTotalId = containerId + "-time-total";
+    const peaksId = containerId + "-peaks";
+    const timeRemainingId = containerId + "-time-remaining";
+    const timeCurrentId = containerId + "-time-current";
+    const timeTotalId = containerId + "-time-total";
 
 
-    var rootElement = document.getElementById(containerId);
+    const rootElement = document.getElementById(containerId);
 
-    var waveFormDiv = document.createElement("div");
+    const waveFormDiv = document.createElement("div");
     rootElement.appendChild(waveFormDiv);
 
     waveFormDiv.classList.add("row");
-    var innerWaveFormDiv = document.createElement("div");
+    const innerWaveFormDiv = document.createElement("div");
     waveFormDiv.appendChild(innerWaveFormDiv);
     innerWaveFormDiv.id = peaksId;
 
-    var wavesurfer = WaveSurfer.create({
+    const wavesurfer = WaveSurfer.create({
         // Use the id or class-name of the element you created, as a selector
         container: "#" + peaksId,
         backend: "MediaElement",
@@ -35,41 +35,41 @@ function createWaveSurferElement(containerId, audioFilepath, waveformPeaks) {
         wavesurfer.load(audioFilepath);
     }
 
-    var buttonsDiv = document.createElement("div");
+    const buttonsDiv = document.createElement("div");
     rootElement.appendChild(buttonsDiv);
     buttonsDiv.classList.add("row");
-    var playDiv = document.createElement("div");
+    const playDiv = document.createElement("div");
 
     buttonsDiv.appendChild(playDiv);
     playDiv.classList.add('col-md-2');
     playDiv.classList.add('text-center');
 
-    var playButton = document.createElement("button");
+    const playButton = document.createElement("button");
     playDiv.appendChild(playButton);
 
     playButton.innerHTML = "&#9658";
     playButton.onclick = function() { wavesurfer.playPause(); };
 
-    var volumeDiv = document.createElement("div");
+    const volumeDiv = document.createElement("div");
     buttonsDiv.appendChild(volumeDiv);
 
     volumeDiv.classList.add('col-md-8');
 
-    var volumeSlider = document.createElement('input');
+    const volumeSlider = document.createElement('input');
     volumeDiv.appendChild(volumeSlider);
     volumeSlider.type = "range";
     volumeSlider.max = "0";
     volumeSlider.max = "1";
     volumeSlider.step = "0.01";
 
-    var timeDiv = document.createElement('div'),
+    const timeDiv = document.createElement('div'),
         remainingSpan = document.createElement('span'),
         currentSpan = document.createElement('span'),
         totalSpan = document.createElement('span');
 
     timeDiv.classList.add('col-md-2');
     timeDiv.classList.add('text-left');
-    var spanClass = 'time-span';
+    const spanClass = 'time-span';
     totalSpan.classList.add(spanClass);
     currentSpan.classList.add(spanClass);
     remainingSpan.classList.add(spanClass);
@@ -90,17 +90,15 @@ function createWaveSurferElement(containerId, audioFilepath, waveformPeaks) {
 
         volumeSlider.value = wavesurfer.backend.getVolume();
 
-
-        var totalTime = wavesurfer.getDuration(),
-            currentTime = Math.round(wavesurfer.getCurrentTime()),
-            remainingTime = Math.round(totalTime - currentTime);
-
+        const totalTime = wavesurfer.getDuration();
+        const currentTime = Math.round(wavesurfer.getCurrentTime());
+        const remainingTime = Math.round(totalTime - currentTime);
 
         document.getElementById(timeCurrentId).innerText = currentTime;
         document.getElementById(timeTotalId).innerText = Math.round(totalTime);
         document.getElementById(timeRemainingId).innerText = remainingTime;
 
-        var onChangeVolume = function (e) {
+        const onChangeVolume = function (e) {
             wavesurfer.setVolume(e.target.value);
         };
 
@@ -111,9 +109,9 @@ function createWaveSurferElement(containerId, audioFilepath, waveformPeaks) {
 
     wavesurfer.on('audioprocess', function() {
         if(wavesurfer.isPlaying()) {
-            var totalTime = wavesurfer.getDuration(),
-                currentTime = Math.round(wavesurfer.getCurrentTime()),
-                remainingTime = Math.round(totalTime - currentTime);
+            const totalTime = wavesurfer.getDuration();
+            const currentTime = Math.round(wavesurfer.getCurrentTime());
+            const remainingTime = Math.round(totalTime - currentTime);
 
 
             document.getElementById(timeCurrentId).innerText = currentTime;
@@ -123,10 +121,14 @@ function createWaveSurferElement(containerId, audioFilepath, waveformPeaks) {
     });
 }
 
-for (var i = 0; i < audioIterator.waveformPeaks.length; i++) {
-    createWaveSurferElement(
-        audioIterator.containersIds[i],
-        audioIterator.audioPaths[i],
-        audioIterator.waveformPeaks[i]);
+if (typeof audioIterator !== 'undefined') {
+     for (let i = 0; i < audioIterator.waveformPeaks.length; i++) {
+        createWaveSurferElement(
+            audioIterator.containersIds[i],
+            audioIterator.audioPaths[i],
+            audioIterator.waveformPeaks[i]);
+    }
 }
+
+
 

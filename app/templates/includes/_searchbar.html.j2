@@ -8,7 +8,14 @@
         </div>
     </div>
     <div class='search-bar-margin'>
-         <a href="{{ url('adv_search') }}">{{ _('Advanced Search') }}</a>
+      <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        {{ _('Advanced search') }}
+      </a>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            Advaned search Options here.
+          </div>
+        </div>
     </div>
 </form>
 
