@@ -1,6 +1,6 @@
 {% extends 'layout/search.html.j2' %}
 {% from 'macros/util.html.j2' import render_entity_ls, render_table, render_comments, render_copyright,
-render_table, render_work_entities %}
+render_table %}
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">
@@ -11,7 +11,19 @@ render_table, render_work_entities %}
             </div>
             <br>
             <div class="row">
-                {{ render_work_entities(work, entities) }}
+                <div>
+                    <h4>{{ _('Title') }}</h4>
+                    <h3 class="indented">
+                        {{ work.full_name }}
+                        {% if work.alt_name is not none %}
+                                ({{ work.alt_name }})
+                        {% endif %}
+                    </h3>
+                </div>
+                {{ render_entity_ls('Composers', entities.composers) }}
+                {{ render_entity_ls('Interpreters', entities.interpreters) }}
+                {{ render_entity_ls('Other', entities.others) }}
+                <br>
             </div>
             {{ render_comments(work) }}
             <div class="row">

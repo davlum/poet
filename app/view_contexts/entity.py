@@ -37,7 +37,7 @@ def get_recordings(entity_id: int):
 def enrich_entity(entity):
     return {
         'entity': clean_entity(entity),
-        'recordings': get_recordings(entity['id'])
+        'works': get_recordings(entity['id'])
     }
 
 

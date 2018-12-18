@@ -1,5 +1,4 @@
 import app.view_contexts.util as u
-from app.models.relations import COMPOSER, READER, MUSICIAN
 from app.models.choices import PUBLISHED
 from typing import Dict, List
 from django.conf import settings
@@ -25,7 +24,7 @@ def clean_work(work_dict):
     return work_dict
 
 
-def get_recording_entities(work_id: int) -> List[Dict[str, str]]:
+def get_entities(work_id: int) -> List[Dict[str, str]]:
 
     q = """
     SELECT DISTINCT
@@ -38,24 +37,13 @@ def get_recording_entities(work_id: int) -> List[Dict[str, str]]:
     AND release_state = %s
     """
 
-    return u.query(q, [work_id, PUBLISHED])
-
-
-def clean_recording_entities(entity_ls: List[Dict[str, str]]):
-    composers = [i for i in entity_ls if i['relationship'] == COMPOSER]
-    interpreters = [i for i in entity_ls if i['relationship'] in [READER, MUSICIAN]]
-    others = [i for i in entity_ls if i['relationship'] not in [READER, MUSICIAN, COMPOSER]]
-    return {
-        'composers': composers,
-        'interpreters': interpreters,
-        'others': others
-    }
+    return u.sort_entities(u.query(q, [work_id, PUBLISHED]))
 
 
 def enrich_work(work):
     return {
         'work': clean_work(work),
-        'entities': clean_recording_entities(get_recording_entities(work['id']))
+        'entities': get_entities(work['id'])
     }
 
 

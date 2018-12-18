@@ -1,3 +1,4 @@
+from app.models.relations import COMPOSER, READER, MUSICIAN
 from django.db import connection
 from django.http import Http404
 from typing import List, Dict
@@ -71,6 +72,17 @@ def to_dict(cursor):
         dict(zip(columns, row))
         for row in cursor.fetchall()
     ]
+
+
+def sort_entities(entity_ls: List[Dict[str, str]]):
+    composers = [i for i in entity_ls if i['relationship'] == COMPOSER]
+    interpreters = [i for i in entity_ls if i['relationship'] in [READER, MUSICIAN]]
+    others = [i for i in entity_ls if i['relationship'] not in [READER, MUSICIAN, COMPOSER]]
+    return {
+        'composers': composers,
+        'interpreters': interpreters,
+        'others': others
+    }
 
 
 def query(query_string: str, query_args: List) -> List[Dict]:

@@ -21,9 +21,9 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('home', views.home, name='home'),
     path('work/<int:work_id>', views.work, name='work'),
+    path('collection/<int:collection_id>', views.collection, name='collection'),
     path('entity/<int:entity_id>', views.entity, name='entity'),
     path('search/', views.search, name='search'),
-    path('adv_search/', views.adv_search, name='adv_search'),
 ]
 
 if settings.DEBUG:

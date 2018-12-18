@@ -56,22 +56,6 @@
     </div>
 {% endmacro %}
 
-{% macro render_work_entities(work, entity) %}
-<div>
-    <h4>{{ _('Title') }}</h4>
-    <h3 class="indented">
-        {{ work.full_name }}
-        {% if work.alt_name is not none %}
-                ({{ work.alt_name }})
-        {% endif %}
-    </h3>
-</div>
-{{ render_entity_ls('Composers', entity.composers) }}
-{{ render_entity_ls('Interpreters', entity.interpreters) }}
-{{ render_entity_ls('Other', entity.others) }}
-<br>
-{% endmacro %}
-
 
 {% macro render_search_entities(entity) %}
 <div>
@@ -81,6 +65,32 @@
 </div>
 {% endmacro %}
 
+
+{% macro render_paginator(page, search_terms) %}
+<div class="pagination">
+    {% if page.has_other_pages %}
+      <ul class="pagination">
+        {% if page.has_previous %}
+          <li><a href="?page={{ page.previous_page_number }}&{{ search_terms }}">&laquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in page.paginator.page_range %}
+          {% if page.number == i %}
+            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+          {% else %}
+            <li><a href="?page={{ i }}&{{ search_terms }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if page.has_next %}
+          <li><a href="?page={{ page.next_page_number }}&{{ search_terms }}">&raquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+      </ul>
+    {% endif %}
+</div>
+{% endmacro %}
 
 
 {% macro render_copyright(work) %}

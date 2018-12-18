@@ -1,5 +1,5 @@
 {% extends 'layout/search.html.j2' %}
-{% from 'macros/util.html.j2' import render_comments, render_copyright, render_recordings %}
+{% from 'macros/util.html.j2' import render_comments, render_copyright, render_recordings, render_paginator %}
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">
@@ -31,6 +31,7 @@
         </div>
         <hr>
         {{ render_comments(entity) }}
-        {{ render_recordings(recordings) }}
+        {{ render_recordings(works.page) }}
+        {{ render_paginator(works.page, '') }}
    </div>
 {% endblock %}
