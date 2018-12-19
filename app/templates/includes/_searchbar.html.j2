@@ -8,12 +8,15 @@
         </div>
     </div>
     <div class='search-bar-margin'>
-      <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      <a data-toggle="collapse" href="#advanced-search" role="button" aria-expanded="false" aria-controls="advanced-search">
         {{ _('Advanced search') }}
       </a>
-        <div class="collapse" id="collapseExample">
+        <div class="collapse" id="advanced-search">
           <div class="card card-body">
-            Advaned search Options here.
+              <div class="form-check">
+                <label class="form-check-label" for="use-tags">{{ _('Tags') }}</label>
+                <input type="checkbox" class="form-check-input" name="use-tags" id="use-tags">
+              </div>
           </div>
         </div>
     </div>

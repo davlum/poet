@@ -53,8 +53,7 @@ def entity(request, entity_id):
 
 
 def search(request):
-    search_term = request.GET.get('term', '')
-    recording_list = get_search_context(search_term)
+    recording_list = get_search_context(dict(request.GET))
     context = paginate_list(request, recording_list, 10)
 
     return render(request, 'poet/search.html.j2', context)
