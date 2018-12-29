@@ -6,7 +6,7 @@ from app.view_contexts.entity import get_entity_context
 from app.view_contexts.collection import get_work_collection_context
 
 
-def paginate_list(request, page_list, number_of_pages):
+def paginate_list(request, page_list, number_of_pages=10):
     paginator = Paginator(page_list, number_of_pages)
     page = request.GET.get('page', 1)
     get_copy = request.GET.copy()
@@ -40,21 +40,21 @@ def work(request, work_id):
 
 def collection(request, collection_id):
     context = get_work_collection_context(collection_id)
-    context['works'] = paginate_list(request, context['works'], 5)
+    context['works'] = paginate_list(request, context['works'])
 
     return render(request, 'poet/collection.html.j2', context)
 
 
 def entity(request, entity_id):
     context = get_entity_context(entity_id)
-    context['works'] = paginate_list(request, context['works'], 5)
+    context['works'] = paginate_list(request, context['works'])
 
     return render(request, 'poet/entity.html.j2', context)
 
 
 def search(request):
-    recording_list = get_search_context(dict(request.GET))
-    context = paginate_list(request, recording_list, 10)
+    context = get_search_context(dict(request.GET))
+    context['works'] = paginate_list(request, context['works'])
 
     return render(request, 'poet/search.html.j2', context)
 

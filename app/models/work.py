@@ -23,7 +23,7 @@ MEDIA_CHOICES = (
 
 class WorkCollection(models.Model):
 
-    work_name = models.CharField(max_length=256, blank=True)
+    collection_name = models.CharField(max_length=256, blank=True)
 
     image = models.ImageField(max_length=512, upload_to='images/upload_date=%Y%m%d', null=True)
 
@@ -58,6 +58,8 @@ class Work(models.Model):
     tags = ArrayField(models.CharField(max_length=256), blank=True, default=list, null=True)
 
     commentary = models.TextField(blank=True, null=True)
+    poetry_text = models.TextField(blank=True, null=True)
+
     additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 

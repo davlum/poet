@@ -4,22 +4,20 @@ render_table %}
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">
-        <h2>{{ _('Recording') }}</h2>
         <br>
-        <div class="container">
+        <h2 class="indented">
+            {{ work.full_name }}
+            {% if work.alt_name is not none %}
+                    ({{ work.alt_name }})
+            {% endif %}
+        </h2>
+        <br>
+        <br>
+        <div>
             <div class="row" id="wavesurfer-container">
             </div>
             <br>
             <div class="row">
-                <div>
-                    <h4>{{ _('Title') }}</h4>
-                    <h3 class="indented">
-                        {{ work.full_name }}
-                        {% if work.alt_name is not none %}
-                                ({{ work.alt_name }})
-                        {% endif %}
-                    </h3>
-                </div>
                 {{ render_entity_ls('Composers', entities.composers) }}
                 {{ render_entity_ls('Interpreters', entities.interpreters) }}
                 {{ render_entity_ls('Other', entities.others) }}
@@ -36,15 +34,15 @@ render_table %}
             </div>
         </div>
         {{ render_copyright(work) }}
-    <script>
-        var audioIterator = {
-            containersIds: ["wavesurfer-container"],
-            audioPaths: ["{{ work.audio }}"],
-            waveformPeaks: [null]
-        };
-        {% if work.waveform_peaks is not none %}
-            audioIterator.waveformPeaks = [{{ work.waveform_peaks }}];
-        {% endif %}
-    </script>
+        <script>
+            let audioIterator = {
+                containersIds: ["wavesurfer-container"],
+                audioPaths: ["{{ work.audio }}"],
+                waveformPeaks: [null]
+            };
+            {% if work.waveform_peaks is not none %}
+                audioIterator.waveformPeaks = [{{ work.waveform_peaks }}];
+            {% endif %}
+        </script>
     </div>
 {% endblock %}

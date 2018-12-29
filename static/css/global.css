@@ -1,5 +1,12 @@
 a { color: inherit; }
 
+.sidebar-dims{
+    height: 500px;
+    width:200px;
+    overflow-y: scroll;
+}
+
+
 .main-container {
     width: 80%;
 }

@@ -5,13 +5,13 @@
     <div class="container search-container">
         <div class="row">
            <div class="col-md-10">
-               {{ render_recordings(page) }}
+               {{ render_recordings(works.page) }}
            </div>
             <div class="col-md-2">
                 {% include 'includes/_sidebar.html.j2' %}
             </div>
         </div>
-        {{ render_paginator(page, search_terms) }}
+        {{ render_paginator(works.page, works.search_terms) }}
     </div>
 
 

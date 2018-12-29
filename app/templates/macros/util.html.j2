@@ -4,6 +4,17 @@
     {% endif %}
 {% endmacro %}
 
+{% macro render_data_links(title, data_ls) %}
+    <div>
+        <h3>{{ _(title) }}</h3>
+        {% for datum in data_ls %}
+            <div>
+                <a>{{ datum.name }}</a> - {{ datum.count }}
+            </div>
+        {% endfor %}
+    </div>
+{% endmacro %}
+
 
 {%  macro render_name_link(entity) -%}
         <a href="{{ url("entity", entity_id=entity.entity_id) }}">{{ entity.entity_name }}</a>
@@ -119,48 +130,49 @@
                     <tbody>
                     {% for entry in list %}
                         <tr>
-                            <td>
+                            <td class="col-md-6">
                                 <div class="wavesurfer-padding" id="wavesurfer-container-{{ loop.index }}">
                                 </div>
-                                <div>
-                                    {{ _( "Tags" ) }}: {{ entry.work.tags }}
+                                <div class="row">
+                                    <a href="{{ url("work", work_id=entry.work.work_id) }}">
+                                        <h3>{{ entry.work.work_name }}</h3>
+                                    </a>
                                 </div>
-                                <div>
-                                    {{ _( "Languages" ) }}: {{ entry.work.languages }}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ _( "Published" ) }}:
+                                    </div>
+                                    <div class="col-md-6">
+                                         {{ entry.work.date_published }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ _( "Recorded" ) }}:
+                                    </div>
+                                    <div class="col-md-6">
+                                         {{ entry.work.date_recorded }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ _( "Contributed" ) }}:
+                                    </div>
+                                    <div class="col-md-6">
+                                         {{ entry.work.date_contributed }}
+                                    </div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="col-md-6">
                                 <div class="wavesurfer-padding">
-                                    <div class="row">
-                                        <a href="{{ url("work", work_id=entry.work.work_id) }}">
-                                            <strong>{{ entry.work.work_name }}</strong>
-                                        </a>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            {{ _( "Published" ) }}:
-                                        </div>
-                                        <div class="col-md-6">
-                                             {{ entry.work.date_published }}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            {{ _( "Recorded" ) }}:
-                                        </div>
-                                        <div class="col-md-6">
-                                             {{ entry.work.date_recorded }}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            {{ _( "Contributed" ) }}:
-                                        </div>
-                                        <div class="col-md-6">
-                                             {{ entry.work.date_contributed }}
-                                        </div>
-                                    </div>
                                     {{ render_search_entities(entry.entities) }}
+                                </div>
+                                <div>
+                                    {% for tag in entry.work.tags %}
+                                        <strong>
+                                            <a href="{{ url('search') }}?term={{ tag }}&filter-field=tags">{{ tag }}</a> &nbsp
+                                        </strong>
+                                    {% endfor %}
                                 </div>
                             </td>
                         </tr>

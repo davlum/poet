@@ -11,14 +11,21 @@
       <a data-toggle="collapse" href="#advanced-search" role="button" aria-expanded="false" aria-controls="advanced-search">
         {{ _('Advanced search') }}
       </a>
-        <div class="collapse" id="advanced-search">
-          <div class="card card-body">
-              <div class="form-check">
-                <label class="form-check-label" for="use-tags">{{ _('Tags') }}</label>
-                <input type="checkbox" class="form-check-input" name="use-tags" id="use-tags">
-              </div>
-          </div>
+      <div class="collapse" id="advanced-search">
+        <div class="card card-body">
+            <div class="pull-right">
+              <select name="filter-field">
+                  {% for field in get_search_fields() %}
+                      {% if field[0] == 'work' %}
+                        <option value="{{ field[0] }}" selected>{{ field[1] }}</option>
+                      {% else %}
+                        <option value="{{ field[0] }}">{{ field[1] }}</option>
+                      {% endif %}
+                  {% endfor %}
+              </select>
+            </div>
         </div>
+      </div>
     </div>
 </form>
 

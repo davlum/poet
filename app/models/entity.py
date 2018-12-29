@@ -56,10 +56,6 @@ class Entity(models.Model):
 
     email = models.EmailField(blank=True, null=True)
 
-    image = models.ImageField(max_length=512, blank=True, null=True, upload_to='images/upload_date=%Y%m%d')
-
-    tags = ArrayField(models.CharField(max_length=200), blank=True, default=list, null=True)
-
     # Arbitrary additional information
     commentary = models.TextField(blank=True, null=True)
     additional_data = JSONField(blank=True, null=True)

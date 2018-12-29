@@ -3,19 +3,16 @@
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">
-        <h2>{{ entity.entity_type }}</h2>
+        <h2 class="indented">
+            {{ entity.full_name }}
+            {% if entity.alt_name is not none %}
+                    ({{ entity.alt_name }})
+            {% endif %}
+        </h2>
         <hr>
-        <div class="container">
+        <div>
             <div class="row">
-                <div class="col-md-6">
-                    <div>
-                        <h3 class="indented">
-                            {{ entity.full_name }}
-                            {% if entity.alt_name is not none %}
-                                    ({{ entity.alt_name }})
-                            {% endif %}
-                        </h3>
-                    </div>
+                <div class="col-md-12">
                     <div>
                         <h3 class="indented">
                             {{ entity.location }}
@@ -29,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <hr>
+        <br>
         {{ render_comments(entity) }}
         {{ render_recordings(works.page) }}
         {{ render_paginator(works.page, '') }}

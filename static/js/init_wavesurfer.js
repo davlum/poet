@@ -53,7 +53,7 @@ function createWaveSurferElement(containerId, audioFilepath, waveformPeaks) {
     const volumeDiv = document.createElement("div");
     buttonsDiv.appendChild(volumeDiv);
 
-    volumeDiv.classList.add('col-md-8');
+    volumeDiv.classList.add('col-md-6');
 
     const volumeSlider = document.createElement('input');
     volumeDiv.appendChild(volumeSlider);
@@ -67,7 +67,7 @@ function createWaveSurferElement(containerId, audioFilepath, waveformPeaks) {
         currentSpan = document.createElement('span'),
         totalSpan = document.createElement('span');
 
-    timeDiv.classList.add('col-md-2');
+    timeDiv.classList.add('col-md-4');
     timeDiv.classList.add('text-left');
     const spanClass = 'time-span';
     totalSpan.classList.add(spanClass);
