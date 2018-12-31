@@ -1,6 +1,5 @@
 from django.db import models
 from app.models.choices import PENDING, RELEASE_STATES_CHOICES, validate_date
-from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 from django.contrib.postgres.fields import JSONField

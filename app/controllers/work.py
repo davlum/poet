@@ -1,12 +1,38 @@
-import app.view_contexts.util as u
+import app.controllers.util as u
 from app.models.choices import PUBLISHED
 from typing import Dict, List
 from django.conf import settings
 import os
 
 
+REQUIRED_WORK_FIELDS = """
+        w.id,
+        w.full_name,
+        w.alt_name,
+        w.city,
+        w.country,
+        w.languages,
+        w.waveform_peaks,
+        w.copyright,
+        w.date_recorded, 
+        w.date_published, 
+        w.date_digitalized,
+        w.date_contributed,
+        w.poetry_text,
+        w.commentary,
+        w.tags,
+        w.in_collection,
+        c.collection_name,
+        w.audio
+"""
+
+
 def get_work(work_id: int):
-    q = """SELECT * FROM poet_work WHERE id = %s AND release_state = %s"""
+    q = """
+    SELECT {} 
+    FROM poet_work w
+    JOIN poet_work_collection c ON w.in_collection = c.id
+    WHERE w.id = %s AND w.release_state = %s""".format(REQUIRED_WORK_FIELDS)
 
     return u.query(q, [work_id, PUBLISHED])[0]
 

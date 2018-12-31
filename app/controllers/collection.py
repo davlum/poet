@@ -1,5 +1,5 @@
-import app.view_contexts.util as u
-import app.view_contexts.work as work
+import app.controllers.util as u
+import app.controllers.work as work
 from app.models.choices import PUBLISHED
 from django.conf import settings
 from typing import List, Dict
@@ -26,11 +26,12 @@ def clean_collection(collection_dict):
 
 def get_recordings(collection_id: int):
     q = """
-    SELECT *
-    FROM poet_work
-    WHERE in_collection = %s
-    AND release_state = %s
-    """
+    SELECT {}
+    FROM poet_work w
+    JOIN poet_work_collection c ON c.id = w.in_collection
+    WHERE w.in_collection = %s
+    AND w.release_state = %s""".format(work.REQUIRED_WORK_FIELDS)
+
     recordings = u.query(q, [collection_id, PUBLISHED])
     return list(map(work.enrich_work, recordings))
 

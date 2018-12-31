@@ -6,7 +6,10 @@ from django.db import migrations, models
 def split_text_and_commentaries(apps, schema_editor):
     works = apps.get_model('app', 'Work')
     for work in works.objects.all():
-            
+            split_text = work.commentary.split('\r\n\r\nTexto:\r\n\r')
+            work.commentary = split_text[0]
+            if len(split_text) == 2:
+                work.poetry_text = split_text[1]
             work.save()
 
 
@@ -43,4 +46,6 @@ class Migration(migrations.Migration):
             name='poetry_text',
             field=models.TextField(blank=True, null=True),
         ),
+
+        migrations.RunPython(split_text_and_commentaries)
     ]

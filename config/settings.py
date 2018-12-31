@@ -62,6 +62,7 @@ TEMPLATES = [
             "match_extension": ".html.j2",
             "environment": "app.jinja_config.environment",
             "context_processors": [
+                "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.template.context_processors.debug",
                 "django.template.context_processors.i18n",

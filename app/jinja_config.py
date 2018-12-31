@@ -1,6 +1,6 @@
 from jinja2 import Environment
 from django.contrib import messages
-from app.view_contexts.search import get_search_fields
+from app.controllers.search import get_search_fields
 from django.contrib.staticfiles.storage import staticfiles_storage
 
 

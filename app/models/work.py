@@ -2,9 +2,8 @@ from django.db import models
 from app.models.choices import PENDING, RELEASE_STATES_CHOICES, validate_date
 from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import gettext_lazy as _
-import app.view_contexts.util as u
+import app.controllers.util as u
 from simple_history.models import HistoricalRecords
-from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
 import io
 
@@ -27,8 +26,9 @@ class WorkCollection(models.Model):
 
     image = models.ImageField(max_length=512, upload_to='images/upload_date=%Y%m%d', null=True)
 
+    origin = models.CharField(max_length=128, blank=True, null=True)
+
     commentary = models.TextField(blank=True, null=True)
-    additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 
     release_state = models.CharField(max_length=32, choices=RELEASE_STATES_CHOICES, default=PENDING,
@@ -41,8 +41,7 @@ class WorkCollection(models.Model):
 
 class Work(models.Model):
     """
-    Model representing an abstract work, be it a recording, composition,
-    album
+    Model representing a recording/composition
     """
 
     full_name = models.CharField(max_length=256, blank=True, null=True)
@@ -60,7 +59,6 @@ class Work(models.Model):
     commentary = models.TextField(blank=True, null=True)
     poetry_text = models.TextField(blank=True, null=True)
 
-    additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 
     in_collection = models.ForeignKey(WorkCollection, null=True, on_delete=models.PROTECT, db_column='in_collection')

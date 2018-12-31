@@ -1,15 +1,12 @@
 {% extends 'layout/search.html.j2' %}
 {% from 'macros/util.html.j2' import render_entity_ls, render_table, render_comments, render_copyright,
-render_table %}
+render_table, render_work_dates %}
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">
         <br>
-        <h2 class="indented">
-            {{ work.full_name }}
-            {% if work.alt_name is not none %}
-                    ({{ work.alt_name }})
-            {% endif %}
+        <h2>
+            {{ work.work_name }}
         </h2>
         <br>
         <br>
@@ -18,18 +15,62 @@ render_table %}
             </div>
             <br>
             <div class="row">
-                {{ render_entity_ls('Composers', entities.composers) }}
-                {{ render_entity_ls('Interpreters', entities.interpreters) }}
-                {{ render_entity_ls('Other', entities.others) }}
-                <br>
+                {{ render_entity_ls(_('Composers'), entities.composers) }}
+                {{ render_entity_ls(_('Interpreters'), entities.interpreters) }}
+                {{ render_entity_ls(_('Other'), entities.others) }}
             </div>
-            {{ render_comments(work) }}
+            <div class="row">
+                <h4>{{ _('Part of') }}
+                    <strong>
+                        <a href="{{ url('collection', collection_id=work.in_collection) }}">{{ work.collection_name }}</a>
+                    </strong>
+                </h4>
+            </div>
+            <div class="row">
+                {{ render_work_dates(work) }}
+            </div>
+                {{ render_comments(work) }}
+                {% if work.poetry_text is not none %}
+                    <h4>{{ _('Text') }}</h4>
+                    <p class="skinny text-center center-block"> {{ work.poetry_text }}</p>
+                    <br>
+                {% endif %}
             <div class="row">
                 <div class="col-md-6">
-                    {{ render_table(_('Tags'), work.tags) }}
+                    {% if list is not none %}
+                        <h3>
+                            {{ _('Tags') }}
+                        </h3>
+                        <div>
+                            <table class="table table-striped">
+                            <tbody>
+                            {% for entry in work.tags %}
+                                <tr>
+                                    <td><a href="{{ url('search') }}?term={{ entry }}&filter=tags">{{ entry }}</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                   {% endif %}
                 </div>
                 <div class="col-md-6">
-                    {{ render_table(_('Languages'), work.languages) }}
+                    {% if list is not none %}
+                        <h3>
+                            {{ _('Languages') }}
+                        </h3>
+                        <div>
+                            <table class="table table-striped">
+                            <tbody>
+                            {% for entry in work.languages %}
+                                <tr>
+                                    <td><a href="{{ url('search') }}?term={{ entry }}&filter=languages">{{ entry }}</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                   {% endif %}
                 </div>
             </div>
         </div>

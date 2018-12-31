@@ -5,7 +5,7 @@
         <div>
             <h3><i>{{ _('Tags') }}</i></h3>
             {% for tag in metadata.tags %}
-                <a href="{{ url('search') }}?term={{ tag.name }}&filter-field=tags" style="font-size: {{ tag.count }}px">{{ tag.name }}</a>
+                <a href="{{ url('search') }}?term={{ tag.name }}&filter=tags" style="font-size: {{ tag.count }}px">{{ tag.name }}</a>
             {% endfor %}
         </div>
         <div>
@@ -16,6 +16,8 @@
                 </div>
             {% endfor %}
         </div>
-{#        {{ render_data_links() }}#}
+        {{ render_data_links(_('Licenses'), 'licenses', metadata.licenses) }}
+        {{ render_data_links(_('Cities'), 'cities', metadata.cities) }}
+        {{ render_data_links(_('Langugages'), 'langauges', metadata.languages) }}
     </div>
 </div>

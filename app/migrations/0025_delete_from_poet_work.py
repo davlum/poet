@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 import django.contrib.postgres.fields
-import app.view_contexts.util as u
+import app.controllers.util as u
 from django.conf import settings
 import os
 

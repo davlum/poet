@@ -9,14 +9,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    {{ render_entity_ls('Composers', entities.composers) }}
-                    {{ render_entity_ls('Interpreters', entities.interpreters) }}
-                    {{ render_entity_ls('Other', entities.others) }}
+                    {{ render_entity_ls(_('Composers'), entities.composers) }}
+                    {{ render_entity_ls(_('Interpreters'), entities.interpreters) }}
+                    {{ render_entity_ls(_('Other'), entities.others) }}
                     <br>
                     <div>
-                        {% if collection.additional_data.giro is defined %}
+                        {% if collection.origin is not none %}
                             <h4>Giro</h4>
-                            <h3 class="indented"> {{ collection.additional_data.giro }}</h3>
+                            <h3 class="indented"> {{ collection.origin }}</h3>
                             <br>
                         {% endif %}
                     </div>

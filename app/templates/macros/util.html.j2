@@ -4,12 +4,12 @@
     {% endif %}
 {% endmacro %}
 
-{% macro render_data_links(title, data_ls) %}
+{% macro render_data_links(title, get_param, data_ls) %}
     <div>
-        <h3>{{ _(title) }}</h3>
+        <h3><i>{{ title }}</i></h3>
         {% for datum in data_ls %}
             <div>
-                <a>{{ datum.name }}</a> - {{ datum.count }}
+                <a href="{{ url('search') }}?term={{ datum.name }}&filter={{ get_param }}">{{ datum.name }}</a> - {{ datum.count }}
             </div>
         {% endfor %}
     </div>
@@ -33,7 +33,7 @@
 
 {% macro render_entity_ls(entity_type, entities) %}
 <div>
-    <h4>{{ _(entity_type) }}</h4>
+    <h4>{{ entity_type }}</h4>
     <h3 class="indented">
         {% for entity in entities %}
             {{ render_entity(entity) }}
@@ -46,7 +46,7 @@
 {% macro render_search_entity(entity_type, entities) %}
 <div>
     <div class="row">
-        <strong>{{ _(entity_type) }}</strong>
+        <strong>{{ entity_type }}</strong>
     </div>
     <div class="row">
         {% for entity in entities %}
@@ -70,9 +70,9 @@
 
 {% macro render_search_entities(entity) %}
 <div>
-    {{ render_search_entity('Composers', entity.composers) }}
-    {{ render_search_entity('Interpreters', entity.interpreters) }}
-    {{ render_search_entity('Other', entity.others) }}
+    {{ render_search_entity(_('Composers'), entity.composers) }}
+    {{ render_search_entity(_('Interpreters'), entity.interpreters) }}
+    {{ render_search_entity(_('Other'), entity.others) }}
 </div>
 {% endmacro %}
 
@@ -87,11 +87,13 @@
           <li class="disabled"><span>&laquo;</span></li>
         {% endif %}
         {% for i in page.paginator.page_range %}
-          {% if page.number == i %}
-            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-          {% else %}
-            <li><a href="?page={{ i }}&{{ search_terms }}">{{ i }}</a></li>
-          {% endif %}
+            {% if loop.index < 11 %}
+                  {% if page.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                    <li><a href="?page={{ i }}&{{ search_terms }}">{{ i }}</a></li>
+                  {% endif %}
+            {% endif %}
         {% endfor %}
         {% if page.has_next %}
           <li><a href="?page={{ page.next_page_number }}&{{ search_terms }}">&raquo;</a></li>
@@ -114,8 +116,36 @@
 </div>
 {% endmacro %}
 
+
+{% macro render_work_dates(work) %}
+<div class="row">
+    <div class="col-md-6">
+        {{ _( "Published" ) }}:
+    </div>
+    <div class="col-md-6">
+         {{ work.date_published }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        {{ _( "Recorded" ) }}:
+    </div>
+    <div class="col-md-6">
+         {{ work.date_recorded }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        {{ _( "Contributed" ) }}:
+    </div>
+    <div class="col-md-6">
+         {{ work.date_contributed }}
+    </div>
+</div>
+{% endmacro %}
+
 {% macro render_recordings(list) -%}
-    {% if list is not none %}
+    {% if list|length > 0 %}
         <div class="card">
             <script>
                 var audioIterator = {
@@ -138,39 +168,23 @@
                                         <h3>{{ entry.work.work_name }}</h3>
                                     </a>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        {{ _( "Published" ) }}:
-                                    </div>
-                                    <div class="col-md-6">
-                                         {{ entry.work.date_published }}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        {{ _( "Recorded" ) }}:
-                                    </div>
-                                    <div class="col-md-6">
-                                         {{ entry.work.date_recorded }}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        {{ _( "Contributed" ) }}:
-                                    </div>
-                                    <div class="col-md-6">
-                                         {{ entry.work.date_contributed }}
-                                    </div>
-                                </div>
+                                {{ render_work_dates(entry.work) }}
                             </td>
                             <td class="col-md-6">
                                 <div class="wavesurfer-padding">
                                     {{ render_search_entities(entry.entities) }}
                                 </div>
                                 <div>
+                                    {{ _('Part of') }}
+                                    <strong>
+                                        <a href="{{ url('collection', collection_id=entry.work.in_collection) }}">{{ entry.work.collection_name }}</a>
+                                    </strong>
+                                </div>
+                                <br>
+                                <div>
                                     {% for tag in entry.work.tags %}
                                         <strong>
-                                            <a href="{{ url('search') }}?term={{ tag }}&filter-field=tags">{{ tag }}</a> &nbsp
+                                            <a href="{{ url('search') }}?term={{ tag }}&filter=tags">{{ tag }}</a> &nbsp
                                         </strong>
                                     {% endfor %}
                                 </div>
@@ -193,28 +207,19 @@
 
 {% macro render_table(name, list) -%}
     {% if list is not none %}
-        <hr>
-        <div class="card">
-            <div class="card-header" role="tab" id="{{ name|safe }}-heading">
-                <h3 class="mb-0">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#{{ name|safe }}-collapse" aria-expanded="true" aria-controls="{{ name|safe }}-collapse">
-                        {{ name|safe|title }}
-                    </a>
-                </h3>
-            </div>
-            <div id="{{ name|safe }}-collapse" class="collapse in">
-                <div class="card-block">
-                    <table class="table table-striped">
-                    <tbody>
-                    {% for entry in list %}
-                        <tr>
-                            <td>{{ entry }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                    </table>
-                </div>
-            </div>
+        <div>
+            {{ name|safe|title }}
+        </div>
+        <div>
+            <table class="table table-striped">
+            <tbody>
+            {% for entry in list %}
+                <tr>
+                    <td>{{ entry }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            </table>
         </div>
    {% endif %}
 {% endmacro %}

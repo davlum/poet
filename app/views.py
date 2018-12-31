@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from app.view_contexts.work import get_work_context
-from app.view_contexts.search import get_search_context
-from app.view_contexts.entity import get_entity_context
-from app.view_contexts.collection import get_work_collection_context
+from app.controllers.work import get_work_context
+from app.controllers.search import get_search_context
+from app.controllers.entity import get_entity_context
+from app.controllers.collection import get_work_collection_context
 
 
 def paginate_list(request, page_list, number_of_pages=10):

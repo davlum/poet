@@ -55,7 +55,7 @@ def to_none(s):
     if type(s) is dict and not s:
         return None
     if type(s) is list and not s:
-        return None
+        return []
     if type(s) is str and not s.strip():
         return None
     return s

@@ -1,31 +1,32 @@
-<form name="search-form" class="form-horizontal" role="form" action="{{ url('search') }}" method="get">
-    <div class="input-group search-bar-margin">
-        <input name="term" type="text" class="form-control" placeholder="Buscar"/>
-        <div class="input-group-btn">
-            <div class="btn-group" role="group">
-                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </div>
+<form name="search-form" role="form" action="{{ url('search') }}" method="get">
+    <div class="row search-bar-margin">
+        <div class="col-md-8 no-col-pad">
+            <input name="term" type="text" class="form-control input-searchbar" placeholder="{{ _('Search') }}"/>
         </div>
-    </div>
-    <div class='search-bar-margin'>
-      <a data-toggle="collapse" href="#advanced-search" role="button" aria-expanded="false" aria-controls="advanced-search">
-        {{ _('Advanced search') }}
-      </a>
-      <div class="collapse" id="advanced-search">
-        <div class="card card-body">
-            <div class="pull-right">
-              <select name="filter-field">
-                  {% for field in get_search_fields() %}
-                      {% if field[0] == 'work' %}
+        <div class="col-md-3 no-col-pad">
+            <label for="labelid" style="display: none"></label>
+            <select id="labelid" name="filter" class="form-control dropdown-searchbar">
+              {% for field in get_search_fields() %}
+                  {% if 'filter' in request.GET %}
+                      {% if field[0] == request.GET.filter  %}
                         <option value="{{ field[0] }}" selected>{{ field[1] }}</option>
                       {% else %}
                         <option value="{{ field[0] }}">{{ field[1] }}</option>
                       {% endif %}
-                  {% endfor %}
-              </select>
-            </div>
+                  {% else %}
+                        {% if field[0] == 'works' %}
+                        <option value="{{ field[0] }}" selected>{{ field[1] }}</option>
+                      {% else %}
+                        <option value="{{ field[0] }}">{{ field[1] }}</option>
+                      {% endif %}
+                  {% endif %}
+              {% endfor %}
+            </select>
         </div>
-      </div>
+        <div class="col-md-1 no-col-pad">
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+        </div>
     </div>
 </form>
-
