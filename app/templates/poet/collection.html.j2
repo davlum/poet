@@ -1,0 +1,38 @@
+{% extends 'layout/search.html.j2' %}
+{% from 'macros/util.html.j2' import render_comments, render_paginator,
+    render_copyright, render_recordings, render_entity_ls %}
+
+{% block resultbody %}
+    <div class="center-block" style="width: 80%;">
+        <h2>{{ collection.collection_name }}</h2>
+        <hr>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ render_entity_ls(_('Composers'), entities.composers) }}
+                    {{ render_entity_ls(_('Interpreters'), entities.interpreters) }}
+                    {{ render_entity_ls(_('Other'), entities.others) }}
+                    <br>
+                    <div>
+                        {% if collection.origin is not none %}
+                            <h4>Giro</h4>
+                            <h3 class="indented"> {{ collection.origin }}</h3>
+                            <br>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    {% if collection.image is not none %}
+                    <div class="text-center fade-in">
+                        <img src="{{ collection.image }}" alt="{{ _('Error while loading photo') }}" height="98%" width="98%">
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <br>
+        {{ render_comments(collection) }}
+        {{ render_recordings(works.page) }}
+        {{ render_paginator(works.page, '') }}
+    </div>
+{% endblock %}

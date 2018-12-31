@@ -1,40 +1,17 @@
 {% extends 'layout/search.html.j2' %}
-{% from 'macros/util.html.j2' import render_recordings %}
+{% from 'macros/util.html.j2' import render_recordings, render_paginator %}
 
 {% block resultbody %}
     <div class="container search-container">
         <div class="row">
            <div class="col-md-10">
-               {{ render_recordings(recordings) }}
+               {{ render_recordings(works.page) }}
            </div>
             <div class="col-md-2">
                 {% include 'includes/_sidebar.html.j2' %}
             </div>
         </div>
-        <div class="pagination">
-            {% if recordings.has_other_pages %}
-              <ul class="pagination">
-                {% if recordings.has_previous %}
-                  <li><a href="?page={{ recordings.previous_page_number }}&{{ search_terms }}">&laquo;</a></li>
-                {% else %}
-                  <li class="disabled"><span>&laquo;</span></li>
-                {% endif %}
-                {% for i in recordings.paginator.page_range %}
-                  {% if recordings.number == i %}
-                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                  {% else %}
-                    <li><a href="?page={{ i }}&{{ search_terms }}">{{ i }}</a></li>
-                  {% endif %}
-                {% endfor %}
-                {% if recordings.has_next %}
-                  <li><a href="?page={{ recordings.next_page_number }}&{{ search_terms }}">&raquo;</a></li>
-                {% else %}
-                  <li class="disabled"><span>&raquo;</span></li>
-                {% endif %}
-              </ul>
-            {% endif %}
-        </div>
-        </div>
+            {{ render_paginator(works.page, works.search_terms) }}
     </div>
 
 

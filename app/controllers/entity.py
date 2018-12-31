@@ -1,10 +1,13 @@
-import app.view_contexts.util as u
-import app.view_contexts.work as work
+import app.controllers.util as u
+import app.controllers.work as work
 from app.models.choices import PUBLISHED
 
 
 def get_entity(entity_id: int):
-    q = """SELECT * FROM poet_entity WHERE id = %s AND release_state = %s"""
+    q = """
+    SELECT * 
+    FROM poet_entity e
+    WHERE e.id = %s AND e.release_state = %s"""
 
     return u.query(q, [entity_id, PUBLISHED])[0]
 
@@ -24,12 +27,13 @@ def clean_entity(entity_dict):
 
 def get_recordings(entity_id: int):
     q = """
-    SELECT *
+    SELECT {}
     FROM poet_entity_to_work_rel rel
-    JOIN poet_work track ON rel.to_work = track.id
+    JOIN poet_work w ON rel.to_work = w.id
+    JOIN poet_work_collection c ON c.id = w.in_collection
     AND rel.from_entity = %s
-    AND track.release_state = %s
-    """
+    AND w.release_state = %s""".format(work.REQUIRED_WORK_FIELDS)
+
     recordings = u.query(q, [entity_id, PUBLISHED])
     return list(map(work.enrich_work, recordings))
 
@@ -37,7 +41,7 @@ def get_recordings(entity_id: int):
 def enrich_entity(entity):
     return {
         'entity': clean_entity(entity),
-        'recordings': get_recordings(entity['id'])
+        'works': get_recordings(entity['id'])
     }
 
 

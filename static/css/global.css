@@ -1,7 +1,31 @@
 a { color: inherit; }
 
+.sidebar-dims{
+    height: 500px;
+    width:200px;
+    overflow-y: scroll;
+}
+
+.input-searchbar {
+    border-right-style: none;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.dropdown-searchbar {
+    border-left-style: none;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
+
 .main-container {
     width: 80%;
+}
+
+.no-col-pad {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .time-span {
@@ -23,6 +47,10 @@ a { color: inherit; }
     border-right:30px;
     border-bottom: 10px;
     border-top: 10px;
+}
+
+.main-search-container {
+    width: 60%;
 }
 
 .search-container {

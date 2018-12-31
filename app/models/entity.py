@@ -1,6 +1,5 @@
 from django.db import models
 from app.models.choices import PENDING, RELEASE_STATES_CHOICES, validate_date
-from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 from django.contrib.postgres.fields import JSONField
@@ -55,10 +54,6 @@ class Entity(models.Model):
     country = models.CharField(max_length=128, blank=True, null=True)
 
     email = models.EmailField(blank=True, null=True)
-
-    image = models.ImageField(max_length=512, blank=True, null=True, upload_to='images/upload_date=%Y%m%d')
-
-    tags = ArrayField(models.CharField(max_length=200), blank=True, default=list, null=True)
 
     # Arbitrary additional information
     commentary = models.TextField(blank=True, null=True)

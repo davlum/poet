@@ -1,9 +1,6 @@
-from app.models.work import Work
-from app.models.entity import Entity
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
-from django.contrib.postgres.fields import JSONField
 
 READER = 'Lectura en voz alta'
 MUSICIAN = 'Interpretación musical'
@@ -33,13 +30,14 @@ ENTITY_WORK_ROLE = (
 
 
 class EntityToWorkRel(models.Model):
-    from_entity = models.ForeignKey(Entity, on_delete=models.CASCADE, db_column='from_entity', related_name='ew_from_model')
-    to_work = models.ForeignKey(Work, on_delete=models.CASCADE, db_column='to_work', related_name='ew_to_model')
+    from_entity = models.ForeignKey('Entity', on_delete=models.CASCADE, db_column='from_entity', related_name='ew_from_model')
+    to_work = models.ForeignKey('Work', on_delete=models.CASCADE, db_column='to_work', related_name='ew_to_model')
 
     relationship = models.CharField(max_length=256, choices=ENTITY_WORK_ROLE, default=READER)
+    instrument = models.CharField(max_length=256, blank=True, null=True)
+
     # Arbitrary additional information
     commentary = models.TextField(blank=True, null=True)
-    additional_data = JSONField(blank=True, null=True)
     history = HistoricalRecords()
 
     class Meta:

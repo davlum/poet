@@ -1,13 +1,38 @@
-import app.view_contexts.util as u
-from app.models.relations import COMPOSER, READER, MUSICIAN
+import app.controllers.util as u
 from app.models.choices import PUBLISHED
 from typing import Dict, List
 from django.conf import settings
 import os
 
 
+REQUIRED_WORK_FIELDS = """
+        w.id,
+        w.full_name,
+        w.alt_name,
+        w.city,
+        w.country,
+        w.languages,
+        w.waveform_peaks,
+        w.copyright,
+        w.date_recorded, 
+        w.date_published, 
+        w.date_digitalized,
+        w.date_contributed,
+        w.poetry_text,
+        w.commentary,
+        w.tags,
+        w.in_collection,
+        c.collection_name,
+        w.audio
+"""
+
+
 def get_work(work_id: int):
-    q = """SELECT * FROM poet_work WHERE id = %s AND release_state = %s"""
+    q = """
+    SELECT {} 
+    FROM poet_work w
+    JOIN poet_work_collection c ON w.in_collection = c.id
+    WHERE w.id = %s AND w.release_state = %s""".format(REQUIRED_WORK_FIELDS)
 
     return u.query(q, [work_id, PUBLISHED])[0]
 
@@ -25,7 +50,7 @@ def clean_work(work_dict):
     return work_dict
 
 
-def get_recording_entities(work_id: int) -> List[Dict[str, str]]:
+def get_entities(work_id: int) -> List[Dict[str, str]]:
 
     q = """
     SELECT DISTINCT
@@ -38,24 +63,13 @@ def get_recording_entities(work_id: int) -> List[Dict[str, str]]:
     AND release_state = %s
     """
 
-    return u.query(q, [work_id, PUBLISHED])
-
-
-def clean_recording_entities(entity_ls: List[Dict[str, str]]):
-    composers = [i for i in entity_ls if i['relationship'] == COMPOSER]
-    interpreters = [i for i in entity_ls if i['relationship'] in [READER, MUSICIAN]]
-    others = [i for i in entity_ls if i['relationship'] not in [READER, MUSICIAN, COMPOSER]]
-    return {
-        'composers': composers,
-        'interpreters': interpreters,
-        'others': others
-    }
+    return u.sort_entities(u.query(q, [work_id, PUBLISHED]))
 
 
 def enrich_work(work):
     return {
         'work': clean_work(work),
-        'entities': clean_recording_entities(get_recording_entities(work['id']))
+        'entities': get_entities(work['id'])
     }
 
 
