@@ -1,0 +1,314 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <david.lum91@gmail.com>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-03 22:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app/controllers/search.py:13
+msgid "Recordings"
+msgstr ""
+
+#: app/controllers/search.py:14
+msgid "Authors"
+msgstr ""
+
+#: app/controllers/search.py:15 app/models/work.py:91
+#: app/templates/includes/_sidebar.html.j2:6 app/templates/poet/work.html.j2:42
+msgid "Tags"
+msgstr ""
+
+#: app/controllers/search.py:16 app/templates/includes/_sidebar.html.j2:12
+msgid "Collections"
+msgstr ""
+
+#: app/controllers/search.py:17 app/templates/includes/_sidebar.html.j2:21
+#: app/templates/poet/work.html.j2:60
+msgid "Languages"
+msgstr ""
+
+#: app/controllers/search.py:18 app/templates/includes/_sidebar.html.j2:19
+msgid "Licenses"
+msgstr ""
+
+#: app/controllers/search.py:19 app/templates/includes/_sidebar.html.j2:20
+msgid "Cities"
+msgstr ""
+
+#: app/models/choices.py:10
+msgid "Published"
+msgstr ""
+
+#: app/models/choices.py:11
+msgid "Deposited"
+msgstr ""
+
+#: app/models/choices.py:12
+msgid "Pending"
+msgstr ""
+
+#: app/models/choices.py:13
+msgid "Rejected"
+msgstr ""
+
+#: app/models/choices.py:20
+msgid "Date does not match format YYYY-MM-DD."
+msgstr ""
+
+#: app/models/choices.py:21
+msgid "Not a valid date."
+msgstr ""
+
+#: app/models/entity.py:48
+msgid "Name"
+msgstr ""
+
+#: app/models/entity.py:49
+msgid "Alternative name"
+msgstr ""
+
+#: app/models/entity.py:51
+msgid "Entity Type"
+msgstr ""
+
+#: app/models/entity.py:54 app/models/work.py:84
+msgid "City"
+msgstr ""
+
+#: app/models/entity.py:55 app/models/work.py:85
+msgid "Country"
+msgstr ""
+
+#: app/models/entity.py:57
+msgid "Email"
+msgstr ""
+
+#: app/models/entity.py:60 app/models/entity.py:122 app/models/relations.py:42
+#: app/models/work.py:64 app/models/work.py:93
+msgid "Additional commentary"
+msgstr ""
+
+#: app/models/entity.py:61
+msgid "Additional Data"
+msgstr ""
+
+#: app/models/entity.py:64
+msgid "Active from"
+msgstr ""
+
+#: app/models/entity.py:65
+msgid "Active to"
+msgstr ""
+
+#: app/models/entity.py:66
+msgid "Website"
+msgstr ""
+
+#: app/models/entity.py:67
+msgid "Address"
+msgstr ""
+
+#: app/models/entity.py:68
+msgid "Email Address"
+msgstr ""
+
+#: app/models/entity.py:70
+msgid "Relationship to other entities"
+msgstr ""
+
+#: app/models/entity.py:73
+msgid "Relationship to recordings"
+msgstr ""
+
+#: app/models/entity.py:76 app/models/work.py:67 app/models/work.py:103
+msgid "State of Publication"
+msgstr ""
+
+#: app/models/entity.py:95
+msgid "Entity"
+msgstr ""
+
+#: app/models/entity.py:104
+msgid "From Entity"
+msgstr ""
+
+#: app/models/entity.py:105
+msgid "The entity that this relationship is coming from."
+msgstr ""
+
+#: app/models/entity.py:107
+msgid "To Entity"
+msgstr ""
+
+#: app/models/entity.py:108
+msgid "The entity that this relationship is going to."
+msgstr ""
+
+#: app/models/entity.py:110
+msgid "Contains"
+msgstr ""
+
+#: app/models/entity.py:111
+msgid ""
+"Does the from entity contain the other e.g. collective contains individual"
+msgstr ""
+
+#: app/models/entity.py:114
+msgid "Relationship"
+msgstr ""
+
+#: app/models/entity.py:115
+msgid "Type of relationship between the two entities"
+msgstr ""
+
+#: app/models/entity.py:118
+msgid "Date started"
+msgstr ""
+
+#: app/models/entity.py:119
+msgid "Date ended"
+msgstr ""
+
+#: app/models/entity.py:141
+msgid "Entity to entity relationship"
+msgstr ""
+
+#: app/models/relations.py:33
+msgid "From entity"
+msgstr ""
+
+#: app/models/relations.py:35
+msgid "To recording"
+msgstr ""
+
+#: app/models/relations.py:38
+msgid "Role"
+msgstr ""
+
+#: app/models/relations.py:39
+msgid "Instrument"
+msgstr ""
+
+#: app/models/relations.py:48
+msgid "Entity to recording relationship"
+msgstr ""
+
+#: app/models/work.py:58
+msgid "Collection title"
+msgstr ""
+
+#: app/models/work.py:60
+msgid "Album art"
+msgstr ""
+
+#: app/models/work.py:62
+msgid "Origin"
+msgstr ""
+
+#: app/models/work.py:73
+msgid "Recording collection"
+msgstr ""
+
+#: app/models/work.py:81
+msgid "Title"
+msgstr ""
+
+#: app/models/work.py:82
+msgid "Alternative title"
+msgstr ""
+
+#: app/models/work.py:87 app/models/work.py:140
+msgid "Recording"
+msgstr ""
+
+#: app/models/work.py:94
+msgid "Composition text"
+msgstr ""
+
+#: app/models/work.py:98
+msgid "Collection that this recording is a part of"
+msgstr ""
+
+#: app/models/work.py:101
+msgid "Track number in that collection"
+msgstr "numero"
+
+#: app/models/work.py:105
+msgid "Languages Spoken"
+msgstr ""
+
+#: app/models/work.py:107
+msgid "Date published"
+msgstr ""
+
+#: app/models/work.py:108
+msgid "Date digitized"
+msgstr ""
+
+#: app/models/work.py:109
+msgid "Date recorded"
+msgstr ""
+
+#: app/models/work.py:110
+msgid "Date contributed"
+msgstr ""
+
+#: app/models/work.py:112
+msgid "Media of origin"
+msgstr ""
+
+#: app/models/work.py:115
+msgid "License"
+msgstr ""
+
+#: app/models/work.py:116
+msgid "Country of License"
+msgstr ""
+
+#: app/templates/includes/_searchbar.html.j2:4
+msgid "Search"
+msgstr ""
+
+#: app/templates/macros/util.html.j2:63
+msgid "Commentary"
+msgstr ""
+
+#: app/templates/macros/util.html.j2:73
+#: app/templates/poet/collection.html.j2:12 app/templates/poet/work.html.j2:18
+msgid "Composers"
+msgstr ""
+
+#: app/templates/macros/util.html.j2:74
+#: app/templates/poet/collection.html.j2:13 app/templates/poet/work.html.j2:19
+msgid "Interpreters"
+msgstr ""
+
+#: app/templates/macros/util.html.j2:75
+#: app/templates/poet/collection.html.j2:14 app/templates/poet/work.html.j2:20
+msgid "Other"
+msgstr ""
+
+#: app/templates/macros/util.html.j2:178 app/templates/poet/work.html.j2:23
+msgid "Part of"
+msgstr ""
+
+#: app/templates/poet/collection.html.j2:27
+msgid "Error while loading photo"
+msgstr ""
+
+#: app/templates/poet/work.html.j2:34
+msgid "Text"
+msgstr ""

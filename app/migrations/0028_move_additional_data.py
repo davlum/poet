@@ -37,5 +37,10 @@ class Migration(migrations.Migration):
 
         migrations.RunSQL("""
         UPDATE poet_work_collection SET origin = nullif(trim(additional_data->>'Giro'::text), '');
-        """)
+        """),
+
+        migrations.RunSQL("""
+        UPDATE poet_entity_to_entity_rel SET start_date = nullif(trim(additional_data->>'Inicio'::text), ''),
+        end_date = nullif(trim(additional_data->>'Finalización'::text), '');
+    """),
     ]

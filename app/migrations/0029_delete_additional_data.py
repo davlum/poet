@@ -34,4 +34,13 @@ class Migration(migrations.Migration):
             model_name='workcollection',
             name='additional_data',
         ),
+
+        migrations.RemoveField(
+            model_name='entitytoentityrel',
+            name='additional_data',
+        ),
+        migrations.RemoveField(
+            model_name='historicalentitytoentityrel',
+            name='additional_data',
+        ),
     ]
