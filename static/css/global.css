@@ -13,9 +13,9 @@ a { color: inherit; }
 }
 
 .dropdown-searchbar {
-    border-left-style: none;
-    border-bottom-left-radius: 0px;
-    border-top-left-radius: 0px;
+    border-left-style: none !important;
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
 }
 
 
