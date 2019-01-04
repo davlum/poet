@@ -1,6 +1,6 @@
 # poet
 
-[![Coverage Status](https://coveralls.io/repos/github/davlum/poet/badge.svg?branch=master)](https://coveralls.io/github/davlum/poet?branch=master)
+[![Build Status](https://travis-ci.com/davlum/poet.svg?branch=master)](https://travis-ci.com/davlum/poet)[![Coverage Status](https://coveralls.io/repos/github/davlum/poet/badge.svg?branch=master)](https://coveralls.io/github/davlum/poet?branch=master)
 
 
 # Translation

@@ -11,3 +11,5 @@ pydub
 Pillow
 coverage
 django-nose
+coveralls
+PyYAML

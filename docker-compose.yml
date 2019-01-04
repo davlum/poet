@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_PASSWORD: 'postgres'
       POSTGRES_USER: 'postgres'
-      POSTGRES_DB: 'app'
+      POSTGRES_DB: 'postgres'
     volumes:
     - postgres_data:/var/lib/postgresql/data/
   django:
