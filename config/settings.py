@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_nose',
     'django_jinja',
     'simple_history',
     'app.apps.PoetConfig',
@@ -174,3 +175,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
 )
+
+# Use nose to run all tests
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Tell nose to measure coverage on the app
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=app',
+]
