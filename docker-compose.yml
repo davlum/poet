@@ -1,0 +1,27 @@
+version: '3.6'
+
+services:
+  db:
+    image: postgres:10.5-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_DB: 'postgres'
+    volumes:
+    - postgres_data:/var/lib/postgresql/data/
+  django:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+    - .:/code
+    env_file: poet.env
+    command: ["./wait-and-run.sh"]
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
+

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# wait-and-run.sh
+
+set -e
+
+until PGPASSWORD=$DB_PASSWORD psql -w -h $DB_HOST -U $DB_USER -d $DB_NAME -c '\q'; do
+  >&2 echo "Postgres is unavailable - sleeping"
+  sleep 1
+done
+
+>&2 echo "Postgres is up - executing command"
+
+python3 manage.py migrate && \
+exec python3 manage.py runserver 0.0.0.0:8000
+

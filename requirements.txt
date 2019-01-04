@@ -3,11 +3,13 @@ django-jinja
 django-simple-history
 Jinja2
 MarkupSafe
-mypy
-mypy-extensions
-psycopg2
+psycopg2-binary
 pytz
 typed-ast
 urllib3
 pydub
 Pillow
+coverage
+django-nose
+coveralls
+PyYAML
