@@ -16,6 +16,24 @@
 {% endmacro %}
 
 
+{% macro render_title(is_authenticated, admin_url, title) %}
+<div class="row">
+    <div class="col-md-10">
+        <h2>
+        {{ title }}
+        </h2>
+    </div>
+    <div class="col-md-2">
+        {% if is_authenticated %}
+            <strong>
+                <a class="pull-right" href="{{ admin_url }}">{{ _('Edit') }}</a>
+            </strong>
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}
+
+
 {%  macro render_name_link(entity) -%}
         <a href="{{ url("entity", entity_id=entity.entity_id) }}">{{ entity.entity_name }}</a>
 {% endmacro %}

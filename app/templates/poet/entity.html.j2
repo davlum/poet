@@ -1,11 +1,10 @@
 {% extends 'layout/search.html.j2' %}
-{% from 'macros/util.html.j2' import render_comments, render_copyright, render_recordings, render_paginator %}
+{% from 'macros/util.html.j2' import render_comments, render_copyright, render_recordings, render_paginator,
+        render_title %}
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">
-        <h2>
-            {{ entity.entity_name }}
-        </h2>
+        {{ render_title(user.is_authenticated, admin_link, entity.entity_name) }}
         <hr>
         <div>
             <div class="row">

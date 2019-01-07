@@ -35,11 +35,16 @@ def home(request):
 
 def work(request, work_id):
     context = get_work_context(work_id)
+    admin_link = '/admin/app/work/{}/change'.format(work_id)
+    context['admin_link'] = admin_link
+
     return render(request, 'poet/work.html.j2', context)
 
 
 def collection(request, collection_id):
     context = get_work_collection_context(collection_id)
+    admin_link = '/admin/app/workcollection/{}/change'.format(collection_id)
+    context['admin_link'] = admin_link
     context['works'] = paginate_list(request, context['works'])
 
     return render(request, 'poet/collection.html.j2', context)
@@ -47,6 +52,8 @@ def collection(request, collection_id):
 
 def entity(request, entity_id):
     context = get_entity_context(entity_id)
+    admin_link = '/admin/app/entity/{}/change'.format(entity_id)
+    context['admin_link'] = admin_link
     context['works'] = paginate_list(request, context['works'])
 
     return render(request, 'poet/entity.html.j2', context)

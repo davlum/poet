@@ -1,13 +1,11 @@
 {% extends 'layout/search.html.j2' %}
 {% from 'macros/util.html.j2' import render_entity_ls, render_table, render_comments, render_copyright,
-render_table, render_work_dates %}
+render_table, render_work_dates, render_title %}
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">
         <br>
-        <h2>
-            {{ work.work_name }}
-        </h2>
+        {{ render_title(user.is_authenticated, admin_link, work.work_name) }}
         <br>
         <br>
         <div>
