@@ -59,6 +59,8 @@ class WorkCollection(models.Model):
 
     image = models.ImageField(max_length=512, verbose_name=_('Album art'), upload_to='images/upload_date=%Y%m%d', null=True, blank=True)
 
+    album_art_design = models.CharField(max_length=512, verbose_name=_('Album art design'), null=True, blank=True)
+
     origin = models.CharField(max_length=128, verbose_name=_('Origin'), blank=True, null=True)
 
     commentary = models.TextField(verbose_name=_('Additional commentary'), blank=True, null=True)
@@ -67,10 +69,16 @@ class WorkCollection(models.Model):
     release_state = models.CharField(verbose_name=_('State of Publication'), max_length=32,
                                      choices=RELEASE_STATES_CHOICES, default=PENDING, db_column='release_state')
 
+    def __str__(self):
+        if self.collection_name is not None and self.collection_name.strip() != '':
+            return self.collection_name
+        return 'Colecciones {id}'.format(id=self.id)
+
     class Meta:
         managed = True
         db_table = 'poet_work_collection'
         verbose_name = _('Recording collection')
+        verbose_name_plural = _('Recording collections')
 
 
 class Work(models.Model):
@@ -89,6 +97,8 @@ class Work(models.Model):
     waveform_peaks = ArrayField(models.FloatField(), editable=False, default=list)
 
     tags = ArrayField(models.CharField(max_length=256), verbose_name=_('Tags'), blank=True, default=list)
+
+    external_url = models.URLField(verbose_name=_('External URL'), blank=True, null=True)
 
     commentary = models.TextField(verbose_name=_('Additional commentary'), blank=True, null=True)
     poetry_text = models.TextField(verbose_name=_('Composition text'), blank=True, null=True)
@@ -134,7 +144,15 @@ class Work(models.Model):
         self.waveform_peaks = peaks
         super(Work, self).save(*args, **kwargs)
 
+    def __str__(self):
+        if self.full_name is not None and self.full_name.strip() != '':
+            return self.full_name
+        if self.alt_name is not None and self.alt_name.strip() != '':
+            return self.alt_name
+        return 'Grabaciones {id}'.format(id=self.id)
+
     class Meta:
         managed = True
         db_table = 'poet_work'
         verbose_name = _('Recording')
+        verbose_name_plural = _('Recordings')

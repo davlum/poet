@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
+
 READER = 'Lectura en voz alta'
 MUSICIAN = 'Interpretación musical'
 SOUND_ENGINEER = 'Ingeniería de sonido'
@@ -42,10 +43,17 @@ class EntityToWorkRel(models.Model):
     commentary = models.TextField(verbose_name=_('Additional commentary'), blank=True, null=True)
     history = HistoricalRecords()
 
+    def __str__(self):
+        return 'Relación {from_entity} a {to_work}'.format(
+            from_entity=self.from_entity,
+            to_work=self.to_work
+        )
+
     class Meta:
         managed = True
         db_table = 'poet_entity_to_work_rel'
         verbose_name = _('Entity to recording relationship')
+        verbose_name_plural = _('Entity to recording relationships')
 
 
 

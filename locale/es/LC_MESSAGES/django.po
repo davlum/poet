@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-03 22:58+0000\n"
+"POT-Creation-Date: 2019-01-09 03:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,297 +18,357 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/controllers/search.py:13
+#: app/controllers/search.py:13 app/models/work.py:158
 msgid "Recordings"
-msgstr ""
+msgstr "Grabaciones"
 
 #: app/controllers/search.py:14
 msgid "Authors"
-msgstr ""
+msgstr "Autores"
 
-#: app/controllers/search.py:15 app/models/work.py:91
-#: app/templates/includes/_sidebar.html.j2:6 app/templates/poet/work.html.j2:42
+#: app/controllers/search.py:15 app/models/work.py:99
+#: app/templates/includes/_sidebar.html.j2:6 app/templates/poet/work.html.j2:40
 msgid "Tags"
-msgstr ""
+msgstr "Etiquetas"
 
 #: app/controllers/search.py:16 app/templates/includes/_sidebar.html.j2:12
 msgid "Collections"
-msgstr ""
+msgstr "Colecciones"
 
 #: app/controllers/search.py:17 app/templates/includes/_sidebar.html.j2:21
-#: app/templates/poet/work.html.j2:60
+#: app/templates/poet/work.html.j2:58
 msgid "Languages"
-msgstr ""
+msgstr "Idiomas"
 
 #: app/controllers/search.py:18 app/templates/includes/_sidebar.html.j2:19
 msgid "Licenses"
-msgstr ""
+msgstr "Licencias"
 
 #: app/controllers/search.py:19 app/templates/includes/_sidebar.html.j2:20
 msgid "Cities"
-msgstr ""
+msgstr "Ciudades"
 
 #: app/models/choices.py:10
 msgid "Published"
-msgstr ""
+msgstr "Publicada"
 
 #: app/models/choices.py:11
 msgid "Deposited"
-msgstr ""
+msgstr "Depositada"
 
 #: app/models/choices.py:12
 msgid "Pending"
-msgstr ""
+msgstr "Pendiente"
 
 #: app/models/choices.py:13
 msgid "Rejected"
-msgstr ""
+msgstr "Rechazada"
 
 #: app/models/choices.py:20
 msgid "Date does not match format YYYY-MM-DD."
-msgstr ""
+msgstr "La fecha no coincide con el formato AAA-MM-DD"
 
 #: app/models/choices.py:21
 msgid "Not a valid date."
-msgstr ""
+msgstr "Fecha inválida"
 
 #: app/models/entity.py:48
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: app/models/entity.py:49
 msgid "Alternative name"
-msgstr ""
+msgstr "Nombre alternativo"
 
 #: app/models/entity.py:51
 msgid "Entity Type"
-msgstr ""
+msgstr "Tipo de entidad"
 
-#: app/models/entity.py:54 app/models/work.py:84
+#: app/models/entity.py:54 app/models/work.py:92
 msgid "City"
-msgstr ""
+msgstr "Ciudad"
 
-#: app/models/entity.py:55 app/models/work.py:85
+#: app/models/entity.py:55 app/models/work.py:93
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #: app/models/entity.py:57
 msgid "Email"
-msgstr ""
+msgstr "Correo electrónico"
 
-#: app/models/entity.py:60 app/models/entity.py:122 app/models/relations.py:42
-#: app/models/work.py:64 app/models/work.py:93
+#: app/models/entity.py:60 app/models/entity.py:130 app/models/relations.py:43
+#: app/models/work.py:66 app/models/work.py:103
 msgid "Additional commentary"
-msgstr ""
+msgstr "Comentario adicional"
 
 #: app/models/entity.py:61
 msgid "Additional Data"
-msgstr ""
+msgstr "Información adicional"
 
 #: app/models/entity.py:64
 msgid "Active from"
-msgstr ""
+msgstr "Activo desde"
 
 #: app/models/entity.py:65
 msgid "Active to"
-msgstr ""
+msgstr "Activo hasta"
 
 #: app/models/entity.py:66
 msgid "Website"
-msgstr ""
+msgstr "Sitio web"
 
 #: app/models/entity.py:67
 msgid "Address"
-msgstr ""
+msgstr "Dirección"
 
-#: app/models/entity.py:68
-msgid "Email Address"
-msgstr ""
-
-#: app/models/entity.py:70
+#: app/models/entity.py:69
 msgid "Relationship to other entities"
-msgstr ""
+msgstr "Relación con otras entidades"
 
-#: app/models/entity.py:73
+#: app/models/entity.py:72
 msgid "Relationship to recordings"
-msgstr ""
+msgstr "Relación con grabaciones"
 
-#: app/models/entity.py:76 app/models/work.py:67 app/models/work.py:103
+#: app/models/entity.py:75 app/models/work.py:69 app/models/work.py:113
 msgid "State of Publication"
-msgstr ""
+msgstr "Estado de la publicación"
 
-#: app/models/entity.py:95
+#: app/models/entity.py:101
 msgid "Entity"
-msgstr ""
+msgstr "Entidad"
 
-#: app/models/entity.py:104
-msgid "From Entity"
-msgstr ""
-
-#: app/models/entity.py:105
-msgid "The entity that this relationship is coming from."
-msgstr ""
-
-#: app/models/entity.py:107
-msgid "To Entity"
-msgstr ""
-
-#: app/models/entity.py:108
-msgid "The entity that this relationship is going to."
-msgstr ""
-
-#: app/models/entity.py:110
-msgid "Contains"
-msgstr ""
+#: app/models/entity.py:102
+#, fuzzy
+#| msgid "Cities"
+msgid "Entities"
+msgstr "Ciudades"
 
 #: app/models/entity.py:111
+msgid "From Entity"
+msgstr "De la entidad"
+
+#: app/models/entity.py:112
+msgid "The entity that this relationship is coming from."
+msgstr "La entidad de la cual proviene esta relación"
+
+#: app/models/entity.py:114
+msgid "To Entity"
+msgstr "A la entidad"
+
+#: app/models/entity.py:115
+msgid "The entity that this relationship is going to."
+msgstr "La entidad a la que se le asignará esta relación"
+
+#: app/models/entity.py:118
+msgid "Contains"
+msgstr "Contiene"
+
+#: app/models/entity.py:119
 msgid ""
 "Does the from entity contain the other e.g. collective contains individual"
 msgstr ""
+"¿La entidad de origen contiene otra(s)? Ej.: un colectivo contiene individuos"
 
-#: app/models/entity.py:114
+#: app/models/entity.py:122
 msgid "Relationship"
-msgstr ""
+msgstr "Relación"
 
-#: app/models/entity.py:115
+#: app/models/entity.py:123
 msgid "Type of relationship between the two entities"
-msgstr ""
+msgstr "Tipos de relación entre las dos entidades"
 
-#: app/models/entity.py:118
+#: app/models/entity.py:126
 msgid "Date started"
-msgstr ""
+msgstr "Fecha de comienzo"
 
-#: app/models/entity.py:119
+#: app/models/entity.py:127
 msgid "Date ended"
-msgstr ""
+msgstr "Fecha final"
 
-#: app/models/entity.py:141
+#: app/models/entity.py:155
 msgid "Entity to entity relationship"
-msgstr ""
+msgstr "Relación de entidad a entidad"
 
-#: app/models/relations.py:33
+#: app/models/entity.py:156
+#, fuzzy
+#| msgid "Entity to entity relationship"
+msgid "Entity to entity relationships"
+msgstr "Relación de entidad a entidad"
+
+#: app/models/relations.py:34
 msgid "From entity"
-msgstr ""
+msgstr "De la entidad"
 
-#: app/models/relations.py:35
+#: app/models/relations.py:36
 msgid "To recording"
-msgstr ""
-
-#: app/models/relations.py:38
-msgid "Role"
-msgstr ""
+msgstr "A la grabación"
 
 #: app/models/relations.py:39
-msgid "Instrument"
-msgstr ""
+msgid "Role"
+msgstr "Rol"
 
-#: app/models/relations.py:48
+#: app/models/relations.py:40
+msgid "Instrument"
+msgstr "Instrumento"
+
+#: app/models/relations.py:55
 msgid "Entity to recording relationship"
-msgstr ""
+msgstr "Relación de entidad a grabación"
+
+#: app/models/relations.py:56
+#, fuzzy
+#| msgid "Entity to recording relationship"
+msgid "Entity to recording relationships"
+msgstr "Relación de entidad a grabación"
 
 #: app/models/work.py:58
 msgid "Collection title"
-msgstr ""
+msgstr "Título de la colección"
 
 #: app/models/work.py:60
 msgid "Album art"
-msgstr ""
+msgstr "Ilustración de portada"
 
 #: app/models/work.py:62
-msgid "Origin"
-msgstr ""
+msgid "Album art design"
+msgstr "Diseño de ilustración"
 
-#: app/models/work.py:73
+#: app/models/work.py:64
+msgid "Origin"
+msgstr "Origen"
+
+#: app/models/work.py:80
 msgid "Recording collection"
-msgstr ""
+msgstr "Colección de grabaciones"
 
 #: app/models/work.py:81
+#, fuzzy
+#| msgid "Recording collection"
+msgid "Recording collections"
+msgstr "Colección de grabaciones"
+
+#: app/models/work.py:89
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
-#: app/models/work.py:82
+#: app/models/work.py:90
 msgid "Alternative title"
-msgstr ""
+msgstr "Título alternativo"
 
-#: app/models/work.py:87 app/models/work.py:140
+#: app/models/work.py:95 app/models/work.py:157
 msgid "Recording"
-msgstr ""
-
-#: app/models/work.py:94
-msgid "Composition text"
-msgstr ""
-
-#: app/models/work.py:98
-msgid "Collection that this recording is a part of"
-msgstr ""
+msgstr "Grabación"
 
 #: app/models/work.py:101
-msgid "Track number in that collection"
-msgstr "numero"
+msgid "External URL"
+msgstr "URL externo"
 
-#: app/models/work.py:105
-msgid "Languages Spoken"
-msgstr ""
-
-#: app/models/work.py:107
-msgid "Date published"
-msgstr ""
+#: app/models/work.py:104
+msgid "Composition text"
+msgstr "Texto de la composición"
 
 #: app/models/work.py:108
-msgid "Date digitized"
-msgstr ""
+msgid "Collection that this recording is a part of"
+msgstr "Colección a la que pertenece"
 
-#: app/models/work.py:109
-msgid "Date recorded"
-msgstr ""
-
-#: app/models/work.py:110
-msgid "Date contributed"
-msgstr ""
-
-#: app/models/work.py:112
-msgid "Media of origin"
-msgstr ""
+#: app/models/work.py:111
+msgid "Track number in that collection"
+msgstr "Número de pista en esa colección"
 
 #: app/models/work.py:115
-msgid "License"
-msgstr ""
+msgid "Languages Spoken"
+msgstr "Idiomas hablados"
 
-#: app/models/work.py:116
+#: app/models/work.py:117
+msgid "Date published"
+msgstr "Fecha de publicación"
+
+#: app/models/work.py:118
+msgid "Date digitized"
+msgstr "Fecha de digitalización"
+
+#: app/models/work.py:119
+msgid "Date recorded"
+msgstr "Fecha de grabación"
+
+#: app/models/work.py:120
+msgid "Date contributed"
+msgstr "Fecha de contribución"
+
+#: app/models/work.py:122
+msgid "Media of origin"
+msgstr "Medio o formato de origen"
+
+#: app/models/work.py:125
+msgid "License"
+msgstr "Licencia"
+
+#: app/models/work.py:126
 msgid "Country of License"
-msgstr ""
+msgstr "País de la licencia"
+
+#: app/templates/includes/_navbar.html.j2:13
+msgid "Login"
+msgstr "Cerrar sesión"
+
+#: app/templates/includes/_navbar.html.j2:15
+msgid "Admin"
+msgstr "Administración"
+
+#: app/templates/includes/_navbar.html.j2:16
+msgid "Logout"
+msgstr "Cerrar Sesión"
 
 #: app/templates/includes/_searchbar.html.j2:4
 msgid "Search"
-msgstr ""
+msgstr "Buscar"
 
-#: app/templates/macros/util.html.j2:63
+#: app/templates/macros/util.html.j2:29
+msgid "Edit"
+msgstr "Editar"
+
+#: app/templates/macros/util.html.j2:81
 msgid "Commentary"
-msgstr ""
+msgstr "Comentario"
 
-#: app/templates/macros/util.html.j2:73
-#: app/templates/poet/collection.html.j2:12 app/templates/poet/work.html.j2:18
+#: app/templates/macros/util.html.j2:91
+#: app/templates/poet/collection.html.j2:12 app/templates/poet/work.html.j2:16
 msgid "Composers"
-msgstr ""
+msgstr "Compositores"
 
-#: app/templates/macros/util.html.j2:74
-#: app/templates/poet/collection.html.j2:13 app/templates/poet/work.html.j2:19
+#: app/templates/macros/util.html.j2:92
+#: app/templates/poet/collection.html.j2:13 app/templates/poet/work.html.j2:17
 msgid "Interpreters"
-msgstr ""
+msgstr "Intérpretes"
 
-#: app/templates/macros/util.html.j2:75
-#: app/templates/poet/collection.html.j2:14 app/templates/poet/work.html.j2:20
+#: app/templates/macros/util.html.j2:93
+#: app/templates/poet/collection.html.j2:14 app/templates/poet/work.html.j2:18
 msgid "Other"
-msgstr ""
+msgstr "Otros"
 
-#: app/templates/macros/util.html.j2:178 app/templates/poet/work.html.j2:23
+#: app/templates/macros/util.html.j2:196 app/templates/poet/work.html.j2:21
 msgid "Part of"
-msgstr ""
+msgstr "Parte de"
 
 #: app/templates/poet/collection.html.j2:27
 msgid "Error while loading photo"
-msgstr ""
+msgstr "Error al cargar la imagen"
 
-#: app/templates/poet/work.html.j2:34
+#: app/templates/poet/work.html.j2:32
 msgid "Text"
-msgstr ""
+msgstr "Texto"
+
+#, fuzzy
+#~| msgid "Entity to entity relationship"
+#~ msgid "{from_entity} {to_entity} relationship"
+#~ msgstr "Relación de entidad a entidad"
+
+#, fuzzy
+#~| msgid "Entity to recording relationship"
+#~ msgid "{from_entity} {to_work} relationship"
+#~ msgstr "Relación de entidad a grabación"
+
+#, fuzzy
+#~| msgid "Collection title"
+#~ msgid "Collection ID {id}"
+#~ msgstr "Título de la colección"

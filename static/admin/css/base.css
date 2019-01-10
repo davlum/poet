@@ -646,9 +646,11 @@ div.system-message p.system-message-title {
 /* BREADCRUMBS */
 
 div.breadcrumbs {
-    background: rgb(248, 248, 248);
+    background: #f8f8f8;
     padding: 10px 40px;
-    border: none;
+    border: solid;
+    border-width: 0 0 1px 0;
+    border-color: #e7e7e7;
     font-size: 14px;
     color: black;
     text-align: left;
@@ -835,7 +837,7 @@ table#change-history tbody th {
     justify-content: space-between;
     align-items: center;
     padding: 10px 40px;
-    background: rgb(231, 231, 231);
+    background: #f8f8f8;
     color: black;
     overflow: hidden;
 }
