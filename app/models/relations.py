@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
 
@@ -44,7 +44,7 @@ class EntityToWorkRel(models.Model):
     history = HistoricalRecords()
 
     def __str__(self):
-        return 'Relación {from_entity} a {to_work}'.format(
+        return gettext("Relation from {from_entity} to {to_work}").format(
             from_entity=self.from_entity,
             to_work=self.to_work
         )

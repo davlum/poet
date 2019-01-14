@@ -1,6 +1,6 @@
 from django.db import models
 from app.models.choices import PENDING, RELEASE_STATES_CHOICES, validate_date
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy as _
 from simple_history.models import HistoricalRecords
 from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
@@ -93,7 +93,7 @@ class Entity(models.Model):
             return self.full_name
         if self.alt_name is not None and self.alt_name.strip() != '':
             return self.alt_name
-        return 'Entidad {id}'.format(id=self.id)
+        return gettext('Entity {id}').format(id=self.id)
 
     class Meta:
         managed = True
@@ -131,7 +131,7 @@ class EntityToEntityRel(models.Model):
     history = HistoricalRecords()
 
     def __str__(self):
-        return 'Relación {from_entity} a {to_entity}'.format(
+        return gettext('Relation from {from_entity} to {to_entity}').format(
             from_entity=self.from_entity,
             to_entity=self.to_entity
         )

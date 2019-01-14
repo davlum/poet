@@ -1,7 +1,7 @@
 from django.db import models
 from app.models.choices import PENDING, RELEASE_STATES_CHOICES, validate_date
 from django.contrib.postgres.fields import ArrayField
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy as _
 import app.controllers.util as u
 from simple_history.models import HistoricalRecords
 from django.core.exceptions import ValidationError
@@ -72,7 +72,7 @@ class WorkCollection(models.Model):
     def __str__(self):
         if self.collection_name is not None and self.collection_name.strip() != '':
             return self.collection_name
-        return 'Colecciones {id}'.format(id=self.id)
+        return gettext('Collection {id}').format(id=self.id)
 
     class Meta:
         managed = True
@@ -149,7 +149,7 @@ class Work(models.Model):
             return self.full_name
         if self.alt_name is not None and self.alt_name.strip() != '':
             return self.alt_name
-        return 'Grabaciones {id}'.format(id=self.id)
+        return gettext('Recording {id}').format(id=self.id)
 
     class Meta:
         managed = True

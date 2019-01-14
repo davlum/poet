@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-09 03:03+0000\n"
+"POT-Creation-Date: 2019-01-12 21:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,15 +133,19 @@ msgstr "Relación con grabaciones"
 msgid "State of Publication"
 msgstr "Estado de la publicación"
 
+#: app/models/entity.py:96
+#, fuzzy, python-brace-format
+#| msgid "Entity"
+msgid "Entity {id}"
+msgstr "Entidad {id}"
+
 #: app/models/entity.py:101
 msgid "Entity"
 msgstr "Entidad"
 
 #: app/models/entity.py:102
-#, fuzzy
-#| msgid "Cities"
 msgid "Entities"
-msgstr "Ciudades"
+msgstr ""
 
 #: app/models/entity.py:111
 msgid "From Entity"
@@ -185,15 +189,19 @@ msgstr "Fecha de comienzo"
 msgid "Date ended"
 msgstr "Fecha final"
 
+#: app/models/entity.py:134
+#, fuzzy, python-brace-format
+#| msgid "Entity to recording relationship"
+msgid "Relation from {from_entity} to {to_entity}"
+msgstr "Relación de {from_entity} a {to_entity}"
+
 #: app/models/entity.py:155
 msgid "Entity to entity relationship"
 msgstr "Relación de entidad a entidad"
 
 #: app/models/entity.py:156
-#, fuzzy
-#| msgid "Entity to entity relationship"
 msgid "Entity to entity relationships"
-msgstr "Relación de entidad a entidad"
+msgstr ""
 
 #: app/models/relations.py:34
 msgid "From entity"
@@ -211,15 +219,18 @@ msgstr "Rol"
 msgid "Instrument"
 msgstr "Instrumento"
 
+#: app/models/relations.py:47
+#, python-brace-format
+msgid "Relation from {from_entity} to {to_work}"
+msgstr ""
+
 #: app/models/relations.py:55
 msgid "Entity to recording relationship"
 msgstr "Relación de entidad a grabación"
 
 #: app/models/relations.py:56
-#, fuzzy
-#| msgid "Entity to recording relationship"
 msgid "Entity to recording relationships"
-msgstr "Relación de entidad a grabación"
+msgstr ""
 
 #: app/models/work.py:58
 msgid "Collection title"
@@ -237,15 +248,19 @@ msgstr "Diseño de ilustración"
 msgid "Origin"
 msgstr "Origen"
 
+#: app/models/work.py:75
+#, fuzzy, python-brace-format
+#| msgid "Collection title"
+msgid "Collection {id}"
+msgstr "Colección {id}"
+
 #: app/models/work.py:80
 msgid "Recording collection"
 msgstr "Colección de grabaciones"
 
 #: app/models/work.py:81
-#, fuzzy
-#| msgid "Recording collection"
 msgid "Recording collections"
-msgstr "Colección de grabaciones"
+msgstr ""
 
 #: app/models/work.py:89
 msgid "Title"
@@ -307,6 +322,20 @@ msgstr "Licencia"
 msgid "Country of License"
 msgstr "País de la licencia"
 
+#: app/models/work.py:152
+#, fuzzy, python-brace-format
+#| msgid "Recording"
+msgid "Recording {id}"
+msgstr "Grabación {id}"
+
+#: app/templates/includes/_navbar.html.j2:8
+msgid "Home"
+msgstr "Página principal"
+
+#: app/templates/includes/_navbar.html.j2:9
+msgid "About"
+msgstr "Sobre el proyecto"
+
 #: app/templates/includes/_navbar.html.j2:13
 msgid "Login"
 msgstr "Cerrar sesión"
@@ -358,17 +387,22 @@ msgstr "Error al cargar la imagen"
 msgid "Text"
 msgstr "Texto"
 
-#, fuzzy
-#~| msgid "Entity to entity relationship"
-#~ msgid "{from_entity} {to_entity} relationship"
-#~ msgstr "Relación de entidad a entidad"
+#: app/urls.py:10
+msgid "home"
+msgstr "inicio"
 
-#, fuzzy
-#~| msgid "Entity to recording relationship"
-#~ msgid "{from_entity} {to_work} relationship"
-#~ msgstr "Relación de entidad a grabación"
+#: app/urls.py:11
+msgid "work/<int:work_id>"
+msgstr "obra/<int:work_id>"
 
-#, fuzzy
-#~| msgid "Collection title"
-#~ msgid "Collection ID {id}"
-#~ msgstr "Título de la colección"
+#: app/urls.py:12
+msgid "collection/<int:collection_id>"
+msgstr "coleccion/<int:collection_id>"
+
+#: app/urls.py:13
+msgid "entity/<int:entity_id>"
+msgstr "entidad/<int:entity_id>"
+
+#: app/urls.py:14
+msgid "search/"
+msgstr "buscar/"

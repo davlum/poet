@@ -13,3 +13,5 @@ class HomePageTest(TestCase):
         self.assertTrue(self.response.content.startswith(b'<!DOCTYPE html>'))
         self.assertContains(self.response, 'POÉTICA<i>S</i>ONORA')
         self.assertTrue(self.response.content.endswith(b'</html>'))
+
+
