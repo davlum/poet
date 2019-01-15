@@ -51,5 +51,3 @@ class TestUtils(TestCase):
     def test_normalize(self):
         result = u.normalize([1, -2, 4])
         self.assertListEqual(result, [0.25, -0.5, 1])
-
-    def test_sort_entities(self):
