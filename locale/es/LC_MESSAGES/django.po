@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-12 21:39+0000\n"
+"POT-Creation-Date: 2019-01-12 20:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,7 +66,7 @@ msgstr "Rechazada"
 
 #: app/models/choices.py:20
 msgid "Date does not match format YYYY-MM-DD."
-msgstr "La fecha no coincide con el formato AAA-MM-DD"
+msgstr "La fecha no coincide con el formato AAAA-MM-DD"
 
 #: app/models/choices.py:21
 msgid "Not a valid date."
@@ -134,7 +134,7 @@ msgid "State of Publication"
 msgstr "Estado de la publicación"
 
 #: app/models/entity.py:96
-#, fuzzy, python-brace-format
+#, python-brace-format
 #| msgid "Entity"
 msgid "Entity {id}"
 msgstr "Entidad {id}"
@@ -145,7 +145,7 @@ msgstr "Entidad"
 
 #: app/models/entity.py:102
 msgid "Entities"
-msgstr ""
+msgstr "Entidades"
 
 #: app/models/entity.py:111
 msgid "From Entity"
@@ -171,7 +171,7 @@ msgstr "Contiene"
 msgid ""
 "Does the from entity contain the other e.g. collective contains individual"
 msgstr ""
-"¿La entidad de origen contiene otra(s)? Ej.: un colectivo contiene individuos"
+"¿La entidad de origen contiene a la(s) otra(s)? Ej.: un colectivo contiene individuos"
 
 #: app/models/entity.py:122
 msgid "Relationship"
@@ -201,7 +201,7 @@ msgstr "Relación de entidad a entidad"
 
 #: app/models/entity.py:156
 msgid "Entity to entity relationships"
-msgstr ""
+msgstr "Relaciones de entidad a entidad"
 
 #: app/models/relations.py:34
 msgid "From entity"
@@ -222,7 +222,7 @@ msgstr "Instrumento"
 #: app/models/relations.py:47
 #, python-brace-format
 msgid "Relation from {from_entity} to {to_work}"
-msgstr ""
+msgstr "Relación de {from_entity} a {to_work}"
 
 #: app/models/relations.py:55
 msgid "Entity to recording relationship"
@@ -230,7 +230,7 @@ msgstr "Relación de entidad a grabación"
 
 #: app/models/relations.py:56
 msgid "Entity to recording relationships"
-msgstr ""
+msgstr "Relaciones de entidad a grabación"
 
 #: app/models/work.py:58
 msgid "Collection title"
@@ -260,7 +260,7 @@ msgstr "Colección de grabaciones"
 
 #: app/models/work.py:81
 msgid "Recording collections"
-msgstr ""
+msgstr "Colecciones de grabaciones"
 
 #: app/models/work.py:89
 msgid "Title"
@@ -323,22 +323,14 @@ msgid "Country of License"
 msgstr "País de la licencia"
 
 #: app/models/work.py:152
-#, fuzzy, python-brace-format
+#, python-brace-format
 #| msgid "Recording"
 msgid "Recording {id}"
 msgstr "Grabación {id}"
 
-#: app/templates/includes/_navbar.html.j2:8
-msgid "Home"
-msgstr "Página principal"
-
-#: app/templates/includes/_navbar.html.j2:9
-msgid "About"
-msgstr "Sobre el proyecto"
-
 #: app/templates/includes/_navbar.html.j2:13
 msgid "Login"
-msgstr "Cerrar sesión"
+msgstr "Iniciar sesión"
 
 #: app/templates/includes/_navbar.html.j2:15
 msgid "Admin"
