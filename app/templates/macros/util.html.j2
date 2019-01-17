@@ -164,7 +164,7 @@
 
 {% macro render_recordings(list) -%}
     {% if list|length > 0 %}
-        <div class="card">
+        <div>
             <script>
                 var audioIterator = {
                     containersIds: [],
@@ -172,51 +172,49 @@
                     waveformPeaks: []
                 };
             </script>
-            <div id="recordings-collapse" class="collapse in">
-                <div class="card-block">
-                    <table class="table">
-                    <tbody>
-                    {% for entry in list %}
-                        <tr>
-                            <td class="col-md-6">
-                                <div class="wavesurfer-padding" id="wavesurfer-container-{{ loop.index }}">
-                                </div>
-                                <div class="row">
-                                    <a href="{{ url("work", work_id=entry.work.work_id) }}">
-                                        <h3>{{ entry.work.work_name }}</h3>
-                                    </a>
-                                </div>
-                                {{ render_work_dates(entry.work) }}
-                            </td>
-                            <td class="col-md-6">
-                                <div class="wavesurfer-padding">
-                                    {{ render_search_entities(entry.entities) }}
-                                </div>
-                                <div>
-                                    {{ _('Part of') }}
+            <div>
+                <table class="table">
+                <tbody>
+                {% for entry in list %}
+                    <tr>
+                        <td class="col-md-6">
+                            <div class="wavesurfer-padding" id="wavesurfer-container-{{ loop.index }}">
+                            </div>
+                            <div class="row">
+                                <a href="{{ url("work", work_id=entry.work.work_id) }}">
+                                    <h3>{{ entry.work.work_name }}</h3>
+                                </a>
+                            </div>
+                            {{ render_work_dates(entry.work) }}
+                        </td>
+                        <td class="col-md-6">
+                            <div class="wavesurfer-padding">
+                                {{ render_search_entities(entry.entities) }}
+                            </div>
+                            <div>
+                                {{ _('Part of') }}
+                                <strong>
+                                    <a href="{{ url('collection', collection_id=entry.work.in_collection) }}">{{ entry.work.collection_name }}</a>
+                                </strong>
+                            </div>
+                            <br>
+                            <div>
+                                {% for tag in entry.work.tags %}
                                     <strong>
-                                        <a href="{{ url('collection', collection_id=entry.work.in_collection) }}">{{ entry.work.collection_name }}</a>
+                                        <a href="{{ url('search') }}?term={{ tag }}&filter=tags">{{ tag }}</a> &nbsp
                                     </strong>
-                                </div>
-                                <br>
-                                <div>
-                                    {% for tag in entry.work.tags %}
-                                        <strong>
-                                            <a href="{{ url('search') }}?term={{ tag }}&filter=tags">{{ tag }}</a> &nbsp
-                                        </strong>
-                                    {% endfor %}
-                                </div>
-                            </td>
-                        </tr>
-                        <script>
-                            audioIterator.containersIds.push("wavesurfer-container-{{ loop.index }}");
-                            audioIterator.audioPaths.push("{{ entry.work.audio }}");
-                            audioIterator.waveformPeaks.push({{ entry.work.waveform_peaks }});
-                        </script>
-                    {% endfor %}
-                    </tbody>
-                    </table>
-                </div>
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                    <script>
+                        audioIterator.containersIds.push("wavesurfer-container-{{ loop.index }}");
+                        audioIterator.audioPaths.push("{{ entry.work.audio }}");
+                        audioIterator.waveformPeaks.push({{ entry.work.waveform_peaks }});
+                    </script>
+                {% endfor %}
+                </tbody>
+                </table>
             </div>
         </div>
    {% endif %}

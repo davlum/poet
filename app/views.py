@@ -65,3 +65,6 @@ def search(request):
 
     return render(request, 'poet/search.html.j2', context)
 
+
+def error_404_view(request, _):
+    return render(request, 'errors/404.html.j2')
