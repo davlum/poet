@@ -1,13 +1,11 @@
 {% extends 'layout/search.html.j2' %}
 {% from 'macros/util.html.j2' import render_entity_ls, render_table, render_comments, render_copyright,
-render_table, render_work_dates %}
+render_table, render_work_dates, render_title %}
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">
         <br>
-        <h2>
-            {{ work.work_name }}
-        </h2>
+        {{ render_title(user.is_authenticated, admin_link, work.work_name) }}
         <br>
         <br>
         <div>
@@ -15,26 +13,31 @@ render_table, render_work_dates %}
             </div>
             <br>
             <div class="row">
-                {{ render_entity_ls(_('Composers'), entities.composers) }}
-                {{ render_entity_ls(_('Interpreters'), entities.interpreters) }}
-                {{ render_entity_ls(_('Other'), entities.others) }}
+                <div class="col-md-6">
+                    {{ render_entity_ls(_('Composers'), entities.composers) }}
+                    {{ render_entity_ls(_('Interpreters'), entities.interpreters) }}
+                    {{ render_entity_ls(_('Other'), entities.others) }}
+                    <i><h4>{{ _('Part of') }}
+                        <strong>
+                            <a href="{{ url('collection', collection_id=work.in_collection) }}">{{ work.collection_name }}</a>
+                        </strong>
+                    </h4></i>
+                    {{ render_work_dates(work) }}
+                </div>
+                <div class="col-md-6">
+                    {{ render_comments(work) }}
+
+                </div>
             </div>
+            <br>
             <div class="row">
-                <h4>{{ _('Part of') }}
-                    <strong>
-                        <a href="{{ url('collection', collection_id=work.in_collection) }}">{{ work.collection_name }}</a>
-                    </strong>
-                </h4>
+                    {% if work.poetry_text is not none %}
+                        <h4 class="text-center">{{ _('Text') }}</h4>
+                        <br>
+                        <p class="skinny center-block"> {{ work.poetry_text }}</p>
+                        <br>
+                    {% endif %}
             </div>
-            <div class="row">
-                {{ render_work_dates(work) }}
-            </div>
-                {{ render_comments(work) }}
-                {% if work.poetry_text is not none %}
-                    <h4>{{ _('Text') }}</h4>
-                    <p class="skinny text-center center-block"> {{ work.poetry_text }}</p>
-                    <br>
-                {% endif %}
             <div class="row">
                 <div class="col-md-6">
                     {% if list is not none %}

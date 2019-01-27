@@ -1,10 +1,10 @@
 {% extends 'layout/search.html.j2' %}
 {% from 'macros/util.html.j2' import render_comments, render_paginator,
-    render_copyright, render_recordings, render_entity_ls %}
+    render_copyright, render_recordings, render_entity_ls, render_title %}
 
 {% block resultbody %}
     <div class="center-block" style="width: 80%;">
-        <h2>{{ collection.collection_name }}</h2>
+        {{ render_title(user.is_authenticated, admin_link, collection.collection_name) }}
         <hr>
         <div class="container">
             <div class="row">
@@ -27,11 +27,11 @@
                         <img src="{{ collection.image }}" alt="{{ _('Error while loading photo') }}" height="98%" width="98%">
                     </div>
                     {% endif %}
+                    {{ render_comments(collection) }}
                 </div>
             </div>
         </div>
         <br>
-        {{ render_comments(collection) }}
         {{ render_recordings(works.page) }}
         {{ render_paginator(works.page, '') }}
     </div>

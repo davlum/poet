@@ -19,9 +19,7 @@ def return_or_404(f, message=None, **kwargs):
 
 def normalize(arr):
     max_val = abs(max(arr, key=abs))
-    min_val = abs(min(arr, key=abs))
-    denom = max_val - min_val
-    return list(map(lambda x: round((x - min_val) / denom, 4), arr))
+    return list(map(lambda x: round((x / max_val), 4), arr))
 
 
 def get_peaks_from_audio_path(file, codec) -> List[float]:

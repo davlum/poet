@@ -1,30 +1,19 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.utils.translation import gettext_lazy as _
 from app import views
 
-
-# class SearchParameterConverter:
-#
-#     regex = '|'.join([entity.value for entity in Entities])
-#
-#     def to_python(self, value):
-#         return Entities(value)
-#
-#     def to_url(self, value):
-#         return str(value.value)
-#
-#
-# register_converter(SearchParameterConverter, 'entity')
-
+# https://docs.djangoproject.com/en/2.1/topics/i18n/translation/#translating-url-patterns
 urlpatterns = [
     path('', views.index, name='index'),
-    path('home', views.home, name='home'),
-    path('work/<int:work_id>', views.work, name='work'),
-    path('collection/<int:collection_id>', views.collection, name='collection'),
-    path('entity/<int:entity_id>', views.entity, name='entity'),
-    path('search/', views.search, name='search'),
+    path(_('home'), views.home, name='home'),
+    path(_('work/<int:work_id>'), views.work, name='work'),
+    path(_('collection/<int:collection_id>'), views.collection, name='collection'),
+    path(_('entity/<int:entity_id>'), views.entity, name='entity'),
+    path(_('search/'), views.search, name='search'),
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

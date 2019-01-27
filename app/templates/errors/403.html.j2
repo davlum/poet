@@ -1,0 +1,10 @@
+{% extends "layout/main.html.j2" %}
+
+{% block body %}
+<div class="text-center">
+    <br><br><br>
+    <h1>403</h1>
+    <p>{{ _('You are not authorized to access this page') }}</p>
+    <p><em><a href="{{request.META.HTTP_REFERER|escape}}">{{ _('Go back') }}</a></em></p>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.db import models
 from app.models.choices import PENDING, RELEASE_STATES_CHOICES, validate_date
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy as _
 from simple_history.models import HistoricalRecords
 from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
@@ -65,7 +65,6 @@ class Entity(models.Model):
     end_date = models.CharField(verbose_name=_('Active to'), max_length=10, blank=True, null=True)
     website = models.URLField(verbose_name=_('Website'), blank=True, null=True)
     address = models.CharField(verbose_name=_('Address'), max_length=256, blank=True, null=True)
-    email_address = models.EmailField(verbose_name=_('Email Address'), blank=True, null=True)
 
     work_relation = models.ManyToManyField(Work, verbose_name=_('Relationship to other entities'), blank=True,
                                            symmetrical=False, through='EntityToWorkRel')
@@ -89,10 +88,18 @@ class Entity(models.Model):
         self.full_clean()
         super(Entity, self).save(*args, **kwargs)
 
+    def __str__(self):
+        if self.full_name is not None and self.full_name.strip() != '':
+            return self.full_name
+        if self.alt_name is not None and self.alt_name.strip() != '':
+            return self.alt_name
+        return gettext('Entity {id}').format(id=self.id)
+
     class Meta:
         managed = True
         db_table = 'poet_entity'
         verbose_name = _('Entity')
+        verbose_name_plural = _('Entities')
 
 
 class EntityToEntityRel(models.Model):
@@ -107,6 +114,7 @@ class EntityToEntityRel(models.Model):
     to_entity = models.ForeignKey(Entity, verbose_name=_('To Entity'),
                                   help_text=_('The entity that this relationship is going to.'),
                                   on_delete=models.CASCADE, db_column='to_entity', related_name='ee_to_model')
+
     contains = models.BooleanField(verbose_name=_('Contains'),
                                    help_text=_('Does the from entity contain the other e.g. collective contains individual'),
                                    default=False)
@@ -121,6 +129,12 @@ class EntityToEntityRel(models.Model):
     # Arbitrary additional information
     commentary = models.TextField(verbose_name=_('Additional commentary'), blank=True, null=True)
     history = HistoricalRecords()
+
+    def __str__(self):
+        return gettext('Relation from {from_entity} to {to_entity}').format(
+            from_entity=self.from_entity,
+            to_entity=self.to_entity
+        )
 
     def clean(self, *args, **kwargs):
         try:
@@ -139,3 +153,4 @@ class EntityToEntityRel(models.Model):
         managed = True
         db_table = 'poet_entity_to_entity_rel'
         verbose_name = _('Entity to entity relationship')
+        verbose_name_plural = _('Entity to entity relationships')

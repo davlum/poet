@@ -16,6 +16,24 @@
 {% endmacro %}
 
 
+{% macro render_title(is_authenticated, admin_url, title) %}
+<div class="row">
+    <div class="col-md-10">
+        <h2>
+        {{ title }}
+        </h2>
+    </div>
+    <div class="col-md-2">
+        {% if is_authenticated %}
+            <strong>
+                <a class="pull-right" href="{{ admin_url }}">{{ _('Edit') }}</a>
+            </strong>
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}
+
+
 {%  macro render_name_link(entity) -%}
         <a href="{{ url("entity", entity_id=entity.entity_id) }}">{{ entity.entity_name }}</a>
 {% endmacro %}
@@ -27,18 +45,24 @@
 
 
 {%  macro render_entity(entity) -%}
-      {{ render_name_link(entity) }} - {{ entity.relationship }} <br>
+        {{ render_name_link(entity) }} -
+    {% if entity.relationship == 'Interpretación musical' %}
+        {{ entity.instrument }}
+    {% else %}
+        {{ entity.relationship }}
+    {% endif %}
+        <br>
 {% endmacro %}
 
 
 {% macro render_entity_ls(entity_type, entities) %}
 <div>
-    <h4>{{ entity_type }}</h4>
-    <h3 class="indented">
+    <h3>{{ entity_type }}</h3>
+    <h4>
         {% for entity in entities %}
             {{ render_entity(entity) }}
         {% endfor %}
-    </h3>
+    </h4>
 </div>
 {% endmacro %}
 
@@ -61,7 +85,7 @@
     <div>
         {% if work.commentary is not none %}
             <h4>{{ _('Commentary') }}</h4>
-            <p class="skinny text-center center-block"> {{ work.commentary }}</p>
+            <p class="skinny center-block"> {{ work.commentary }}</p>
             <br>
         {% endif %}
     </div>
@@ -146,7 +170,7 @@
 
 {% macro render_recordings(list) -%}
     {% if list|length > 0 %}
-        <div class="card">
+        <div>
             <script>
                 var audioIterator = {
                     containersIds: [],
@@ -154,51 +178,49 @@
                     waveformPeaks: []
                 };
             </script>
-            <div id="recordings-collapse" class="collapse in">
-                <div class="card-block">
-                    <table class="table">
-                    <tbody>
-                    {% for entry in list %}
-                        <tr>
-                            <td class="col-md-6">
-                                <div class="wavesurfer-padding" id="wavesurfer-container-{{ loop.index }}">
-                                </div>
-                                <div class="row">
-                                    <a href="{{ url("work", work_id=entry.work.work_id) }}">
-                                        <h3>{{ entry.work.work_name }}</h3>
-                                    </a>
-                                </div>
-                                {{ render_work_dates(entry.work) }}
-                            </td>
-                            <td class="col-md-6">
-                                <div class="wavesurfer-padding">
-                                    {{ render_search_entities(entry.entities) }}
-                                </div>
-                                <div>
-                                    {{ _('Part of') }}
+            <div>
+                <table class="table">
+                <tbody>
+                {% for entry in list %}
+                    <tr>
+                        <td class="col-md-6">
+                            <div class="wavesurfer-padding" id="wavesurfer-container-{{ loop.index }}">
+                            </div>
+                            <div class="row">
+                                <a href="{{ url("work", work_id=entry.work.work_id) }}">
+                                    <h3>{{ entry.work.work_name }}</h3>
+                                </a>
+                            </div>
+                            {{ render_work_dates(entry.work) }}
+                        </td>
+                        <td class="col-md-6">
+                            <div class="wavesurfer-padding">
+                                {{ render_search_entities(entry.entities) }}
+                            </div>
+                            <div>
+                                {{ _('Part of') }}
+                                <strong>
+                                    <a href="{{ url('collection', collection_id=entry.work.in_collection) }}">{{ entry.work.collection_name }}</a>
+                                </strong>
+                            </div>
+                            <br>
+                            <div>
+                                {% for tag in entry.work.tags %}
                                     <strong>
-                                        <a href="{{ url('collection', collection_id=entry.work.in_collection) }}">{{ entry.work.collection_name }}</a>
+                                        <a href="{{ url('search') }}?term={{ tag }}&filter=tags">{{ tag }}</a> &nbsp
                                     </strong>
-                                </div>
-                                <br>
-                                <div>
-                                    {% for tag in entry.work.tags %}
-                                        <strong>
-                                            <a href="{{ url('search') }}?term={{ tag }}&filter=tags">{{ tag }}</a> &nbsp
-                                        </strong>
-                                    {% endfor %}
-                                </div>
-                            </td>
-                        </tr>
-                        <script>
-                            audioIterator.containersIds.push("wavesurfer-container-{{ loop.index }}");
-                            audioIterator.audioPaths.push("{{ entry.work.audio }}");
-                            audioIterator.waveformPeaks.push({{ entry.work.waveform_peaks }});
-                        </script>
-                    {% endfor %}
-                    </tbody>
-                    </table>
-                </div>
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                    <script>
+                        audioIterator.containersIds.push("wavesurfer-container-{{ loop.index }}");
+                        audioIterator.audioPaths.push("{{ entry.work.audio }}");
+                        audioIterator.waveformPeaks.push({{ entry.work.waveform_peaks }});
+                    </script>
+                {% endfor %}
+                </tbody>
+                </table>
             </div>
         </div>
    {% endif %}
