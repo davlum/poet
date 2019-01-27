@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-12 20:40+0000\n"
+"POT-Creation-Date: 2019-01-27 02:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgid "Authors"
 msgstr "Autores"
 
 #: app/controllers/search.py:15 app/models/work.py:99
-#: app/templates/includes/_sidebar.html.j2:6 app/templates/poet/work.html.j2:40
+#: app/templates/includes/_sidebar.html.j2:6 app/templates/poet/work.html.j2:45
 msgid "Tags"
 msgstr "Etiquetas"
 
@@ -36,7 +36,7 @@ msgid "Collections"
 msgstr "Colecciones"
 
 #: app/controllers/search.py:17 app/templates/includes/_sidebar.html.j2:21
-#: app/templates/poet/work.html.j2:58
+#: app/templates/poet/work.html.j2:63
 msgid "Languages"
 msgstr "Idiomas"
 
@@ -135,7 +135,6 @@ msgstr "Estado de la publicación"
 
 #: app/models/entity.py:96
 #, python-brace-format
-#| msgid "Entity"
 msgid "Entity {id}"
 msgstr "Entidad {id}"
 
@@ -171,7 +170,8 @@ msgstr "Contiene"
 msgid ""
 "Does the from entity contain the other e.g. collective contains individual"
 msgstr ""
-"¿La entidad de origen contiene a la(s) otra(s)? Ej.: un colectivo contiene individuos"
+"¿La entidad de origen contiene a la(s) otra(s)? Ej.: un colectivo contiene "
+"individuos"
 
 #: app/models/entity.py:122
 msgid "Relationship"
@@ -324,9 +324,38 @@ msgstr "País de la licencia"
 
 #: app/models/work.py:152
 #, python-brace-format
-#| msgid "Recording"
 msgid "Recording {id}"
 msgstr "Grabación {id}"
+
+#: app/templates/errors/400.html.j2:7
+msgid "Something was wrong with the request you made."
+msgstr "Algo salió mal."
+
+#: app/templates/errors/400.html.j2:8 app/templates/errors/403.html.j2:8
+#: app/templates/errors/404.html.j2:9 app/templates/errors/500.html.j2:8
+msgid "Go back"
+msgstr "Regresa"
+
+#: app/templates/errors/403.html.j2:7
+msgid "You are not authorized to access this page"
+msgstr "No autorizado, No tienes permiso para acceder a esta página."
+
+#: app/templates/errors/404.html.j2:8
+msgid "This page does not exist"
+msgstr "No hay nada aquí."
+
+#: app/templates/errors/500.html.j2:7
+msgid ""
+"Something went wrong. If the problem persists please contact an administrator"
+msgstr "Algo salió mal."
+
+#: app/templates/includes/_navbar.html.j2:8
+msgid "Home"
+msgstr "Inicio"
+
+#: app/templates/includes/_navbar.html.j2:9
+msgid "About"
+msgstr "Sobre el proyecto"
 
 #: app/templates/includes/_navbar.html.j2:13
 msgid "Login"
@@ -348,26 +377,26 @@ msgstr "Buscar"
 msgid "Edit"
 msgstr "Editar"
 
-#: app/templates/macros/util.html.j2:81
+#: app/templates/macros/util.html.j2:87
 msgid "Commentary"
 msgstr "Comentario"
 
-#: app/templates/macros/util.html.j2:91
-#: app/templates/poet/collection.html.j2:12 app/templates/poet/work.html.j2:16
+#: app/templates/macros/util.html.j2:97
+#: app/templates/poet/collection.html.j2:12 app/templates/poet/work.html.j2:17
 msgid "Composers"
 msgstr "Compositores"
 
-#: app/templates/macros/util.html.j2:92
-#: app/templates/poet/collection.html.j2:13 app/templates/poet/work.html.j2:17
+#: app/templates/macros/util.html.j2:98
+#: app/templates/poet/collection.html.j2:13 app/templates/poet/work.html.j2:18
 msgid "Interpreters"
 msgstr "Intérpretes"
 
-#: app/templates/macros/util.html.j2:93
-#: app/templates/poet/collection.html.j2:14 app/templates/poet/work.html.j2:18
+#: app/templates/macros/util.html.j2:99
+#: app/templates/poet/collection.html.j2:14 app/templates/poet/work.html.j2:19
 msgid "Other"
 msgstr "Otros"
 
-#: app/templates/macros/util.html.j2:196 app/templates/poet/work.html.j2:21
+#: app/templates/macros/util.html.j2:201 app/templates/poet/work.html.j2:20
 msgid "Part of"
 msgstr "Parte de"
 
@@ -375,7 +404,7 @@ msgstr "Parte de"
 msgid "Error while loading photo"
 msgstr "Error al cargar la imagen"
 
-#: app/templates/poet/work.html.j2:32
+#: app/templates/poet/work.html.j2:35
 msgid "Text"
 msgstr "Texto"
 

@@ -1,12 +1,10 @@
 {% extends "layout/main.html.j2" %}
 
 {% block body %}
-
 <div class="text-center">
     <br><br><br>
-    <h1>404</h1>
-    <p>{{ _('This page does not exist') }}</p>
+    <h1>400</h1>
+    <p>{{ _('Something was wrong with the request you made.') }}</p>
     <p><em><a href="{{request.META.HTTP_REFERER|escape}}">{{ _('Go back') }}</a></em></p>
 </div>
-
 {% endblock %}

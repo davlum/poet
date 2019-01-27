@@ -8,7 +8,7 @@
         <hr>
         <div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div>
                         <h3 class="indented">
                             {{ entity.location }}
@@ -20,10 +20,12 @@
                         </h3>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    {{ render_comments(entity) }}
+                </div>
             </div>
         </div>
         <br>
-        {{ render_comments(entity) }}
         {{ render_recordings(works.page) }}
         {{ render_paginator(works.page, '') }}
    </div>

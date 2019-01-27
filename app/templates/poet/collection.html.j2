@@ -27,11 +27,11 @@
                         <img src="{{ collection.image }}" alt="{{ _('Error while loading photo') }}" height="98%" width="98%">
                     </div>
                     {% endif %}
+                    {{ render_comments(collection) }}
                 </div>
             </div>
         </div>
         <br>
-        {{ render_comments(collection) }}
         {{ render_recordings(works.page) }}
         {{ render_paginator(works.page, '') }}
     </div>

@@ -56,7 +56,8 @@ def get_entities(work_id: int) -> List[Dict[str, str]]:
     SELECT DISTINCT
         en.id entity_id,
         join_words(en.full_name, en.alt_name) entity_name,
-        rel.relationship
+        rel.relationship,
+        rel.instrument
     FROM poet_entity_to_work_rel rel
     JOIN poet_entity en ON en.id = rel.from_entity
     WHERE rel.to_work = %s

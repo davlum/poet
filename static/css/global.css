@@ -1,3 +1,7 @@
+p {
+    font-size: 18px;
+}
+
 a { color: inherit; }
 
 .sidebar-dims{
@@ -12,10 +16,19 @@ a { color: inherit; }
     border-top-right-radius: 0;
 }
 
+select.form-control{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -webkit-border-top-left-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPScxLjEnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZycgeG1sbnM6eGxpbms9J2h0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsnIHdpZHRoPScyNCcgaGVpZ2h0PScyNCcgdmlld0JveD0nMCAwIDI0IDI0Jz48cGF0aCBmaWxsPScjNDQ0JyBkPSdNNy40MDYgNy44MjhsNC41OTQgNC41OTQgNC41OTQtNC41OTQgMS40MDYgMS40MDYtNiA2LTYtNnonPjwvcGF0aD48L3N2Zz4=");
+    background-position: 99% 50%;
+    background-repeat: no-repeat;
+    background-size: 16px;
+}
+
 .dropdown-searchbar {
-    border-left-style: none !important;
-    border-bottom-left-radius: 0 !important;
-    border-top-left-radius: 0 !important;
+    border-left: none;
 }
 
 
@@ -24,6 +37,9 @@ a { color: inherit; }
 }
 
 .no-col-pad {
+    margin: 0;
+    box-sizing: inherit;
+    border: none;
     padding-left: 0;
     padding-right: 0;
 }
@@ -33,6 +49,7 @@ a { color: inherit; }
 }
 
 .search-bar-margin {
+    display: block;
     margin-right: 69px;
     margin-left: 69px;
 }
@@ -201,6 +218,7 @@ a.underline{
 
 .skinny {
     width: 95%;
+    text-align: justify;
 }
 
 @media screen and (min-width: 1440px) {

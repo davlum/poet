@@ -45,18 +45,24 @@
 
 
 {%  macro render_entity(entity) -%}
-      {{ render_name_link(entity) }} - {{ entity.relationship }} <br>
+        {{ render_name_link(entity) }} -
+    {% if entity.relationship == 'Interpretación musical' %}
+        {{ entity.instrument }}
+    {% else %}
+        {{ entity.relationship }}
+    {% endif %}
+        <br>
 {% endmacro %}
 
 
 {% macro render_entity_ls(entity_type, entities) %}
 <div>
-    <h4>{{ entity_type }}</h4>
-    <h3 class="indented">
+    <h3>{{ entity_type }}</h3>
+    <h4>
         {% for entity in entities %}
             {{ render_entity(entity) }}
         {% endfor %}
-    </h3>
+    </h4>
 </div>
 {% endmacro %}
 
@@ -79,7 +85,7 @@
     <div>
         {% if work.commentary is not none %}
             <h4>{{ _('Commentary') }}</h4>
-            <p class="skinny text-center center-block"> {{ work.commentary }}</p>
+            <p class="skinny center-block"> {{ work.commentary }}</p>
             <br>
         {% endif %}
     </div>

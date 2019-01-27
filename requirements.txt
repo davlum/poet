@@ -4,7 +4,6 @@ django-simple-history
 Jinja2
 MarkupSafe
 psycopg2-binary
-pytz
 typed-ast
 urllib3
 pydub
