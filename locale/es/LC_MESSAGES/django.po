@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-27 02:26+0000\n"
+"POT-Creation-Date: 2019-01-31 22:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -219,16 +219,24 @@ msgstr "Rol"
 msgid "Instrument"
 msgstr "Instrumento"
 
-#: app/models/relations.py:47
+#: app/models/relations.py:48
+msgid "Must select an instrument if role is interpretation"
+msgstr ""
+
+#: app/models/relations.py:50
+msgid "Must not select an instrument if role is not interpretation"
+msgstr ""
+
+#: app/models/relations.py:54
 #, python-brace-format
 msgid "Relation from {from_entity} to {to_work}"
 msgstr "Relación de {from_entity} a {to_work}"
 
-#: app/models/relations.py:55
+#: app/models/relations.py:62
 msgid "Entity to recording relationship"
 msgstr "Relación de entidad a grabación"
 
-#: app/models/relations.py:56
+#: app/models/relations.py:63
 msgid "Entity to recording relationships"
 msgstr "Relaciones de entidad a grabación"
 

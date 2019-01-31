@@ -12,4 +12,18 @@ if __name__ == "__main__":
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
-    execute_from_command_line(sys.argv)
+
+    is_testing = 'test' in sys.argv
+
+    if is_testing:
+        import coverage
+        cov = coverage.coverage(source=['app'], omit=['*/test/*'])
+        cov.erase()
+        cov.start()
+        execute_from_command_line(sys.argv)
+        cov.stop()
+        cov.save()
+        cov.report()
+
+    else:
+        execute_from_command_line(sys.argv)
