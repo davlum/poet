@@ -4,7 +4,6 @@ django-simple-history
 Jinja2
 MarkupSafe
 psycopg2-binary
-typed-ast
 urllib3
 pydub
 Pillow
@@ -12,3 +11,4 @@ PyYAML
 coverage
 django-nose
 coveralls
+gunicorn
