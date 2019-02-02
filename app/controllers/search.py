@@ -24,33 +24,46 @@ def get_search_fields():
 
 
 def make_tsvector(field_weight_ls: List[Tuple[str, str]]) -> str:
+    """
+    :param field_weight_ls: A list of tuples of the name of the field and the weight to be assigned in the search
+    :return:
+    """
     return ' || '.join([
         "setweight(to_tsvector('es', coalesce({field}::text,'')), '{weight}')".format(field=field, weight=weight) for
         field, weight in field_weight_ls
     ])
 
 
-def make_field_search(field_weight_ls: List[Tuple[str, str]], term_number: int):
-    ts_vector = make_tsvector(field_weight_ls)
-    term_wildcards = ", ' | ', ".join(["CONCAT(%s, ':*')"] * term_number)
-    return "to_tsquery('es', CONCAT({query}))".format(query=term_wildcards), ts_vector
-
-
-def search_works(field_list: List[Tuple[str, str]], term: str):
+def make_field_search(term_number: int):
     """
+    :param term_number: the number of terms we are searching for
+    :return:
+    """
+    term_wildcards = ", ' | ', ".join(["CONCAT(%s, ':*')"] * term_number)
+    return "to_tsquery('es', CONCAT({query}))".format(query=term_wildcards)
 
+
+def make_query(base_string: str, field_list: List[Tuple[str, str]], term: str):
+    """
+    :param base_string: The string to query
     :param field_list: list of fields to search and their respective search ranking
     :param term: the string you're searching for
     :return: List of matching dicts from search
-
     """
 
     if term.strip() == '':
         return []
 
     terms = term.split()
-    query, text = make_field_search(field_list, len(terms))
-    q = """
+    query = make_field_search(len(terms))
+    text = make_tsvector(field_list)
+
+    q = base_string.format(fields=work.REQUIRED_WORK_FIELDS, query=query, text=text)
+
+    return u.query(q, terms)
+
+
+SEARCH_WORKS = """
     WITH t AS (
         SELECT id vec_id, {text} vec FROM poet_work
     ), c AS (
@@ -66,26 +79,9 @@ def search_works(field_list: List[Tuple[str, str]], term: str):
     AND w.id = t.vec_id
     AND w.release_state = 'PUBLICADO'
     ORDER BY rank DESC
-    """.format(fields=work.REQUIRED_WORK_FIELDS, query=query, text=text)
+"""
 
-    return u.query(q, terms)
-
-
-def search_collections(field_list: List[Tuple[str, str]], term: str):
-    """
-
-    :param field_list: list of fields to search and their respective search ranking
-    :param term: the string you're searching for
-    :return: List of matching dicts from search
-
-    """
-
-    if term.strip() == '':
-        return []
-
-    terms = term.split()
-    query, text = make_field_search(field_list, len(terms))
-    q = """
+SEARCH_COLLECTIONS = """
     WITH c AS (
         SELECT id collection_id, collection_name, commentary, {text} vec 
         FROM poet_work_collection
@@ -98,26 +94,10 @@ def search_collections(field_list: List[Tuple[str, str]], term: str):
     AND w.in_collection = c.collection_id
     AND w.release_state = 'PUBLICADO'
     ORDER BY rank DESC
-    """.format(fields=work.REQUIRED_WORK_FIELDS, query=query, text=text)
-
-    return u.query(q, terms)
+"""
 
 
-def search_entities(field_list: List[Tuple[str, str]], term: str):
-    """
-
-    :param field_list: list of fields to search and their respective search ranking
-    :param term: the string you're searching for
-    :return: List of matching dicts from search
-
-    """
-
-    if term.strip() == '':
-        return []
-
-    terms = term.split()
-    query, text = make_field_search(field_list, len(terms))
-    q = """
+SEARCH_ENTITES = """
     WITH t AS (
         SELECT id vec_id, {text} vec FROM poet_entity
     ), c AS (
@@ -134,13 +114,11 @@ def search_entities(field_list: List[Tuple[str, str]], term: str):
     AND rel.from_entity = t.vec_id
     AND w.release_state = 'PUBLICADO'
     ORDER BY rank DESC
-    """.format(fields=work.REQUIRED_WORK_FIELDS, query=query, text=text)
-
-    return u.query(q, terms)
+"""
 
 
-def search_works_and_collections(field_list: List[Tuple[str, str]], term: str):
-    return search_works(field_list, term) + search_entities(field_list, term)
+def search_works_and_entities(field_list: List[Tuple[str, str]], term: str):
+    return make_query(SEARCH_WORKS, field_list, term) + make_query(SEARCH_ENTITES, field_list, term)
 
 
 class Accumulator:
@@ -269,13 +247,13 @@ COLLECTION_FIELDS = [
 
 def get_search_context(request_dict: Dict[str, str]) -> dict:
     switch_dict = {
-        SearchFields.WORKS.value[0]: partial(search_works, WORK_FIELDS),
-        SearchFields.ENTITIES.value[0]: partial(search_entities, ENTITY_FIELDS),
-        SearchFields.TAGS.value[0]: partial(search_works, [('tags', 'A')]),
-        SearchFields.CITIES.value[0]: partial(search_works_and_collections, CITIES_FIELDS),
-        SearchFields.COLLECTIONS.value[0]: partial(search_collections, COLLECTION_FIELDS),
-        SearchFields.LANGUAGES.value[0]: partial(search_works, [('languages', 'A')]),
-        SearchFields.LICENSES.value[0]: partial(search_works, [('copyright', 'A')])
+        SearchFields.WORKS.value[0]: partial(make_query, SEARCH_WORKS, WORK_FIELDS),
+        SearchFields.ENTITIES.value[0]: partial(make_query, SEARCH_ENTITES, ENTITY_FIELDS),
+        SearchFields.TAGS.value[0]: partial(make_query, SEARCH_WORKS, [('tags', 'A')]),
+        SearchFields.CITIES.value[0]: partial(search_works_and_entities, CITIES_FIELDS),
+        SearchFields.COLLECTIONS.value[0]: partial(make_query, SEARCH_COLLECTIONS, COLLECTION_FIELDS),
+        SearchFields.LANGUAGES.value[0]: partial(make_query, SEARCH_WORKS, [('languages', 'A')]),
+        SearchFields.LICENSES.value[0]: partial(make_query, SEARCH_WORKS, [('copyright', 'A')])
     }
     field_key = request_dict.get('filter', SearchFields.WORKS.value)[0]
     search_term = request_dict.get('term', [''])[0]
