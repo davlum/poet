@@ -1,5 +1,5 @@
 {%  macro non(thing) -%}
-    {% if thing is not none %}
+    {% if thing is defined and thing is not none %}
         {{ thing }}
     {% endif %}
 {% endmacro %}

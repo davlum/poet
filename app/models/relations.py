@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext, gettext_lazy as _
 from simple_history.models import HistoricalRecords
-
+from django.core.exceptions import ValidationError
 
 READER = 'Lectura en voz alta'
 MUSICIAN = 'Interpretación musical'
@@ -42,6 +42,13 @@ class EntityToWorkRel(models.Model):
     # Arbitrary additional information
     commentary = models.TextField(verbose_name=_('Additional commentary'), blank=True, null=True)
     history = HistoricalRecords()
+
+    def clean(self, *args, **kwargs):
+        if self.relationship == MUSICIAN and (self.instrument is None or self.instrument.strip() == ''):
+            raise ValidationError(gettext('Must select an instrument if role is interpretation'))
+        if self.relationship != MUSICIAN and (self.instrument is not None or self.instrument.strip() != ''):
+            raise ValidationError(gettext('Must not select an instrument if role is not interpretation'))
+        super(EntityToWorkRel, self).clean(*args, **kwargs)
 
     def __str__(self):
         return gettext("Relation from {from_entity} to {to_work}").format(
