@@ -11,6 +11,6 @@ RUN apt-get update -y && apt-get install -y \
 
 RUN mkdir /code
 WORKDIR /code
-ADD requirements.txt /code/
-RUN pip install -r requirements.txt
+ADD dev_requirements.txt /code/
+RUN pip install -r dev_requirements.txt
 ADD . /code/
