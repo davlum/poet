@@ -22,19 +22,19 @@ def normalize(arr):
     return list(map(lambda x: round((x / max_val), 4), arr))
 
 
-def get_peaks_from_audio_path(file, codec) -> List[float]:
+def get_peaks_from_audio_path(file) -> List[float]:
     """
 
     :param file: Could be a string or file object
-    :param codec: string of the codec of the file e.g. mp3, wav
     :return: a list of 1000 normalized samples from the audio file
     """
-    audio = AudioSegment.from_file(file, codec)
-    mono_audio = audio.set_channels(1)
-    samples = mono_audio.get_array_of_samples()
+
+    audio = AudioSegment.from_file(file)
+    audio = audio.set_channels(1)
+    audio = audio.get_array_of_samples()
     # We want to get about a thousand samples for drawing the waveform
-    every_nth = math.floor(len(samples) / 1000)
-    sliced_samples = samples[0::every_nth]
+    every_nth = math.floor(len(audio) / 1000)
+    sliced_samples = audio[0::every_nth]
     return normalize(sliced_samples)
 
 
