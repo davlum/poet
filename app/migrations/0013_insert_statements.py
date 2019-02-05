@@ -31,11 +31,10 @@ class Migration(migrations.Migration):
         WITH inserts AS (
             SELECT part_id, 
                 array_to_string(array_remove(ARRAY[nom_part, nom_materno, nom_paterno], ''), ' ')
-                , seudonimo, 'Persona', 
-                array_to_string(ARRAY[p.city_of_origin, p.subdivision_of_origin], ', '), p.country_of_origin,
+                , seudonimo, 'Persona', p.city_of_origin, p.country_of_origin,
                 email, ruta_foto, coment_part, jsonb_strip_nulls(jsonb_build_object('Lugar de la muerte', 
                     array_to_string(
-                        array_remove(ARRAY[p.city_of_death, p.subdivision_of_death, p.country_of_death], ''), 
+                        array_remove(ARRAY[p.city_of_death, p.country_of_death], ''), 
                     ', '), 
                 'Sitio Web', sitio_web, 'Dirección', direccion, 'Teléfono', telefono, 'Nacimiento', fecha_comienzo, 
                 'Fallecimiento', fecha_finale, 'Género', genero, 'Email', email)), estado, ARRAY[]::text[] FROM persona p
@@ -61,8 +60,7 @@ class Migration(migrations.Migration):
 
         migrations.RunSQL("""
         WITH inserts AS (
-            SELECT part_id, nom_part, tipo_grupo, 
-                array_to_string(ARRAY[g.city_of_origin, g.subdivision_of_origin], ','), g.country_of_origin,
+            SELECT part_id, nom_part, tipo_grupo, g.city_of_origin, g.country_of_origin,
                 email, coment_part, jsonb_strip_nulls(jsonb_build_object('Sitio Web', quote(sitio_web), 'Dirección', 
                 direccion, 'Teléfono', telefono, 'Inicio', fecha_comienzo, 'Finalización', fecha_finale)), 
                 estado, ARRAY[]::text[] FROM grupo g
@@ -109,7 +107,7 @@ class Migration(migrations.Migration):
         migrations.RunSQL("""
         WITH inserts AS (
             SELECT c.nom, c.nom_alt, 'Pista son', 'audio', concat(p.pista_son_id, '/', a.id , '/', a.nom), 
-            array_to_string(ARRAY[p.city_of_origin, p.subdivision_of_origin], ', '), p.country_of_origin, 
+            p.city_of_origin, p.country_of_origin, 
             CASE WHEN c.texto <> '' AND c.texto IS NOT NULL 
             THEN concat(p.coment_pista_son, '\r', chr(10), '\r', chr(10),'Texto:\r', chr(10), '\r', c.texto) 
             ELSE p.coment_pista_son 
