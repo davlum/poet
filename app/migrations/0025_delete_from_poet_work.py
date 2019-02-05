@@ -13,8 +13,7 @@ def generate_waveform_peaks(apps, schema_editor):
         if not work.waveform_peaks:
             fname = work.audio.name
             filepath = os.path.join(settings.MEDIA_ROOT, fname)
-            codec = u.get_extension(fname)
-            work.waveform_peaks = u.get_peaks_from_audio_path(filepath, codec)
+            work.waveform_peaks = u.get_peaks_from_audio_path(filepath)
             work.save()
 
 

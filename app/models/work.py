@@ -139,8 +139,7 @@ class Work(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         buf = io.BytesIO(self.audio.file.read())
-        codec = u.get_extension(self.audio.file.name)
-        peaks = u.get_peaks_from_audio_path(buf, codec)
+        peaks = u.get_peaks_from_audio_path(buf)
         self.waveform_peaks = peaks
         super(Work, self).save(*args, **kwargs)
 
