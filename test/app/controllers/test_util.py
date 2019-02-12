@@ -59,18 +59,18 @@ class TestUtils(TestCase):
         self.assertIsNone(u.to_none('   '))
         self.assertEqual(u.to_none('string'), 'string')
 
-    def test_sort_entries(self):
-        input_data = u.query("""
-        SELECT * 
-        FROM poet_entity e 
-        JOIN poet_entity_to_work_rel r 
-        ON e.id = r.from_entity
-        LIMIT 5
-        """, [])
-        result = u.sort_entities(input_data)
-        self.assertEqual(len(result['composers']), 5)
-        self.assertEqual(len(result['interpreters']), 0)
-        self.assertEqual(len(result['others']), 0)
+    # def test_sort_entries(self):
+    #     input_data = u.query("""
+    #     SELECT *
+    #     FROM poet_entity e
+    #     JOIN poet_entity_to_work_rel r
+    #     ON e.id = r.from_entity
+    #     LIMIT 5
+    #     """, [])
+    #     result = u.sort_entities(input_data)
+    #     self.assertEqual(len(result['composers']), 5)
+    #     self.assertEqual(len(result['interpreters']), 0)
+    #     self.assertEqual(len(result['others']), 0)
 
     def test_dashed_list(self):
         result = u.get_dashed_list(['a', 'b'], {'a': 'hi', 'b': 'hello', 'c': 'oh no'})
