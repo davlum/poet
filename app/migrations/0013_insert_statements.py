@@ -11,6 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
 
+        migrations.RunSQL("""DELETE FROM pista_son WHERE pista_son_id = 348"""),
+
         migrations.RunSQL("""
         INSERT INTO poet_release_state VALUES ('PUBLICADO'), ( 'DEPOSITAR'), ( 'RECHAZADO'), ( 'PENDIENTE')
         """),
@@ -108,9 +110,10 @@ class Migration(migrations.Migration):
         WITH inserts AS (
             SELECT c.nom, c.nom_alt, 'Pista son', 'audio', concat(p.pista_son_id, '/', a.id , '/', a.nom), 
             p.city_of_origin, p.country_of_origin, 
-            CASE WHEN c.texto <> '' AND c.texto IS NOT NULL 
-            THEN concat(p.coment_pista_son, '\r', chr(10), '\r', chr(10),'Texto:\r', chr(10), '\r', c.texto) 
-            ELSE p.coment_pista_son 
+            CASE 
+                WHEN c.texto <> '' AND c.texto IS NOT NULL 
+                THEN concat(p.coment_pista_son, '\r', chr(10), '\r', chr(10),'Texto:\r', chr(10), '\r', c.texto) 
+                ELSE p.coment_pista_son 
             END comments_col, 
             jsonb_strip_nulls(
                 jsonb_build_object('file_id',a.id, 'comp_id', c.id, 'recording_id', p.pista_son_id, 
@@ -123,28 +126,31 @@ class Migration(migrations.Migration):
             array_cat(gm.nom, tc.nom_tema), p.estado, cob.licencia_cobertura, cob.pais_cobertura, 
                 to_date(cob.fecha_comienzo, 'YYYY-MM-DD')
             FROM pista_son p 
-            JOIN archivo a ON p.pista_son_id = a.pista_son_id
+            LEFT JOIN (
+                SELECT DISTINCT ON (pista_son_id) id, pista_son_id, nom, duracion
+                FROM archivo
+                ) a ON p.pista_son_id = a.pista_son_id
             JOIN composicion c ON c.id = p.composicion_id
             LEFT JOIN (
                 SELECT g.pista_son_id, array_agg(gm.nom) nom
                 FROM genero_pista g JOIN genero_musical gm on g.gen_mus_id = gm.id
                 GROUP BY g.pista_son_id
-                ) gm ON gm.pista_son_id = p.pista_son_id
+            ) gm ON gm.pista_son_id = p.pista_son_id
             LEFT JOIN (SELECT * FROM 
                 cobertura_licencia cl
                 NATURAL JOIN cobertura_tipo ct
                 JOIN cobertura c ON c.cobertura_lic_id = cl.id
-                ) cob ON cob.pista_son_id = p.pista_son_id
+            ) cob ON cob.pista_son_id = p.pista_son_id
             LEFT JOIN (
                 SELECT tc.composicion_id, array_agg(t.nom) nom_tema
                 FROM tema_composicion tc JOIN tema t on tc.tema_id = t.id
                 GROUP BY tc.composicion_id
-                ) tc ON tc.composicion_id = c.id
+            ) tc ON tc.composicion_id = c.id
             LEFT JOIN (
                 SELECT ic.composicion_id, array_remove(array_agg(DISTINCT i.nom), NULL) nom_idioma
                 FROM idioma_composicion ic JOIN idioma i ON ic.idioma_id = i.id
                 GROUP BY ic.composicion_id
-                ) ic ON ic.composicion_id = c.id
+            ) ic ON ic.composicion_id = c.id
         )
         INSERT INTO poet_work (
           full_name, alt_name, work_type, file_type, path_to_file, city, country, commentary, 
