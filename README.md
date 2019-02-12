@@ -1,30 +1,22 @@
 # poet
 
-[![Build Status](https://travis-ci.com/davlum/poet.svg?branch=master)](https://travis-ci.com/davlum/poet)[![Coverage Status](https://coveralls.io/repos/github/davlum/poet/badge.svg?branch=master)](https://coveralls.io/github/davlum/poet?branch=master)
+[![Build Status](https://travis-ci.com/davlum/poet.svg?branch=master)](https://travis-ci.com/davlum/poet)[![Coverage Status](https://coveralls.io/repos/github/davlum/poet/badge.svg?branch=HEAD)](https://coveralls.io/github/davlum/poet?branch=HEAD)
 
 This is the code for the digital audio repository, [Poética Sonora](https://poeticasonora.me/). More about Poética Sonora can be found [here](https://poeticasonora.mx/).
 
-# Translation
+# Getting started
 
-In order to generate the .po file:
-```
-python manage.py makemessages -l es -e j2,py -i bin -i lib
-```
-In order to compile the files:
-```
-python manage.py compilemessages
-```
+If you have [Docker](https://www.docker.com/) installed, the application can be brought up with 
+`docker-compose up`.
 
-# Server setup
+If you are using [Pip](https://packaging.python.org/tutorials/installing-packages/), just run 
+`pip install -r dev_requirements.txt`.
 
-The server is currently running Debian, Nginx, Python and PostgreSQL.
+To run the tests, `python manage.py test`.
 
-It is running on 1GB of Ram, 25GB of harddrive and 2GB of Swap memory. Swap memory was added with the help of [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-configure-virtual-memory-swap-file-on-a-vps).
-Permissions for files and directories follow [these conventions](https://www.digitalocean.com/community/questions/proper-permissions-for-web-server-s-directory).
-```
-sudo find /path/to/dir -type d -exec chmod 755 {} \;
+# Documentation
 
-sudo find /path/to/dir -type f -exec chmod 644 {} \;
-```
+1. [Setup](docs/setup.md)
+2. [Design](docs/design.md)
+3. [Improvements](docs/improvements.md)
 
-If you find yourself needing to update PostgreSQL, I recommend [this tutorial](https://www.pontikis.net/blog/update-postgres-major-version-in-debian).
