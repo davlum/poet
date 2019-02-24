@@ -169,8 +169,10 @@ def get_aggregate_data(model_ls: List[Dict]) -> Accumulator:
         reduce(dict_agg, [] if ele['languages'] is None else ele['languages'], acc.languages)
 
         collection_counter(acc.collections, ele['in_collection'], ele['collection_name'])
-        acc.cities[ele['city'].strip()] += 1
-        acc.licenses[ele['copyright']] += 1
+        if ele['city'] is not None:
+            acc.cities[ele['city'].strip()] += 1
+        if ele['copyright'] is not None:
+            acc.licenses[ele['copyright']] += 1
 
         return acc
 
