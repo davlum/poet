@@ -81,6 +81,8 @@ LOGGING = {
     },
 }
 
+FILE_UPLOAD_PERMISSIONS = os.environ['FILE_UPLOAD_PERMISSIONS']
+
 TEMPLATES = [
     {
         "BACKEND": "django_jinja.backend.Jinja2",
