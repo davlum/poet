@@ -62,6 +62,27 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': os.environ['LOG_LEVEL'],
+            'class': 'logging.FileHandler',
+            'filename': os.environ['LOG_FILE'],
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+FILE_UPLOAD_PERMISSIONS = os.environ['FILE_UPLOAD_PERMISSIONS']
+
 TEMPLATES = [
     {
         "BACKEND": "django_jinja.backend.Jinja2",

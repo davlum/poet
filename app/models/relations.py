@@ -59,8 +59,8 @@ class EntityToWorkRel(models.Model):
     class Meta:
         managed = True
         db_table = 'poet_entity_to_work_rel'
-        verbose_name = _('Entity to recording relationship')
-        verbose_name_plural = _('Entity to recording relationships')
+        verbose_name = _('Role')
+        verbose_name_plural = _('Roles')
 
 
 

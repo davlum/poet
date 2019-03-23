@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-31 22:21+0000\n"
+"POT-Creation-Date: 2019-02-24 04:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/controllers/search.py:13 app/models/work.py:158
+#: app/controllers/search.py:13 app/models/work.py:157
 msgid "Recordings"
 msgstr "Grabaciones"
 
@@ -196,12 +196,12 @@ msgid "Relation from {from_entity} to {to_entity}"
 msgstr "Relación de {from_entity} a {to_entity}"
 
 #: app/models/entity.py:155
-msgid "Entity to entity relationship"
-msgstr "Relación de entidad a entidad"
+msgid "Affiliation"
+msgstr "Afiliacione"
 
 #: app/models/entity.py:156
-msgid "Entity to entity relationships"
-msgstr "Relaciones de entidad a entidad"
+msgid "Affiliations"
+msgstr "Afiliaciones"
 
 #: app/models/relations.py:34
 msgid "From entity"
@@ -211,9 +211,9 @@ msgstr "De la entidad"
 msgid "To recording"
 msgstr "A la grabación"
 
-#: app/models/relations.py:39
+#: app/models/relations.py:39 app/models/relations.py:62
 msgid "Role"
-msgstr "Rol"
+msgstr "Role"
 
 #: app/models/relations.py:40
 msgid "Instrument"
@@ -232,13 +232,10 @@ msgstr ""
 msgid "Relation from {from_entity} to {to_work}"
 msgstr "Relación de {from_entity} a {to_work}"
 
-#: app/models/relations.py:62
-msgid "Entity to recording relationship"
-msgstr "Relación de entidad a grabación"
-
 #: app/models/relations.py:63
-msgid "Entity to recording relationships"
-msgstr "Relaciones de entidad a grabación"
+#| msgid "Role"
+msgid "Roles"
+msgstr "Roles"
 
 #: app/models/work.py:58
 msgid "Collection title"
@@ -278,7 +275,7 @@ msgstr "Título"
 msgid "Alternative title"
 msgstr "Título alternativo"
 
-#: app/models/work.py:95 app/models/work.py:157
+#: app/models/work.py:95 app/models/work.py:156
 msgid "Recording"
 msgstr "Grabación"
 
@@ -330,7 +327,7 @@ msgstr "Licencia"
 msgid "Country of License"
 msgstr "País de la licencia"
 
-#: app/models/work.py:152
+#: app/models/work.py:151
 #, python-brace-format
 msgid "Recording {id}"
 msgstr "Grabación {id}"
@@ -435,3 +432,15 @@ msgstr "entidad/<int:entity_id>"
 #: app/urls.py:14
 msgid "search/"
 msgstr "buscar/"
+
+#~ msgid "Entity to entity relationship"
+#~ msgstr "Relación de entidad a entidad"
+
+#~ msgid "Entity to entity relationships"
+#~ msgstr "Relaciones de entidad a entidad"
+
+#~ msgid "Entity to recording relationship"
+#~ msgstr "Relación de entidad a grabación"
+
+#~ msgid "Entity to recording relationships"
+#~ msgstr "Relaciones de entidad a grabación"
