@@ -25,6 +25,13 @@ def clean_entity(entity_dict):
     return entity_dict
 
 
+def get_affiliated_entities(entity_id: int):
+    q = """
+    SELECT * 
+    FROM poet_entity e
+    
+    """
+
 def get_recordings(entity_id: int):
     q = """
     SELECT {}
@@ -41,7 +48,8 @@ def get_recordings(entity_id: int):
 def enrich_entity(entity):
     return {
         'entity': clean_entity(entity),
-        'works': get_recordings(entity['id'])
+        'works': get_recordings(entity['id']),
+        'affiliates': get_affiliated_entities(entity['id'])
     }
 
 

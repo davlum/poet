@@ -152,5 +152,5 @@ class EntityToEntityRel(models.Model):
     class Meta:
         managed = True
         db_table = 'poet_entity_to_entity_rel'
-        verbose_name = _('Entity to entity relationship')
-        verbose_name_plural = _('Entity to entity relationships')
+        verbose_name = _('Affiliation')
+        verbose_name_plural = _('Affiliations')
