@@ -81,8 +81,6 @@ LOGGING = {
     },
 }
 
-FILE_UPLOAD_PERMISSIONS = os.environ['FILE_UPLOAD_PERMISSIONS']
-
 TEMPLATES = [
     {
         "BACKEND": "django_jinja.backend.Jinja2",
@@ -197,6 +195,7 @@ EMAIL_HOST = os.environ['APP_MAIL_USERNAME']
 EMAIL_HOST_USER = 'poetica.sonora.auto@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ['APP_MAIL_PASSWORD']
 EMAIL_PORT = 587
+FILE_UPLOAD_PERMISSIONS = 0o774
 
 # Should be commented out for production
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
