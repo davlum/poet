@@ -190,15 +190,18 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.environ['MEDIA_ROOT']
 MEDIA_URL = '/media/'
 
+
+FILE_UPLOAD_PERMISSIONS = 0o774
+
+
+# Email
 EMAIL_USE_TLS = True
 EMAIL_HOST = os.environ['APP_MAIL_USERNAME']
 EMAIL_HOST_USER = 'poetica.sonora.auto@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ['APP_MAIL_PASSWORD']
 EMAIL_PORT = 587
-FILE_UPLOAD_PERMISSIONS = 0o774
 
-# Should be commented out for production
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = os.environ['EMAIL_BACKEND']
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
