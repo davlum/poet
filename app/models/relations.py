@@ -1,3 +1,4 @@
+from typing import Optional
 from django.db import models
 from django.utils.translation import gettext, gettext_lazy as _
 from simple_history.models import HistoricalRecords
@@ -26,8 +27,17 @@ ENTITY_WORK_ROLE = (
     (AUX, AUX),
     (CONTRIBUTOR, CONTRIBUTOR),
     (PUBLISHER, PUBLISHER),
-    (TRANSLATOR, PUBLISHER),
+    (TRANSLATOR, TRANSLATOR),
 )
+
+
+def strip_to_none(maybe_str: Optional[str]) -> Optional[str]:
+    if not maybe_str:
+        return None
+    stripped = maybe_str.strip()
+    if stripped == '':
+        return None
+    return stripped
 
 
 class EntityToWorkRel(models.Model):
@@ -44,9 +54,9 @@ class EntityToWorkRel(models.Model):
     history = HistoricalRecords()
 
     def clean(self, *args, **kwargs):
-        if self.relationship == MUSICIAN and (self.instrument is None or self.instrument.strip() == ''):
+        if self.relationship == MUSICIAN and strip_to_none(self.instrument) is None:
             raise ValidationError(gettext('Must select an instrument if role is interpretation'))
-        if self.relationship != MUSICIAN and (self.instrument is not None or self.instrument.strip() != ''):
+        if self.relationship != MUSICIAN and strip_to_none(self.instrument) is not None:
             raise ValidationError(gettext('Must not select an instrument if role is not interpretation'))
         super(EntityToWorkRel, self).clean(*args, **kwargs)
 
