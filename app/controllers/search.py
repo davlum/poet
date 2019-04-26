@@ -64,56 +64,56 @@ def make_query(base_string: str, field_list: List[Tuple[str, str]], term: str):
 
 
 SEARCH_WORKS = """
-    WITH t AS (
-        SELECT id vec_id, {text} vec FROM poet_work
-    ), c AS (
-        SELECT id collection_id, collection_name, commentary
-        FROM poet_work_collection
-    )
-    SELECT 
-        {fields},
-        ts_rank_cd(t.vec, q) rank
-    FROM poet_work w, {query} q, c, t
-    WHERE q @@ t.vec
-    AND w.in_collection = c.collection_id
-    AND w.id = t.vec_id
-    AND w.release_state = 'PUBLICADO'
-    ORDER BY rank DESC
+WITH t AS (
+    SELECT id vec_id, {text} vec FROM poet_work
+), c AS (
+    SELECT id collection_id, collection_name, commentary
+    FROM poet_work_collection
+)
+SELECT DISTINCT
+    {fields},
+    ts_rank_cd(t.vec, q) rank
+FROM poet_work w, {query} q, c, t
+WHERE q @@ t.vec
+AND w.in_collection = c.collection_id
+AND w.id = t.vec_id
+AND w.release_state = 'PUBLICADO'
+ORDER BY rank DESC
 """
 
 SEARCH_COLLECTIONS = """
-    WITH c AS (
-        SELECT id collection_id, collection_name, commentary, {text} vec 
-        FROM poet_work_collection
-    )
-    SELECT 
-        {fields},
-        ts_rank_cd(c.vec, q) rank
-    FROM poet_work w, {query} q, c
-    WHERE q @@ c.vec
-    AND w.in_collection = c.collection_id
-    AND w.release_state = 'PUBLICADO'
-    ORDER BY rank DESC
+WITH c AS (
+    SELECT id collection_id, collection_name, commentary, {text} vec 
+    FROM poet_work_collection
+)
+SELECT DISTINCT
+    {fields},
+    ts_rank_cd(c.vec, q) rank
+FROM poet_work w, {query} q, c
+WHERE q @@ c.vec
+AND w.in_collection = c.collection_id
+AND w.release_state = 'PUBLICADO'
+ORDER BY rank DESC
 """
 
 
 SEARCH_ENTITES = """
-    WITH t AS (
-        SELECT id vec_id, {text} vec FROM poet_entity
-    ), c AS (
-        SELECT id collection_id, collection_name
-        FROM poet_work_collection
-    )
-    SELECT 
-        {fields},
-        ts_rank_cd(t.vec, q) rank
-    FROM poet_work w, {query} q, c, t, poet_entity_to_work_rel rel
-    WHERE q @@ t.vec
-    AND rel.to_work = w.id
-    AND w.in_collection = c.collection_id
-    AND rel.from_entity = t.vec_id
-    AND w.release_state = 'PUBLICADO'
-    ORDER BY rank DESC
+WITH t AS (
+    SELECT id vec_id, {text} vec FROM poet_entity
+), c AS (
+    SELECT id collection_id, collection_name
+    FROM poet_work_collection
+)
+SELECT DISTINCT
+    {fields},
+    ts_rank_cd(t.vec, q) rank
+FROM poet_work w, {query} q, c, t, poet_entity_to_work_rel rel
+WHERE q @@ t.vec
+AND rel.to_work = w.id
+AND w.in_collection = c.collection_id
+AND rel.from_entity = t.vec_id
+AND w.release_state = 'PUBLICADO'
+ORDER BY rank DESC
 """
 
 
