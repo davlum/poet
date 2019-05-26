@@ -105,8 +105,10 @@ class Work(models.Model):
 
     history = HistoricalRecords()
 
-    in_collection = models.ForeignKey(WorkCollection, verbose_name=_('Collection that this recording is a part of'),
-                                      null=True, on_delete=models.PROTECT, db_column='in_collection')
+    in_collection = models.ForeignKey(
+        WorkCollection, verbose_name=_('Collection that this recording is a part of'), null=True,
+        on_delete=models.PROTECT, db_column='in_collection', blank=True
+    )
 
     track_number = models.IntegerField(verbose_name=_('Track number in that collection'), blank=True, null=True)
 
