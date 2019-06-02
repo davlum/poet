@@ -1,24 +1,23 @@
 from django.test import TestCase
+from app.models.work import WorkCollection, Work
 
 
-class TestEntity(TestCase):
+class TestWorkModel(TestCase):
     fixtures = ['poet']
 
-    def setUp(self):
-        self.response = self.client.get('/entidad/1')
-        self.response_404 = self.client.get('/entidad/1000')
+    def test_work_collection_stringify_default(self):
+        work_collection = WorkCollection()
+        work_collection.id = 666
+        work_collection.save()
+        self.assertEqual(str(work_collection), 'Serie 666')
 
-    def test_200_collection(self):
-        self.assertEqual(self.response.status_code, 200)
+    def test_work_collection_stringify_named(self):
+        work_collection = WorkCollection()
+        title_string = 'title_string'
+        work_collection.collection_name = title_string
+        work_collection.save()
+        self.assertEqual(str(work_collection), title_string)
 
-    def test_csrf(self):
-        self.assertContains(self.response, 'csrf-token')
-
-    def test_entity_contains_search(self):
-        self.assertContains(self.response, 'search-form')
-
-    def test_entity_contains_audio(self):
-        self.assertContains(self.response, 'wavesurfer-container')
-
-    def test_404_page(self):
-        self.assertEqual(self.response_404.status_code, 404)
+    def test_work_stringify_default(self):
+        work = Work.objects.get(pk=1)
+        self.assertEqual(str(work), 'La guerra es una locura extrema')

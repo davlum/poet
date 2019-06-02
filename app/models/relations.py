@@ -1,8 +1,18 @@
-from typing import Optional
 from django.db import models
 from django.utils.translation import gettext, gettext_lazy as _
 from simple_history.models import HistoricalRecords
 from django.core.exceptions import ValidationError
+from typing import Optional
+
+
+def strip_to_none(maybe_str: Optional[str]) -> Optional[str]:
+    if not maybe_str:
+        return None
+    stripped = maybe_str.strip()
+    if stripped == '':
+        return None
+    return stripped
+
 
 READER = 'Lectura en voz alta'
 MUSICIAN = 'Interpretación musical'
@@ -29,15 +39,6 @@ ENTITY_WORK_ROLE = (
     (PUBLISHER, PUBLISHER),
     (TRANSLATOR, TRANSLATOR),
 )
-
-
-def strip_to_none(maybe_str: Optional[str]) -> Optional[str]:
-    if not maybe_str:
-        return None
-    stripped = maybe_str.strip()
-    if stripped == '':
-        return None
-    return stripped
 
 
 class EntityToWorkRel(models.Model):
