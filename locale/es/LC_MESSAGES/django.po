@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-29 00:32+0000\n"
+"POT-Creation-Date: 2019-06-02 02:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/controllers/search.py:13 app/models/work.py:157
+#: app/controllers/search.py:13 app/models/work.py:159
 msgid "Recordings"
 msgstr "Grabaciones"
 
@@ -96,7 +96,7 @@ msgstr "País"
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: app/models/entity.py:60 app/models/entity.py:130 app/models/relations.py:53
+#: app/models/entity.py:60 app/models/entity.py:130 app/models/relations.py:54
 #: app/models/work.py:66 app/models/work.py:103
 msgid "Additional commentary"
 msgstr "Comentario adicional"
@@ -129,7 +129,7 @@ msgstr "Relación con otras entidades"
 msgid "Relationship to recordings"
 msgstr "Relación con grabaciones"
 
-#: app/models/entity.py:75 app/models/work.py:69 app/models/work.py:113
+#: app/models/entity.py:75 app/models/work.py:69 app/models/work.py:115
 msgid "State of Publication"
 msgstr "Estado de la publicación"
 
@@ -191,7 +191,6 @@ msgstr "Fecha final"
 
 #: app/models/entity.py:134
 #, python-brace-format
-#| msgid "Entity to recording relationship"
 msgid "Relation from {from_entity} to {to_entity}"
 msgstr "Relación de {from_entity} a {to_entity}"
 
@@ -203,36 +202,36 @@ msgstr "Afiliacione"
 msgid "Affiliations"
 msgstr "Afiliaciones"
 
-#: app/models/relations.py:44
+#: app/models/relations.py:45
 msgid "From entity"
 msgstr "De la entidad"
 
-#: app/models/relations.py:46
+#: app/models/relations.py:47
 msgid "To recording"
 msgstr "A la grabación"
 
-#: app/models/relations.py:49 app/models/relations.py:72
+#: app/models/relations.py:50 app/models/relations.py:73
 msgid "Role"
 msgstr "Role"
 
-#: app/models/relations.py:50
+#: app/models/relations.py:51
 msgid "Instrument"
 msgstr "Instrumento"
 
-#: app/models/relations.py:58
+#: app/models/relations.py:59
 msgid "Must select an instrument if role is interpretation"
 msgstr ""
 
-#: app/models/relations.py:60
+#: app/models/relations.py:61
 msgid "Must not select an instrument if role is not interpretation"
 msgstr ""
 
-#: app/models/relations.py:64
+#: app/models/relations.py:65
 #, python-brace-format
 msgid "Relation from {from_entity} to {to_work}"
 msgstr "Relación de {from_entity} a {to_work}"
 
-#: app/models/relations.py:73
+#: app/models/relations.py:74
 msgid "Roles"
 msgstr "Roles"
 
@@ -254,7 +253,6 @@ msgstr "Origen"
 
 #: app/models/work.py:75
 #, python-brace-format
-#| msgid "Collection title"
 msgid "Collection {id}"
 msgstr "Serie {id}"
 
@@ -274,7 +272,7 @@ msgstr "Título"
 msgid "Alternative title"
 msgstr "Título alternativo"
 
-#: app/models/work.py:95 app/models/work.py:156
+#: app/models/work.py:95 app/models/work.py:158
 msgid "Recording"
 msgstr "Grabación"
 
@@ -286,47 +284,47 @@ msgstr "URL externo"
 msgid "Composition text"
 msgstr "Texto de la composición"
 
-#: app/models/work.py:108
+#: app/models/work.py:109
 msgid "Collection that this recording is a part of"
 msgstr "Serie a la que pertenece"
 
-#: app/models/work.py:111
+#: app/models/work.py:113
 msgid "Track number in that collection"
 msgstr "Número de pista en esa colección"
 
-#: app/models/work.py:115
+#: app/models/work.py:117
 msgid "Languages Spoken"
 msgstr "Idiomas hablados"
 
-#: app/models/work.py:117
+#: app/models/work.py:119
 msgid "Date published"
 msgstr "Fecha de publicación"
 
-#: app/models/work.py:118
+#: app/models/work.py:120
 msgid "Date digitized"
 msgstr "Fecha de digitalización"
 
-#: app/models/work.py:119
+#: app/models/work.py:121
 msgid "Date recorded"
 msgstr "Fecha de grabación"
 
-#: app/models/work.py:120
+#: app/models/work.py:122
 msgid "Date contributed"
 msgstr "Fecha de contribución"
 
-#: app/models/work.py:122
+#: app/models/work.py:124
 msgid "Media of origin"
 msgstr "Medio o formato de origen"
 
-#: app/models/work.py:125
+#: app/models/work.py:127
 msgid "License"
 msgstr "Licencia"
 
-#: app/models/work.py:126
+#: app/models/work.py:128
 msgid "Country of License"
 msgstr "País de la licencia"
 
-#: app/models/work.py:151
+#: app/models/work.py:153
 #, python-brace-format
 msgid "Recording {id}"
 msgstr "Grabación {id}"
