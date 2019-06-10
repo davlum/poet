@@ -6,19 +6,19 @@ from app.models.relations import EntityToWorkRel
 
 
 class EntityAdmin(SimpleHistoryAdmin):
-    list_display = ['__str__', 'release_state']
+    list_display = ['id', '__str__', 'release_state']
     search_fields = ['full_name', 'alt_name']
     ordering = ['release_state']
 
 
 class WorkAdmin(SimpleHistoryAdmin):
-    list_display = ['__str__', 'release_state']
+    list_display = ['id', '__str__', 'release_state']
     search_fields = ['full_name', 'alt_name']
     ordering = ['release_state']
 
 
 class EntityToEntityRelAdmin(SimpleHistoryAdmin):
-    list_display = ['__str__', 'relationship']
+    list_display = ['id', '__str__', 'relationship']
     search_fields = [
         'from_entity__full_name',
         'from_entity__alt_name',
@@ -30,7 +30,7 @@ class EntityToEntityRelAdmin(SimpleHistoryAdmin):
 
 
 class EntityToWorkRelAdmin(SimpleHistoryAdmin):
-    list_display = ['__str__', 'relationship']
+    list_display = ['id', '__str__', 'relationship']
     search_fields = [
         'from_entity__full_name',
         'from_entity__alt_name',
@@ -41,7 +41,7 @@ class EntityToWorkRelAdmin(SimpleHistoryAdmin):
 
 
 class WorkCollectionAdmin(SimpleHistoryAdmin):
-    list_display = ['__str__', 'release_state']
+    list_display = ['id', '__str__', 'release_state']
     search_fields = ['collection_name']
     ordering = ['release_state']
 
