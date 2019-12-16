@@ -259,7 +259,8 @@ def get_search_context(request_dict: Dict[str, str]) -> dict:
     }
     field_key = request_dict.get('filter', SearchFields.WORKS.value)[0]
     search_term = request_dict.get('term', [''])[0]
-    result = switch_dict[field_key](term=search_term)
+    field_key_stripped = field_key.strip('/')
+    result = switch_dict[field_key_stripped](term=search_term)
     return {
         'works': list(map(work.enrich_work, result)),
         'metadata': get_aggregate_data(result)
