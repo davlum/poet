@@ -4,6 +4,7 @@ import app.controllers.util as u
 from functools import reduce
 from collections import defaultdict
 from django.utils.translation import gettext_lazy as _
+from django.http import Http404
 from enum import Enum
 from functools import partial
 import random
@@ -260,7 +261,10 @@ def get_search_context(request_dict: Dict[str, str]) -> dict:
     field_key = request_dict.get('filter', SearchFields.WORKS.value)[0]
     search_term = request_dict.get('term', [''])[0]
     field_key_stripped = field_key.strip('/')
-    result = switch_dict[field_key_stripped](term=search_term)
+    try:
+        result = switch_dict[field_key_stripped](term=search_term)
+    except KeyError as e:
+        raise Http404(e)
     return {
         'works': list(map(work.enrich_work, result)),
         'metadata': get_aggregate_data(result)
