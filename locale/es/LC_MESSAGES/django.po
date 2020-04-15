@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-02 02:58+0000\n"
+"POT-Creation-Date: 2020-04-15 02:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,33 +18,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/controllers/search.py:13 app/models/work.py:159
+#: app/controllers/search.py:14 app/models/work.py:160
 msgid "Recordings"
 msgstr "Grabaciones"
 
-#: app/controllers/search.py:14
+#: app/controllers/search.py:15
 msgid "Authors"
 msgstr "Autores"
 
-#: app/controllers/search.py:15 app/models/work.py:99
+#: app/controllers/search.py:16 app/models/work.py:99
 #: app/templates/includes/_sidebar.html.j2:6 app/templates/poet/work.html.j2:45
 msgid "Tags"
 msgstr "Etiquetas"
 
-#: app/controllers/search.py:16 app/templates/includes/_sidebar.html.j2:12
+#: app/controllers/search.py:17 app/templates/includes/_sidebar.html.j2:12
 msgid "Collections"
 msgstr "Serie"
 
-#: app/controllers/search.py:17 app/templates/includes/_sidebar.html.j2:21
+#: app/controllers/search.py:18 app/templates/includes/_sidebar.html.j2:21
 #: app/templates/poet/work.html.j2:63
 msgid "Languages"
 msgstr "Idiomas"
 
-#: app/controllers/search.py:18 app/templates/includes/_sidebar.html.j2:19
+#: app/controllers/search.py:19 app/templates/includes/_sidebar.html.j2:19
 msgid "Licenses"
 msgstr "Licencias"
 
-#: app/controllers/search.py:19 app/templates/includes/_sidebar.html.j2:20
+#: app/controllers/search.py:20 app/templates/includes/_sidebar.html.j2:20
 msgid "Cities"
 msgstr "Ciudades"
 
@@ -272,7 +272,7 @@ msgstr "Título"
 msgid "Alternative title"
 msgstr "Título alternativo"
 
-#: app/models/work.py:95 app/models/work.py:158
+#: app/models/work.py:95 app/models/work.py:159
 msgid "Recording"
 msgstr "Grabación"
 
@@ -321,10 +321,14 @@ msgid "License"
 msgstr "Licencia"
 
 #: app/models/work.py:128
+msgid "License version"
+msgstr "Versión de licencia"
+
+#: app/models/work.py:129
 msgid "Country of License"
 msgstr "País de la licencia"
 
-#: app/models/work.py:153
+#: app/models/work.py:154
 #, python-brace-format
 msgid "Recording {id}"
 msgstr "Grabación {id}"
