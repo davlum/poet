@@ -125,6 +125,7 @@ class Work(models.Model):
                                        default=DIGITAL, blank=True, null=True)
 
     copyright = models.CharField(max_length=128, verbose_name=_('License'), choices=COPYRIGHT_CHOICES, default=CC_BY)
+    copyright_version = models.CharField(max_length=16, verbose_name=_('License version'), default='4.0')
     copyright_country = models.CharField(max_length=150, verbose_name=_('Country of License'), blank=True, null=True)
 
     def clean(self, *args, **kwargs):

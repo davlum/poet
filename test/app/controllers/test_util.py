@@ -19,6 +19,7 @@ class TestUtils(TestCase):
             'commentary': ANY,
             'release_state': 'PUBLICADO',
             'copyright': '(C) Copyright',
+            'copyright_version': '4.0',
             'copyright_country': 'México',
             'date_contributed': '2016-11-16',
             'date_digitalized': '2003-04-27',
